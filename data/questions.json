@@ -1,0 +1,256 @@
+[
+  {
+    "id": "q001",
+    "title": "序盤の手組み",
+    "question": "東1局、配牌直後の手牌です。まず何を切りますか？",
+    "choices": [
+      { "key": "A", "label": "9萬" },
+      { "key": "B", "label": "1筒" },
+      { "key": "C", "label": "発" },
+      { "key": "D", "label": "中" }
+    ],
+    "answer": "C",
+    "explanation": "字牌は孤立牌が多い序盤に処理が基本。発は役牌ですが手が遠く、孤立しているため早めに切るのが得策です。",
+    "difficulty": "easy",
+    "tags": ["序盤", "手組み", "字牌"],
+    "situation": {
+      "round": { "kyoku": "東1局", "honba": 0, "kyotaku": 0 },
+      "dora": ["5萬"],
+      "scores": {
+        "self": 25000,
+        "shimocha": 25000,
+        "toimen": 25000,
+        "kamicha": 25000
+      },
+      "players": {
+        "self": {
+          "hand": ["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"]
+        }
+      }
+    }
+  },
+  {
+    "id": "q002",
+    "title": "リーチ判断",
+    "question": "テンパイしました。リーチとダマどちらが有利ですか？",
+    "choices": [
+      { "key": "A", "label": "リーチ" },
+      { "key": "B", "label": "ダマ（ヤミテン）" }
+    ],
+    "answer": "A",
+    "explanation": "裏ドラ・一発期待とプレッシャー効果でリーチが有利。ダマでも30符3翻相当ですが、親への牽制効果も含めリーチ優位の局面です。",
+    "difficulty": "normal",
+    "tags": ["リーチ判断", "テンパイ"],
+    "situation": {
+      "round": { "kyoku": "東3局", "honba": 1, "kyotaku": 1 },
+      "dora": ["3索"],
+      "scores": {
+        "self": 28000,
+        "shimocha": 22000,
+        "toimen": 26000,
+        "kamicha": 24000
+      },
+      "players": {
+        "self": {
+          "hand": ["2萬","3萬","4萬","5萬","6萬","7萬","3筒","4筒","5筒","6索","7索","8索"],
+          "tsumo": "1萬",
+          "discards": [
+            { "tile": "発", "type": "tedashi", "turn": 1 },
+            { "tile": "中", "type": "tedashi", "turn": 2 },
+            { "tile": "9索", "type": "tedashi", "turn": 3 },
+            { "tile": "1筒", "type": "tsumogiri", "turn": 4 },
+            { "tile": "9萬", "type": "tedashi", "turn": 5 },
+            { "tile": "8筒", "type": "tsumogiri", "turn": 7 }
+          ]
+        },
+        "shimocha": {
+          "discards": [
+            { "tile": "白", "type": "tedashi", "turn": 1 },
+            { "tile": "9筒", "type": "tedashi", "turn": 2 },
+            { "tile": "1索", "type": "tsumogiri", "turn": 3 },
+            { "tile": "北", "type": "tedashi", "turn": 4 }
+          ]
+        },
+        "toimen": {
+          "discards": [
+            { "tile": "中", "type": "tedashi", "turn": 1 },
+            { "tile": "7筒", "type": "tsumogiri", "turn": 2 },
+            { "tile": "9萬", "type": "tedashi", "turn": 3 }
+          ]
+        },
+        "kamicha": {
+          "discards": [
+            { "tile": "発", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tsumogiri", "turn": 2 },
+            { "tile": "白", "type": "tedashi", "turn": 3 },
+            { "tile": "2索", "type": "tsumogiri", "turn": 5 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q003",
+    "title": "守備の判断",
+    "question": "下家がリーチ。あなたの手牌から安全牌はどれですか？",
+    "choices": [
+      { "key": "A", "label": "4萬" },
+      { "key": "B", "label": "西" },
+      { "key": "C", "label": "6筒" },
+      { "key": "D", "label": "3索" }
+    ],
+    "answer": "B",
+    "explanation": "西は下家の捨て牌にあるため現物で完全安全牌。4萬・6筒はスジですが放銃リスクがあり、3索はワンチャンス程度の安全度です。",
+    "difficulty": "hard",
+    "tags": ["守備", "安全牌", "リーチ対策"],
+    "situation": {
+      "round": { "kyoku": "南2局", "honba": 0, "kyotaku": 2 },
+      "dora": ["6索"],
+      "scores": {
+        "self": 18000,
+        "shimocha": 32000,
+        "toimen": 25000,
+        "kamicha": 25000
+      },
+      "players": {
+        "self": {
+          "hand": ["2萬","4萬","5萬","7萬","西","6筒","8筒","2索","3索","5索","白","白"],
+          "discards": [
+            { "tile": "北", "type": "tedashi", "turn": 1 },
+            { "tile": "中", "type": "tedashi", "turn": 2 },
+            { "tile": "発", "type": "tedashi", "turn": 3 },
+            { "tile": "9萬", "type": "tsumogiri", "turn": 4 },
+            { "tile": "1筒", "type": "tedashi", "turn": 6 }
+          ]
+        },
+        "shimocha": {
+          "riichi": true,
+          "discards": [
+            { "tile": "西", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tedashi", "turn": 2 },
+            { "tile": "中", "type": "tedashi", "turn": 3 },
+            { "tile": "発", "type": "tedashi", "turn": 4 },
+            { "tile": "9筒", "type": "tsumogiri", "turn": 5 },
+            { "tile": "1萬", "type": "tsumogiri", "turn": 6 }
+          ]
+        },
+        "toimen": {
+          "discards": [
+            { "tile": "白", "type": "tedashi", "turn": 1 },
+            { "tile": "9索", "type": "tsumogiri", "turn": 2 },
+            { "tile": "7筒", "type": "tedashi", "turn": 3 }
+          ],
+          "melds": [
+            {
+              "type": "pon",
+              "tiles": ["白","白","白"],
+              "called": "白",
+              "from": "kamicha",
+              "turn": 4
+            }
+          ]
+        },
+        "kamicha": {
+          "discards": [
+            { "tile": "南", "type": "tedashi", "turn": 1 },
+            { "tile": "9萬", "type": "tsumogiri", "turn": 2 },
+            { "tile": "8索", "type": "tedashi", "turn": 3 },
+            { "tile": "1筒", "type": "tsumogiri", "turn": 4 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q004",
+    "title": "鳴き判断",
+    "question": "上家が3萬を切りました。チーして速攻を取りますか？",
+    "choices": [
+      { "key": "A", "label": "チーする" },
+      { "key": "B", "label": "チーしない" }
+    ],
+    "answer": "A",
+    "explanation": "既にメンツが揃いやすい形で、チーすれば即テンパイ。点数より速度優先の局面。ただし鳴くことで守備力が落ちる点は注意。",
+    "difficulty": "normal",
+    "tags": ["鳴き判断", "速攻", "チー"],
+    "situation": {
+      "round": { "kyoku": "東2局", "honba": 0 },
+      "dora": ["7萬"],
+      "players": {
+        "self": {
+          "hand": ["1萬","2萬","4筒","5筒","6筒","2索","3索","4索","6索","7索","8索","白"],
+          "discards": [
+            { "tile": "白", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tsumogiri", "turn": 2 },
+            { "tile": "中", "type": "tedashi", "turn": 3 }
+          ]
+        },
+        "shimocha": {
+          "melds": [
+            {
+              "type": "pon",
+              "tiles": ["発","発","発"],
+              "called": "発",
+              "from": "toimen",
+              "turn": 2
+            }
+          ]
+        },
+        "kamicha": {
+          "discards": [
+            { "tile": "発", "type": "tedashi", "turn": 1 },
+            { "tile": "9索", "type": "tsumogiri", "turn": 2 },
+            { "tile": "3萬", "type": "tedashi", "turn": 3 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q005",
+    "title": "鳴き読み問題",
+    "question": "浮いている8萬を切って押すべきか？",
+    "choices": [
+      { "key": "A", "label": "8萬を切って押す" },
+      { "key": "B", "label": "8萬を止めて受ける" }
+    ],
+    "answer": "A",
+    "explanation": "打点条件と待ち候補から8萬を押せる。トイツ手で打点が見込めるため押しが正解。",
+    "tags": ["鳴き読み", "押し引き"],
+    "difficulty": "medium",
+    "situation": {
+      "round": { "kyoku": "南4局", "honba": 0, "kyotaku": 0 },
+      "dora": ["5筒"],
+      "scores": {
+        "self": 48000,
+        "shimocha": 40000,
+        "toimen": 7000,
+        "kamicha": 23000
+      },
+      "players": {
+        "self": {
+          "seat": "南",
+          "hand": ["4萬","4萬","8萬","2筒","3筒","4筒","5筒","6筒","7筒","3索","4索","5索","6索"]
+        },
+        "shimocha": {
+          "riichi": false,
+          "discards": [
+            { "tile": "白", "type": "tedashi", "turn": 2 },
+            { "tile": "中", "type": "tsumogiri", "turn": 5 }
+          ],
+          "melds": [
+            {
+              "type": "chi",
+              "tiles": ["3萬","4萬","5萬"],
+              "called": "4萬",
+              "from": "kamicha",
+              "turn": 6
+            }
+          ]
+        },
+        "toimen": {},
+        "kamicha": {}
+      }
+    }
+  }
+]
