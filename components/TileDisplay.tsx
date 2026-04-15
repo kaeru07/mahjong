@@ -1,12 +1,13 @@
 interface TileDisplayProps {
   tile: string;
   small?: boolean;
-  dimmed?: boolean;  // ツモ切り
+  dimmed?: boolean;   // ツモ切り
   highlight?: boolean;
+  tileSize?: number;  // 表示幅(px)を直接指定。指定時は small を上書き
 }
 
 // スプライト画像上の各牌の座標 [x_start, y_start]
-// 画像サイズ: 625×360px
+// 画像サイズ: 625×360px、牌1枚: 約50×69px
 const TILE_POSITIONS: Record<string, [number, number]> = {
   // 字牌 (row 0, y=31)
   "東": [31, 31], "南": [88, 31], "西": [145, 31], "北": [202, 31],
@@ -27,24 +28,36 @@ const TILE_POSITIONS: Record<string, [number, number]> = {
 
 const SPRITE_W = 625;
 const SPRITE_H = 360;
-const TILE_W = 50;  // スプライト上の牌の幅
-const TILE_H = 69;  // スプライト上の牌の高さ
+const TILE_W = 50;  // スプライト上の牌の幅(px)
+const TILE_H = 69;  // スプライト上の牌の高さ(px)
 
-export default function TileDisplay({ tile, small, dimmed, highlight }: TileDisplayProps) {
+// デフォルト表示幅
+const DEFAULT_W_NORMAL = 38;
+const DEFAULT_W_SMALL  = 24;
+
+export default function TileDisplay({
+  tile,
+  small,
+  dimmed,
+  highlight,
+  tileSize,
+}: TileDisplayProps) {
   const pos = TILE_POSITIONS[tile];
 
-  const scale = small ? 0.52 : 0.76;
-  const displayW = Math.round(TILE_W * scale);
+  // 表示幅を決定: tileSize prop > small flag > デフォルト
+  const displayW = tileSize ?? (small ? DEFAULT_W_SMALL : DEFAULT_W_NORMAL);
+  const scale    = displayW / TILE_W;
   const displayH = Math.round(TILE_H * scale);
-  const bgW = Math.round(SPRITE_W * scale);
-  const bgH = Math.round(SPRITE_H * scale);
+  const bgW      = Math.round(SPRITE_W * scale);
+  const bgH      = Math.round(SPRITE_H * scale);
+  const opacity  = dimmed ? 0.4 : 1;
 
-  const opacity = dimmed ? 0.4 : 1;
-
+  // スプライト未登録の牌はテキストフォールバック
   if (!pos) {
-    // スプライトに該当牌がない場合はテキスト表示にフォールバック
-    const base = "inline-flex items-center justify-center rounded border font-bold select-none";
-    const size = small ? "text-xs px-1 py-0.5 min-w-[1.6rem]" : "text-sm px-1.5 py-1 min-w-[2rem]";
+    const base  = "inline-flex items-center justify-center rounded border font-bold select-none";
+    const size  = small
+      ? "text-xs px-1 py-0.5 min-w-[1.6rem]"
+      : "text-sm px-1.5 py-1 min-w-[2rem]";
     const color = highlight
       ? "bg-yellow-100 border-yellow-400 text-yellow-800"
       : "bg-white border-gray-400 text-gray-800";
@@ -61,7 +74,9 @@ export default function TileDisplay({ tile, small, dimmed, highlight }: TileDisp
 
   return (
     <span
-      className={`inline-block select-none rounded${highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""}`}
+      className={`inline-block select-none rounded flex-shrink-0${
+        highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""
+      }`}
       style={{
         width: displayW,
         height: displayH,
@@ -70,7 +85,6 @@ export default function TileDisplay({ tile, small, dimmed, highlight }: TileDisp
         backgroundPosition: `${bgX}px ${bgY}px`,
         backgroundRepeat: "no-repeat",
         opacity,
-        flexShrink: 0,
         display: "inline-block",
       }}
       title={tile}
