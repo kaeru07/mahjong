@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types/question";
 import { getAllQuestions } from "@/lib/quiz";
+import {
+  getImportedQuestions,
+  addImportedQuestions,
+  removeImportedQuestion,
+  clearImportedQuestions,
+} from "@/lib/questionStore";
 import ImportJsonPanel from "@/components/ImportJsonPanel";
 import ImportTextPanel from "@/components/ImportTextPanel";
 import QuestionPreview from "@/components/QuestionPreview";
@@ -15,16 +21,30 @@ export default function ImportPage() {
   const [tab, setTab] = useState<Tab>("json");
   const [added, setAdded] = useState<Question[]>([]);
 
-  const existingCount = getAllQuestions().length;
-  const totalCount = existingCount + added.length;
+  const baseQuestions = getAllQuestions();
+  const baseIds = new Set(baseQuestions.map((q) => q.id));
+
+  // localStorageから既存の追加済み問題を読み込む
+  useEffect(() => {
+    setAdded(getImportedQuestions());
+  }, []);
+
+  const totalCount = baseQuestions.length + added.length;
   const addedIds = added.map((q) => q.id);
 
-  function addQuestions(qs: Question[]) {
-    setAdded((prev) => [...prev, ...qs]);
+  function handleAdd(qs: Question[]) {
+    addImportedQuestions(qs, baseIds);
+    setAdded(getImportedQuestions());
   }
 
-  function removeAdded(id: string) {
+  function handleRemove(id: string) {
+    removeImportedQuestion(id);
     setAdded((prev) => prev.filter((q) => q.id !== id));
+  }
+
+  function handleClearAll() {
+    clearImportedQuestions();
+    setAdded([]);
   }
 
   return (
@@ -79,10 +99,10 @@ export default function ImportPage() {
         {/* パネル */}
         <div className="bg-white border border-gray-200 rounded-xl p-4 mb-8 shadow-sm">
           {tab === "json" ? (
-            <ImportJsonPanel onAdd={addQuestions} addedIds={addedIds} />
+            <ImportJsonPanel onAdd={handleAdd} addedIds={addedIds} />
           ) : (
             <ImportTextPanel
-              onAdd={(q) => addQuestions([q])}
+              onAdd={(q) => handleAdd([q])}
               addedIds={addedIds}
             />
           )}
@@ -96,7 +116,7 @@ export default function ImportPage() {
                 追加済み（{added.length} 問）
               </h2>
               <button
-                onClick={() => setAdded([])}
+                onClick={handleClearAll}
                 className="text-xs text-red-400 hover:text-red-600"
               >
                 全削除
@@ -109,7 +129,7 @@ export default function ImportPage() {
                   key={q.id}
                   question={q}
                   index={i}
-                  onRemove={() => removeAdded(q.id)}
+                  onRemove={() => handleRemove(q.id)}
                 />
               ))}
             </div>
