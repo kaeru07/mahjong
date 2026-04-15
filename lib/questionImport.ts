@@ -75,14 +75,11 @@ export function parseTextToQuestion(text: string): Partial<Question> {
   const difficulty =
     difficultyMap[diffRaw] ?? difficultyMap[diffOriginal] ?? "medium";
 
-  // ID: 手動指定 or 自動採番
+  // ID: 手動指定があれば使用、なければ省略（検証時に自動採番）
   const manualId = get(["ID", "id", "Id"]);
-  const existing = getAllQuestions();
-  const nextNum = existing.length + 1;
-  const autoId = `q${String(nextNum).padStart(3, "0")}`;
 
   return {
-    id: manualId?.trim() ?? autoId,
+    ...(manualId ? { id: manualId.trim() } : {}),
     title: get(["問題タイトル", "タイトル", "title"]) ?? "",
     question: get(["問題文", "question"]) ?? "",
     choices: choices.length >= 2 ? choices : undefined,
@@ -91,27 +88,4 @@ export function parseTextToQuestion(text: string): Partial<Question> {
     tags,
     difficulty,
   };
-}
-
-/** ブラウザ側でJSONファイルをダウンロードさせる */
-export function downloadJson(data: unknown, filename: string) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/** 既存 questions.json に新問題をマージ（id重複は除外） */
-export function mergeWithExisting(newQuestions: Question[]): Question[] {
-  const existing = getAllQuestions();
-  const existingIds = new Set(existing.map((q) => q.id));
-  const toAdd = newQuestions.filter((q) => !existingIds.has(q.id));
-  return [...existing, ...toAdd];
 }

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types/question";
 import { getAllQuestions } from "@/lib/quiz";
-import { downloadJson, mergeWithExisting } from "@/lib/questionImport";
 import ImportJsonPanel from "@/components/ImportJsonPanel";
 import ImportTextPanel from "@/components/ImportTextPanel";
 import QuestionPreview from "@/components/QuestionPreview";
@@ -14,30 +13,18 @@ type Tab = "json" | "text";
 export default function ImportPage() {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("json");
-  const [candidates, setCandidates] = useState<Question[]>([]);
+  const [added, setAdded] = useState<Question[]>([]);
 
   const existingCount = getAllQuestions().length;
-  const candidateIds = candidates.map((q) => q.id);
+  const totalCount = existingCount + added.length;
+  const addedIds = added.map((q) => q.id);
 
-  function addCandidate(q: Question) {
-    setCandidates((prev) => [...prev, q]);
+  function addQuestions(qs: Question[]) {
+    setAdded((prev) => [...prev, ...qs]);
   }
 
-  function removeCandidate(id: string) {
-    setCandidates((prev) => prev.filter((q) => q.id !== id));
-  }
-
-  function downloadSingle(q: Question) {
-    downloadJson(q, `question-${q.id}.json`);
-  }
-
-  function downloadAllCandidates() {
-    downloadJson(candidates, "questions-new.json");
-  }
-
-  function downloadMerged() {
-    const merged = mergeWithExisting(candidates);
-    downloadJson(merged, "merged-questions.json");
+  function removeAdded(id: string) {
+    setAdded((prev) => prev.filter((q) => q.id !== id));
   }
 
   return (
@@ -54,10 +41,17 @@ export default function ImportPage() {
           <h1 className="text-xl font-bold text-indigo-800">問題取り込み</h1>
         </div>
 
-        {/* 現在の問題数 */}
+        {/* 問題数 */}
         <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 mb-6 flex items-center justify-between">
-          <span className="text-sm text-gray-500">現在の総問題数</span>
-          <span className="font-bold text-indigo-700">{existingCount} 問</span>
+          <span className="text-sm text-gray-500">総問題数</span>
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-indigo-700">{totalCount} 問</span>
+            {added.length > 0 && (
+              <span className="text-xs text-emerald-600 font-medium">
+                (+{added.length} 追加済み)
+              </span>
+            )}
+          </div>
         </div>
 
         {/* タブ */}
@@ -85,75 +79,46 @@ export default function ImportPage() {
         {/* パネル */}
         <div className="bg-white border border-gray-200 rounded-xl p-4 mb-8 shadow-sm">
           {tab === "json" ? (
-            <ImportJsonPanel
-              onAdd={addCandidate}
-              existingCandidateIds={candidateIds}
-            />
+            <ImportJsonPanel onAdd={addQuestions} addedIds={addedIds} />
           ) : (
             <ImportTextPanel
-              onAdd={addCandidate}
-              existingCandidateIds={candidateIds}
+              onAdd={(q) => addQuestions([q])}
+              addedIds={addedIds}
             />
           )}
         </div>
 
-        {/* 追加候補リスト */}
-        {candidates.length > 0 && (
+        {/* 追加済みリスト */}
+        {added.length > 0 && (
           <section>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-semibold text-gray-700">
-                追加候補 ({candidates.length} 問)
+                追加済み（{added.length} 問）
               </h2>
               <button
-                onClick={() => setCandidates([])}
+                onClick={() => setAdded([])}
                 className="text-xs text-red-400 hover:text-red-600"
               >
                 全削除
               </button>
             </div>
 
-            <div className="space-y-3 mb-6">
-              {candidates.map((q, i) => (
-                <div key={q.id}>
-                  <QuestionPreview
-                    question={q}
-                    index={i}
-                    onRemove={() => removeCandidate(q.id)}
-                  />
-                  <button
-                    onClick={() => downloadSingle(q)}
-                    className="mt-1 w-full py-1.5 text-xs rounded-lg border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors"
-                  >
-                    この問題だけダウンロード (question-{q.id}.json)
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            {/* ダウンロードボタン群 */}
             <div className="space-y-3">
-              <button
-                onClick={downloadAllCandidates}
-                className="w-full py-3 rounded-2xl font-bold bg-indigo-600 text-white shadow hover:bg-indigo-700 active:scale-95 transition-all"
-              >
-                追加候補をまとめてダウンロード (questions-new.json)
-              </button>
-              <button
-                onClick={downloadMerged}
-                className="w-full py-3 rounded-2xl font-bold bg-emerald-600 text-white shadow hover:bg-emerald-700 active:scale-95 transition-all"
-              >
-                既存とマージしてダウンロード (merged-questions.json)
-              </button>
-              <p className="text-xs text-gray-400 text-center">
-                ダウンロード後、merged-questions.json を data/questions.json に置き換えると反映されます
-              </p>
+              {added.map((q, i) => (
+                <QuestionPreview
+                  key={q.id}
+                  question={q}
+                  index={i}
+                  onRemove={() => removeAdded(q.id)}
+                />
+              ))}
             </div>
           </section>
         )}
 
-        {candidates.length === 0 && (
+        {added.length === 0 && (
           <div className="text-center text-gray-400 text-sm py-8">
-            上のフォームから問題を追加候補に入れてください
+            上のフォームから問題を追加してください
           </div>
         )}
       </div>

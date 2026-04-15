@@ -13,15 +13,14 @@ const TEXT_PLACEHOLDER = `問題タイトル: 鳴き読み問題24
 正解: A
 解説: 打点条件と待ち候補から8萬を押せる。
 タグ: 鳴き読み,押し引き
-難易度: medium
-ID: q100`;
+難易度: medium`;
 
 interface Props {
   onAdd: (q: Question) => void;
-  existingCandidateIds: string[];
+  addedIds: string[];
 }
 
-export default function ImportTextPanel({ onAdd, existingCandidateIds }: Props) {
+export default function ImportTextPanel({ onAdd, addedIds }: Props) {
   const [inputText, setInputText] = useState("");
   const [draftJson, setDraftJson] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -38,20 +37,17 @@ export default function ImportTextPanel({ onAdd, existingCandidateIds }: Props) 
 
   function handleValidateDraft() {
     setAdded(false);
-    const result = validateJsonString(draftJson, { checkDuplicate: true });
+    const result = validateJsonString(draftJson, {
+      checkDuplicate: true,
+      pendingIds: addedIds,
+    });
     if (!result.valid) {
       setErrors(result.errors);
       setPreview(null);
       return;
     }
-    const normalized = result.normalized!;
-    if (existingCandidateIds.includes(normalized.id)) {
-      setErrors([`id "${normalized.id}" は既に追加候補に含まれています`]);
-      setPreview(null);
-      return;
-    }
     setErrors([]);
-    setPreview(normalized);
+    setPreview(result.normalized!);
   }
 
   function handleAdd() {
@@ -144,7 +140,7 @@ export default function ImportTextPanel({ onAdd, existingCandidateIds }: Props) 
       {/* 追加成功メッセージ */}
       {added && (
         <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700 font-medium">
-          追加候補に追加しました
+          問題を追加しました
         </div>
       )}
 
@@ -157,7 +153,7 @@ export default function ImportTextPanel({ onAdd, existingCandidateIds }: Props) 
             onClick={handleAdd}
             className="w-full py-2.5 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all"
           >
-            追加候補に追加する
+            問題を追加する
           </button>
         </div>
       )}

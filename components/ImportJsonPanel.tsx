@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { Question } from "@/types/question";
-import { validateJsonString } from "@/lib/questionValidate";
+import { validateJsonStringBatch } from "@/lib/questionValidate";
 import QuestionPreview from "./QuestionPreview";
 
 const PLACEHOLDER = `{
-  "id": "q100",
   "title": "問題タイトル",
   "question": "何を切る？",
   "choices": [
@@ -20,48 +19,71 @@ const PLACEHOLDER = `{
 }`;
 
 interface Props {
-  onAdd: (q: Question) => void;
-  existingCandidateIds: string[];
+  onAdd: (questions: Question[]) => void;
+  addedIds: string[];
 }
 
-export default function ImportJsonPanel({ onAdd, existingCandidateIds }: Props) {
+export default function ImportJsonPanel({ onAdd, addedIds }: Props) {
   const [jsonText, setJsonText] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
-  const [preview, setPreview] = useState<Question | null>(null);
-  const [added, setAdded] = useState(false);
+  const [itemErrors, setItemErrors] = useState<
+    Array<{ index: number; errors: string[] }>
+  >([]);
+  const [previews, setPreviews] = useState<Question[]>([]);
+  const [addedCount, setAddedCount] = useState<number | null>(null);
 
   function handleValidate() {
-    setAdded(false);
-    const result = validateJsonString(jsonText, { checkDuplicate: true });
-    if (!result.valid) {
-      setErrors(result.errors);
-      setPreview(null);
-      return;
-    }
-    const normalized = result.normalized!;
-    // 追加候補内の重複チェック
-    if (existingCandidateIds.includes(normalized.id)) {
-      setErrors([`id "${normalized.id}" は既に追加候補に含まれています`]);
-      setPreview(null);
-      return;
-    }
+    setAddedCount(null);
     setErrors([]);
-    setPreview(normalized);
+    setItemErrors([]);
+    setPreviews([]);
+
+    const result = validateJsonStringBatch(jsonText, {
+      checkDuplicate: true,
+      addedIds,
+    });
+
+    if (!result.isArray) {
+      const single = result.single!;
+      if (!single.valid) {
+        setErrors(single.errors);
+        return;
+      }
+      setPreviews([single.normalized!]);
+    } else {
+      const batch = result.batch!;
+      if (batch.results.length === 0) {
+        setErrors(["配列が空です"]);
+        return;
+      }
+      if (!batch.valid) {
+        setItemErrors(
+          batch.results
+            .filter((r) => !r.valid)
+            .map((r) => ({ index: r.index, errors: r.errors }))
+        );
+        return;
+      }
+      setPreviews(batch.allNormalized!);
+    }
   }
 
   function handleAdd() {
-    if (!preview) return;
-    onAdd(preview);
-    setAdded(true);
-    setPreview(null);
+    if (previews.length === 0) return;
+    onAdd(previews);
+    setAddedCount(previews.length);
+    setPreviews([]);
     setJsonText("");
     setErrors([]);
+    setItemErrors([]);
   }
 
   return (
     <div className="space-y-4">
       <p className="text-sm text-gray-500">
-        questions.json 形式のJSONを1問分貼り付けてください。
+        1問（オブジェクト）または複数問（配列）のJSONを貼り付けてください。
+        <br />
+        <span className="text-indigo-500">id は省略可能です（自動採番されます）。</span>
       </p>
 
       <textarea
@@ -71,8 +93,9 @@ export default function ImportJsonPanel({ onAdd, existingCandidateIds }: Props) 
         onChange={(e) => {
           setJsonText(e.target.value);
           setErrors([]);
-          setPreview(null);
-          setAdded(false);
+          setItemErrors([]);
+          setPreviews([]);
+          setAddedCount(null);
         }}
       />
 
@@ -84,7 +107,7 @@ export default function ImportJsonPanel({ onAdd, existingCandidateIds }: Props) 
         検証する
       </button>
 
-      {/* エラー表示 */}
+      {/* グローバルエラー */}
       {errors.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <p className="text-sm font-semibold text-red-600 mb-2">
@@ -101,23 +124,53 @@ export default function ImportJsonPanel({ onAdd, existingCandidateIds }: Props) 
         </div>
       )}
 
+      {/* 問題ごとのエラー（配列モード） */}
+      {itemErrors.length > 0 && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <p className="text-sm font-semibold text-red-600 mb-3">
+            エラーのある問題があります
+          </p>
+          {itemErrors.map(({ index, errors: errs }) => (
+            <div key={index} className="mb-3">
+              <p className="text-xs font-semibold text-red-500 mb-1">
+                {index + 1} 問目:
+              </p>
+              <ul className="space-y-1">
+                {errs.map((e, i) => (
+                  <li key={i} className="text-sm text-red-700 flex gap-2">
+                    <span className="flex-shrink-0">•</span>
+                    <span>{e}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* 追加成功メッセージ */}
-      {added && (
+      {addedCount !== null && (
         <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700 font-medium">
-          追加候補に追加しました
+          {addedCount} 問を追加しました
         </div>
       )}
 
       {/* プレビュー */}
-      {preview && (
+      {previews.length > 0 && (
         <div className="space-y-3">
-          <p className="text-sm font-semibold text-gray-600">プレビュー</p>
-          <QuestionPreview question={preview} />
+          <p className="text-sm font-semibold text-gray-600">
+            プレビュー（{previews.length} 問）
+          </p>
+          {previews.map((q, i) => (
+            <QuestionPreview key={q.id} question={q} index={i} />
+          ))}
           <button
             onClick={handleAdd}
             className="w-full py-2.5 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95 transition-all"
           >
-            追加候補に追加する
+            {previews.length === 1
+              ? "問題を追加する"
+              : `${previews.length} 問をまとめて追加する`}
           </button>
         </div>
       )}
