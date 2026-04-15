@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types/question";
-import { calcScore, getChoiceLabel } from "@/lib/quiz";
+import { calcScore, getChoiceLabel, getDifficultyLabel, getDifficultyClass } from "@/lib/quiz";
 
 export default function ResultPage() {
   const router = useRouter();
@@ -85,16 +85,8 @@ export default function ResultPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-medium text-gray-800 truncate">{q.title}</p>
                     {q.difficulty && (
-                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${
-                        q.difficulty === "easy"
-                          ? "bg-green-100 text-green-700"
-                          : q.difficulty === "medium" || q.difficulty === "normal"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-700"
-                      }`}>
-                        {q.difficulty === "easy" ? "易"
-                          : q.difficulty === "medium" || q.difficulty === "normal" ? "普通"
-                          : "難"}
+                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 ${getDifficultyClass(q.difficulty)}`}>
+                        {getDifficultyLabel(q.difficulty)}
                       </span>
                     )}
                   </div>

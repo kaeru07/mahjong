@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Question } from "@/types/question";
-import { getChoiceLabel } from "@/lib/quiz";
+import { getChoiceLabel, getDifficultyLabel, getDifficultyClass } from "@/lib/quiz";
 import BoardView from "@/components/BoardView";
 
 function QuizContent() {
@@ -92,16 +92,8 @@ function QuizContent() {
         <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-4">
           <p className="text-gray-800 font-medium">{q.question}</p>
           {q.difficulty && (
-            <span className={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full font-medium ${
-              q.difficulty === "easy"
-                ? "bg-green-100 text-green-700"
-                : q.difficulty === "medium" || q.difficulty === "normal"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-red-100 text-red-700"
-            }`}>
-              {q.difficulty === "easy" ? "易"
-                : q.difficulty === "medium" || q.difficulty === "normal" ? "普通"
-                : "難"}
+            <span className={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full font-medium ${getDifficultyClass(q.difficulty)}`}>
+              {getDifficultyLabel(q.difficulty)}
             </span>
           )}
         </div>

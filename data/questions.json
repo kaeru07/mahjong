@@ -39,7 +39,7 @@
     ],
     "answer": "A",
     "explanation": "裏ドラ・一発期待とプレッシャー効果でリーチが有利。ダマでも30符3翻相当ですが、親への牽制効果も含めリーチ優位の局面です。",
-    "difficulty": "normal",
+    "difficulty": "medium",
     "tags": ["リーチ判断", "テンパイ"],
     "situation": {
       "round": { "kyoku": "東3局", "honba": 1, "kyotaku": 1 },
@@ -171,7 +171,7 @@
     ],
     "answer": "A",
     "explanation": "既にメンツが揃いやすい形で、チーすれば即テンパイ。点数より速度優先の局面。ただし鳴くことで守備力が落ちる点は注意。",
-    "difficulty": "normal",
+    "difficulty": "medium",
     "tags": ["鳴き判断", "速攻", "チー"],
     "situation": {
       "round": { "kyoku": "東2局", "honba": 0 },
@@ -202,6 +202,103 @@
             { "tile": "9索", "type": "tsumogiri", "turn": 2 },
             { "tile": "3萬", "type": "tedashi", "turn": 3 }
           ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q006",
+    "title": "【JSON確認】ドラ跨ぎの押し引き",
+    "question": "南3局オーラス、ドラが8索のとき対面のリーチに対し手牌の7索を切って押すべきか？",
+    "choices": [
+      { "key": "A", "label": "7索を切って押す" },
+      { "key": "B", "label": "安全牌に受ける" }
+    ],
+    "answer": "B",
+    "explanation": "ドラ跨ぎの7索は放銃時に大きな失点を招きやすい。オーラスで失点が致命的な状況では受けを選ぶのが基本。",
+    "difficulty": "easy",
+    "tags": ["押し引き", "ドラ", "オーラス"],
+    "situation": {
+      "round": { "kyoku": "南3局", "honba": 0, "kyotaku": 0 },
+      "dora": ["8索"],
+      "scores": {
+        "self": 24000,
+        "shimocha": 28000,
+        "toimen": 26000,
+        "kamicha": 22000
+      },
+      "players": {
+        "self": {
+          "hand": ["2萬","3萬","4萬","5筒","6筒","7筒","7索","3索","4索","5索","白","白"]
+        },
+        "toimen": {
+          "riichi": true,
+          "discards": [
+            { "tile": "中", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tedashi", "turn": 2 },
+            { "tile": "西", "type": "tsumogiri", "turn": 3 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q007",
+    "title": "【JSON確認】カン裏ドラ狙いのリーチ",
+    "question": "カンをした後のリンシャン牌でテンパイ。カン裏ドラ狙いでリーチすべきか？",
+    "choices": [
+      { "key": "A", "label": "リーチする" },
+      { "key": "B", "label": "ダマで待つ" },
+      { "key": "C", "label": "手を崩して安全策を取る" }
+    ],
+    "answer": "A",
+    "explanation": "リンシャン後のテンパイはそのまま流れに乗ってリーチが有力。カン裏でさらに打点上昇が期待でき、一発も狙えます。",
+    "difficulty": "medium",
+    "tags": ["カン", "リーチ判断", "打点計算"],
+    "situation": {
+      "round": { "kyoku": "東4局", "honba": 2, "kyotaku": 1 },
+      "dora": ["3萬"],
+      "scores": {
+        "self": 26000,
+        "shimocha": 30000,
+        "toimen": 22000,
+        "kamicha": 22000
+      },
+      "players": {
+        "self": {
+          "hand": ["2萬","3萬","4萬","5萬","6萬","7萬","3筒","4筒","5筒","7索"],
+          "tsumo": "6索",
+          "melds": [
+            { "type": "ankan", "tiles": ["発","発","発","発"], "turn": 5 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "q008",
+    "title": "【JSON確認】多面待ちの選択",
+    "question": "三面待ち（2-5-8萬）と単騎待ち（中）、どちらの待ちに受けるべきか？",
+    "choices": [
+      { "key": "A", "label": "2-5-8萬の三面待ち" },
+      { "key": "B", "label": "中の単騎待ち" }
+    ],
+    "answer": "A",
+    "explanation": "三面待ちは待ち牌の枚数が多く和了率が高い。中が役牌でも、このケースでは三面待ちの方が期待値が高いです。",
+    "difficulty": "hard",
+    "tags": ["待ち選択", "多面待ち", "役牌", "打点計算"],
+    "situation": {
+      "round": { "kyoku": "南1局", "honba": 1, "kyotaku": 0 },
+      "dora": ["5萬"],
+      "scores": {
+        "self": 29000,
+        "shimocha": 25000,
+        "toimen": 23000,
+        "kamicha": 23000
+      },
+      "players": {
+        "self": {
+          "hand": ["2萬","3萬","4萬","5萬","6萬","7萬","8萬","3筒","4筒","5筒","中","中","中"]
         }
       }
     }

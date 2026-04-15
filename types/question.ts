@@ -73,6 +73,6 @@ export interface Question {
 
   // 任意
   tags?: string[];
-  difficulty?: "easy" | "medium" | "normal" | "hard";
+  difficulty?: "easy" | "medium" | "hard";
   situation?: Situation;
 }

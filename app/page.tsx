@@ -1,11 +1,18 @@
 "use client";
 
-import { useMemo, useState, Suspense } from "react";
+import { useMemo, useState, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getAllQuestions, filterQuestions, getAllTags } from "@/lib/quiz";
+import {
+  getAllQuestions,
+  filterQuestions,
+  getAllTags,
+  getAllDifficulties,
+  getDifficultyLabel,
+} from "@/lib/quiz";
 
 const allQuestions = getAllQuestions();
 const allTagsStatic = getAllTags(allQuestions);
+const allDifficultiesStatic = getAllDifficulties(allQuestions);
 
 function HomeContent() {
   const router = useRouter();
@@ -23,6 +30,13 @@ function HomeContent() {
     () => filterQuestions(allQuestions, selectedTags, difficulty),
     [selectedTags, difficulty]
   );
+
+  // 開発確認用: コンソールに問題情報を出力
+  useEffect(() => {
+    console.log("[麻雀問題] 総問題数:", allQuestions.length);
+    console.log("[麻雀問題] 難易度一覧:", allDifficultiesStatic);
+    console.log("[麻雀問題] タグ一覧:", allTagsStatic);
+  }, []);
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) =>
@@ -48,32 +62,41 @@ function HomeContent() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-indigo-800 mb-1">🀄 麻雀問題</h1>
           <p className="text-gray-500 text-sm">実戦力を鍛えよう</p>
+          <p className="text-xs text-gray-400 mt-1">全 {allQuestions.length} 問</p>
         </div>
 
-        {/* 難易度 */}
+        {/* 難易度 — JSON から自動生成 */}
         <section className="bg-white rounded-xl border border-gray-200 p-4 mb-4 shadow-sm">
           <h2 className="text-sm font-semibold text-gray-600 mb-3">難易度</h2>
           <div className="flex flex-wrap gap-2">
-            {(["all", "easy", "medium", "normal", "hard"] as const).map((d) => (
+            <button
+              key="all"
+              onClick={() => setDifficulty("all")}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                difficulty === "all"
+                  ? "bg-indigo-600 text-white border-indigo-600"
+                  : "bg-white text-gray-600 border-gray-300 hover:border-indigo-400"
+              }`}
+            >
+              すべて
+            </button>
+            {allDifficultiesStatic.map((d) => (
               <button
                 key={d}
-                onClick={() => setDifficulty(d)}
+                onClick={() => setDifficulty(d!)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
                   difficulty === d
                     ? "bg-indigo-600 text-white border-indigo-600"
                     : "bg-white text-gray-600 border-gray-300 hover:border-indigo-400"
                 }`}
               >
-                {d === "all" ? "すべて"
-                  : d === "easy" ? "易"
-                  : d === "medium" || d === "normal" ? "普通"
-                  : "難"}
+                {getDifficultyLabel(d)}
               </button>
             ))}
           </div>
         </section>
 
-        {/* タグ絞り込み */}
+        {/* タグ絞り込み — JSON から自動生成 */}
         {allTagsStatic.length > 0 && (
           <section className="bg-white rounded-xl border border-gray-200 p-4 mb-4 shadow-sm">
             <h2 className="text-sm font-semibold text-gray-600 mb-3">
@@ -107,13 +130,19 @@ function HomeContent() {
 
         {/* 問題数 + 開始ボタン */}
         <div className="text-center">
-          <p className="text-sm text-gray-500 mb-3">
-            対象問題:{" "}
-            <span className="font-bold text-indigo-700">{filtered.length}</span> 問
-            {filtered.length > 10 && (
-              <span className="ml-1 text-xs text-gray-400">（最大10問をランダム出題）</span>
-            )}
-          </p>
+          {filtered.length > 0 ? (
+            <p className="text-sm text-gray-500 mb-3">
+              対象問題:{" "}
+              <span className="font-bold text-indigo-700">{filtered.length}</span> 問
+              {filtered.length > 10 && (
+                <span className="ml-1 text-xs text-gray-400">（最大10問をランダム出題）</span>
+              )}
+            </p>
+          ) : (
+            <p className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3">
+              条件に合う問題がありません
+            </p>
+          )}
           <button
             onClick={startQuiz}
             disabled={filtered.length === 0}
