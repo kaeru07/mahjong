@@ -1,9 +1,13 @@
+export type Rotation = 0 | 90 | 180 | 270;
+
 interface TileDisplayProps {
   tile: string;
   small?: boolean;
   dimmed?: boolean;   // ツモ切り
   highlight?: boolean;
   tileSize?: number;  // 表示幅(px)を直接指定。指定時は small を上書き
+  rotation?: Rotation;
+  faceDown?: boolean; // 裏牌表示
 }
 
 // スプライト画像上の各牌の座標 [x_start, y_start]
@@ -31,7 +35,6 @@ const SPRITE_H = 360;
 const TILE_W = 50;  // スプライト上の牌の幅(px)
 const TILE_H = 69;  // スプライト上の牌の高さ(px)
 
-// デフォルト表示幅
 const DEFAULT_W_NORMAL = 38;
 const DEFAULT_W_SMALL  = 24;
 
@@ -41,18 +44,72 @@ export default function TileDisplay({
   dimmed,
   highlight,
   tileSize,
+  rotation = 0,
+  faceDown = false,
 }: TileDisplayProps) {
-  const pos = TILE_POSITIONS[tile];
-
-  // 表示幅を決定: tileSize prop > small flag > デフォルト
   const displayW = tileSize ?? (small ? DEFAULT_W_SMALL : DEFAULT_W_NORMAL);
   const scale    = displayW / TILE_W;
   const displayH = Math.round(TILE_H * scale);
-  const bgW      = Math.round(SPRITE_W * scale);
-  const bgH      = Math.round(SPRITE_H * scale);
   const opacity  = dimmed ? 0.4 : 1;
 
-  // スプライト未登録の牌はテキストフォールバック
+  // 90/270度回転時は縦横が入れ替わる
+  const isRotated90 = rotation === 90 || rotation === 270;
+  const outerW = isRotated90 ? displayH : displayW;
+  const outerH = isRotated90 ? displayW : displayH;
+
+  // 回転時に内側要素を中央に合わせるオフセット
+  // rotation=90/270: innerLeft=(displayH-displayW)/2, innerTop=(displayW-displayH)/2
+  // → 外側コンテナ中心 (outerW/2, outerH/2) と内側要素中心 (left+displayW/2, top+displayH/2) が一致
+  const innerLeft = isRotated90 ? (displayH - displayW) / 2 : 0;
+  const innerTop  = isRotated90 ? (displayW - displayH) / 2 : 0;
+
+  const rotateStyle: React.CSSProperties = rotation !== 0 ? {
+    position: "absolute",
+    left: innerLeft,
+    top: innerTop,
+    transform: `rotate(${rotation}deg)`,
+    transformOrigin: "center center",
+  } : {};
+
+  const baseStyle: React.CSSProperties = {
+    width: displayW,
+    height: displayH,
+    opacity,
+    borderRadius: 2,
+  };
+
+  // ── 裏牌 ──
+  if (faceDown) {
+    const faceDownStyle: React.CSSProperties = {
+      ...baseStyle,
+      ...rotateStyle,
+      backgroundColor: "#1e3a2f",
+      backgroundImage:
+        "repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,0.06) 3px, rgba(255,255,255,0.06) 6px)",
+      border: "1px solid #2d5a42",
+    };
+
+    if (rotation !== 0) {
+      return (
+        <span
+          className={`inline-block relative flex-shrink-0${highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""}`}
+          style={{ width: outerW, height: outerH }}
+        >
+          <span className="absolute" style={faceDownStyle} title="?" />
+        </span>
+      );
+    }
+    return (
+      <span
+        className={`inline-block flex-shrink-0${highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""}`}
+        style={faceDownStyle}
+        title="?"
+      />
+    );
+  }
+
+  // ── スプライト未登録 → テキストフォールバック（回転なし）──
+  const pos = TILE_POSITIONS[tile];
   if (!pos) {
     const base  = "inline-flex items-center justify-center rounded border font-bold select-none";
     const size  = small
@@ -68,25 +125,40 @@ export default function TileDisplay({
     );
   }
 
+  // ── スプライト表示 ──
   const [sx, sy] = pos;
   const bgX = -Math.round(sx * scale);
   const bgY = -Math.round(sy * scale);
+  const bgW = Math.round(SPRITE_W * scale);
+  const bgH = Math.round(SPRITE_H * scale);
+
+  const spriteStyle: React.CSSProperties = {
+    ...baseStyle,
+    backgroundImage: "url(/tiles.jpg)",
+    backgroundSize: `${bgW}px ${bgH}px`,
+    backgroundPosition: `${bgX}px ${bgY}px`,
+    backgroundRepeat: "no-repeat",
+  };
+
+  if (rotation !== 0) {
+    return (
+      <span
+        className={`inline-block relative flex-shrink-0${highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""}`}
+        style={{ width: outerW, height: outerH }}
+      >
+        <span
+          className="absolute"
+          style={{ ...spriteStyle, ...rotateStyle }}
+          title={tile}
+        />
+      </span>
+    );
+  }
 
   return (
     <span
-      className={`inline-block select-none rounded flex-shrink-0${
-        highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""
-      }`}
-      style={{
-        width: displayW,
-        height: displayH,
-        backgroundImage: "url(/tiles.jpg)",
-        backgroundSize: `${bgW}px ${bgH}px`,
-        backgroundPosition: `${bgX}px ${bgY}px`,
-        backgroundRepeat: "no-repeat",
-        opacity,
-        display: "inline-block",
-      }}
+      className={`inline-block select-none flex-shrink-0${highlight ? " ring-2 ring-yellow-400 ring-offset-1" : ""}`}
+      style={spriteStyle}
       title={tile}
     />
   );
