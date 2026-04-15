@@ -150,6 +150,12 @@ function HomeContent() {
           >
             問題を開始する
           </button>
+          <button
+            onClick={() => router.push("/import")}
+            className="w-full mt-3 py-2.5 rounded-2xl text-sm font-medium bg-white text-indigo-600 border border-indigo-200 hover:bg-indigo-50 active:scale-95 transition-all"
+          >
+            問題を取り込む
+          </button>
         </div>
       </div>
     </main>
