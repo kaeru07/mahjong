@@ -5,11 +5,15 @@ export interface Choice {
 }
 
 // 捨て牌1枚
-export interface Discard {
+export interface DiscardItem {
   tile: string;
   type: "tedashi" | "tsumogiri";
-  turn?: number;
+  turn: number;               // 何巡目に捨てたか（プレイヤー自身の巡目）
+  riichiDeclaration?: boolean; // リーチ宣言牌かどうか
 }
+
+/** @deprecated Use DiscardItem */
+export type Discard = DiscardItem;
 
 // 副露1つ
 export interface Meld {
@@ -22,10 +26,10 @@ export interface Meld {
 
 // プレイヤー情報
 export interface PlayerInfo {
-  seat?: string;      // 座席風牌 "東" "南" etc.
-  hand?: string[];    // 手牌
-  tsumo?: string;     // ツモ牌
-  discards?: Discard[];
+  seat?: string;           // 座席風牌 "東" "南" etc.
+  hand?: string[];         // 手牌
+  tsumo?: string;          // ツモ牌
+  discards?: DiscardItem[];
   melds?: Meld[];
   riichi?: boolean;
 }
@@ -40,7 +44,8 @@ export interface Players {
 
 // 局情報
 export interface Round {
-  kyoku?: string;   // "東1局" etc.
+  bakaze?: string;  // 場風 "東" "南" etc.
+  kyoku?: number;   // 局数 1-4
   honba?: number;   // 本場
   kyotaku?: number; // 供託
 }
@@ -57,6 +62,7 @@ export interface Scores {
 export interface Situation {
   round?: Round;
   dora?: string[];
+  turn?: number;    // 巡目
   scores?: Scores;
   players?: Players;
 }
@@ -74,5 +80,8 @@ export interface Question {
   // 任意
   tags?: string[];
   difficulty?: "easy" | "medium" | "hard";
+  book?: string;       // 出典（書籍名など）
+  chapter?: string;    // 章
+  sourcePage?: number; // ページ番号
   situation?: Situation;
 }

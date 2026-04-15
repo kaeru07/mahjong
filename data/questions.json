@@ -13,16 +13,27 @@
     "explanation": "字牌は孤立牌が多い序盤に処理するのが基本。発は役牌ですが手が遠く孤立しているため早めに切るのが得策。中より発を先切りして後の選択肢を広げましょう。",
     "difficulty": "easy",
     "tags": ["序盤", "手組み", "字牌"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東1局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
       "dora": ["5萬"],
+      "turn": 1,
       "scores": {
         "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
-          "hand": ["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"]
-        }
+          "seat": "東",
+          "hand": ["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
+        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
+        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
       }
     }
   },
@@ -40,48 +51,63 @@
     "explanation": "タンヤオのリャンメン待ち。相手のリーチに追っかけリーチが最も期待値が高い。ダマで抑える理由がなく、裏ドラ・ツモ加点も期待できます。",
     "difficulty": "medium",
     "tags": ["押し引き", "リーチ判断", "テンパイ"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東2局", "honba": 0, "kyotaku": 1 },
+      "round": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 1 },
       "dora": ["3索"],
+      "turn": 7,
       "scores": {
         "self": 28000, "shimocha": 22000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
+          "seat": "北",
           "hand": ["3萬","4萬","5萬","6萬","7萬","3筒","4筒","5筒","4索","5索","6索","6索"],
           "tsumo": "1萬",
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "9萬", "type": "tsumogiri" },
-            { "tile": "1筒", "type": "tedashi" },
-            { "tile": "9筒", "type": "tsumogiri" },
-            { "tile": "発", "type": "tedashi" }
-          ]
+            { "tile": "東", "type": "tedashi",   "turn": 1 },
+            { "tile": "白", "type": "tedashi",   "turn": 2 },
+            { "tile": "9萬","type": "tsumogiri", "turn": 3 },
+            { "tile": "1筒","type": "tedashi",   "turn": 4 },
+            { "tile": "9筒","type": "tsumogiri", "turn": 5 },
+            { "tile": "発", "type": "tedashi",   "turn": 6 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "shimocha": {
-          "riichi": true,
+          "seat": "東",
           "discards": [
-            { "tile": "9索", "type": "tedashi" },
-            { "tile": "1萬", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "8萬", "type": "tsumogiri" }
-          ]
+            { "tile": "9索","type": "tedashi",   "turn": 1 },
+            { "tile": "1萬","type": "tedashi",   "turn": 2 },
+            { "tile": "北", "type": "tedashi",   "turn": 3 },
+            { "tile": "8萬","type": "tsumogiri", "turn": 4, "riichiDeclaration": true }
+          ],
+          "melds": [],
+          "riichi": true
         },
         "toimen": {
+          "seat": "南",
           "discards": [
-            { "tile": "中", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "発", "type": "tedashi" }
-          ]
+            { "tile": "中", "type": "tedashi", "turn": 1 },
+            { "tile": "白", "type": "tedashi", "turn": 2 },
+            { "tile": "発", "type": "tedashi", "turn": 3 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "kamicha": {
+          "seat": "西",
           "discards": [
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "9萬", "type": "tsumogiri" },
-            { "tile": "1索", "type": "tedashi" }
-          ]
+            { "tile": "北", "type": "tedashi",   "turn": 1 },
+            { "tile": "東", "type": "tedashi",   "turn": 2 },
+            { "tile": "9萬","type": "tsumogiri", "turn": 3 },
+            { "tile": "1索","type": "tedashi",   "turn": 4 }
+          ],
+          "melds": [],
+          "riichi": false
         }
       }
     }
@@ -100,50 +126,65 @@
     "explanation": "オーラスラス目でテンパイ料だけでもラス脱出が見込める。チーしてテンパイを取り最速和了・テンパイ料を狙うのが合理的です。",
     "difficulty": "medium",
     "tags": ["鳴き判断", "オーラス", "チー"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "南4局", "honba": 1, "kyotaku": 0 },
+      "round": { "bakaze": "南", "kyoku": 4, "honba": 1, "kyotaku": 0 },
       "dora": ["6筒"],
+      "turn": 7,
       "scores": {
         "self": 18000, "shimocha": 32000, "toimen": 27000, "kamicha": 23000
       },
       "players": {
         "self": {
+          "seat": "西",
           "hand": ["3萬","5萬","6萬","7萬","2筒","3筒","4筒","5筒","7筒","8筒","3索","5索"],
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "南", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "9索", "type": "tedashi" },
-            { "tile": "1萬", "type": "tsumogiri" }
-          ]
+            { "tile": "東", "type": "tedashi",   "turn": 1 },
+            { "tile": "南", "type": "tedashi",   "turn": 2 },
+            { "tile": "白", "type": "tedashi",   "turn": 3 },
+            { "tile": "9索","type": "tedashi",   "turn": 4 },
+            { "tile": "1萬","type": "tsumogiri", "turn": 5 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "shimocha": {
+          "seat": "北",
           "discards": [
-            { "tile": "中", "type": "tedashi" },
-            { "tile": "発", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "9萬", "type": "tsumogiri" },
-            { "tile": "1筒", "type": "tedashi" },
-            { "tile": "4萬", "type": "tedashi" }
-          ]
+            { "tile": "中", "type": "tedashi",   "turn": 1 },
+            { "tile": "発", "type": "tedashi",   "turn": 2 },
+            { "tile": "北", "type": "tedashi",   "turn": 3 },
+            { "tile": "9萬","type": "tsumogiri", "turn": 4 },
+            { "tile": "1筒","type": "tedashi",   "turn": 5 },
+            { "tile": "4萬","type": "tedashi",   "turn": 6 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "toimen": {
+          "seat": "東",
           "discards": [
-            { "tile": "西", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "発", "type": "tedashi" }
+            { "tile": "西", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tedashi", "turn": 2 },
+            { "tile": "発", "type": "tedashi", "turn": 3 }
           ],
           "melds": [
             { "type": "pon", "tiles": ["中","中","中"], "called": "中", "from": "kamicha" }
-          ]
+          ],
+          "riichi": false
         },
         "kamicha": {
+          "seat": "南",
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "9筒", "type": "tsumogiri" },
-            { "tile": "1索", "type": "tedashi" }
-          ]
+            { "tile": "東", "type": "tedashi",   "turn": 1 },
+            { "tile": "白", "type": "tedashi",   "turn": 2 },
+            { "tile": "9筒","type": "tsumogiri", "turn": 3 },
+            { "tile": "1索","type": "tedashi",   "turn": 4 }
+          ],
+          "melds": [],
+          "riichi": false
         }
       }
     }
@@ -162,36 +203,52 @@
     "explanation": "現物は100%安全。筋は約79%安全、字牌は場況次第。リーチに対してはまず現物から切るのが基本原則です。",
     "difficulty": "easy",
     "tags": ["安全牌", "守備", "リーチ対策"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東3局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 3, "honba": 0, "kyotaku": 0 },
       "dora": ["2筒"],
+      "turn": 5,
       "scores": {
         "self": 25000, "shimocha": 28000, "toimen": 22000, "kamicha": 25000
       },
       "players": {
         "self": {
-          "hand": ["1萬","3萬","5萬","7萬","9萬","3筒","5筒","8筒","2索","4索","7索","北"]
+          "seat": "西",
+          "hand": ["1萬","3萬","5萬","7萬","9萬","3筒","5筒","8筒","2索","4索","7索","北"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
         },
         "shimocha": {
+          "seat": "北",
+          "discards": [],
           "melds": [
             { "type": "pon", "tiles": ["発","発","発"], "called": "発", "from": "toimen" }
-          ]
+          ],
+          "riichi": false
         },
         "toimen": {
-          "riichi": true,
+          "seat": "東",
           "discards": [
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "西", "type": "tedashi" },
-            { "tile": "9萬", "type": "tedashi" },
-            { "tile": "1索", "type": "tedashi" }
-          ]
+            { "tile": "北", "type": "tedashi", "turn": 1 },
+            { "tile": "西", "type": "tedashi", "turn": 2 },
+            { "tile": "9萬","type": "tedashi", "turn": 3 },
+            { "tile": "1索","type": "tedashi", "turn": 4, "riichiDeclaration": true }
+          ],
+          "melds": [],
+          "riichi": true
         },
         "kamicha": {
+          "seat": "南",
           "discards": [
-            { "tile": "中", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "9筒", "type": "tsumogiri" }
-          ]
+            { "tile": "中", "type": "tedashi",   "turn": 1 },
+            { "tile": "白", "type": "tedashi",   "turn": 2 },
+            { "tile": "9筒","type": "tsumogiri", "turn": 3 }
+          ],
+          "melds": [],
+          "riichi": false
         }
       }
     }
@@ -210,16 +267,27 @@
     "explanation": "リャンメン待ちは2種8枚、カンチャン待ちは1種4枚。他条件が同じならリャンメンが倍有利。ドラ周辺でなければリャンメンを選びましょう。",
     "difficulty": "easy",
     "tags": ["待ち選択", "多面待ち"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東1局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
       "dora": ["7萬"],
+      "turn": 1,
       "scores": {
         "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
-          "hand": ["2萬","3萬","4萬","5萬","6萬","2筒","3筒","4筒","1索","2索","4索","5索","6索"]
-        }
+          "seat": "東",
+          "hand": ["2萬","3萬","4萬","5萬","6萬","2筒","3筒","4筒","1索","2索","4索","5索","6索"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
+        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
+        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
       }
     }
   },
@@ -237,23 +305,36 @@
     "explanation": "中の対子は役牌トイツとして非常に価値が高い。孤立した端数牌（9索・1萬）から処理するのが基本。中は重ねてポンの選択肢を残しましょう。",
     "difficulty": "easy",
     "tags": ["役牌", "手組み", "序盤"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東2局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 0 },
       "dora": ["4筒"],
+      "turn": 1,
       "scores": {
         "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
-          "hand": ["1萬","2萬","4萬","5萬","6萬","3筒","4筒","5筒","7索","8索","9索","中","中"]
+          "seat": "北",
+          "hand": ["1萬","2萬","4萬","5萬","6萬","3筒","4筒","5筒","7索","8索","9索","中","中"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
         },
+        "shimocha": { "seat": "東", "discards": [], "melds": [], "riichi": false },
         "toimen": {
+          "seat": "南",
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "西", "type": "tedashi" }
-          ]
-        }
+            { "tile": "東", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tedashi", "turn": 2 },
+            { "tile": "西", "type": "tedashi", "turn": 3 }
+          ],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": { "seat": "西", "discards": [], "melds": [], "riichi": false }
       }
     }
   },
@@ -271,26 +352,38 @@
     "explanation": "東（客風牌）は雀頭候補にもなれず最も不要。孤立字牌は鳴いてテンパイが近い場面では最優先処理。6索の連続形は残してテンパイを目指しましょう。",
     "difficulty": "medium",
     "tags": ["鳴き判断", "副露", "打点計算"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東1局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
       "dora": ["中"],
+      "turn": 4,
       "scores": {
         "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
+          "seat": "東",
           "hand": ["3萬","4萬","5萬","9萬","5筒","6筒","4索","5索","6索","1索","東"],
           "tsumo": "6索",
+          "discards": [],
           "melds": [
             { "type": "pon", "tiles": ["中","中","中"], "called": "中", "from": "shimocha" }
-          ]
+          ],
+          "riichi": false
         },
         "shimocha": {
+          "seat": "南",
           "discards": [
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "西", "type": "tedashi" }
-          ]
-        }
+            { "tile": "北", "type": "tedashi", "turn": 1 },
+            { "tile": "西", "type": "tedashi", "turn": 2 }
+          ],
+          "melds": [],
+          "riichi": false
+        },
+        "toimen":  { "seat": "西", "discards": [], "melds": [], "riichi": false },
+        "kamicha": { "seat": "北", "discards": [], "melds": [], "riichi": false }
       }
     }
   },
@@ -308,16 +401,27 @@
     "explanation": "ピンフのリャンメン待ち。ダマでも3900あるがリーチで裏ドラ期待・相手への圧力・ツモ加点が見込める。手変わりも少なく即リーチ優位です。",
     "difficulty": "hard",
     "tags": ["リーチ判断", "打点計算", "テンパイ"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "南2局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "南", "kyoku": 2, "honba": 0, "kyotaku": 0 },
       "dora": ["5索"],
+      "turn": 9,
       "scores": {
         "self": 24000, "shimocha": 26000, "toimen": 28000, "kamicha": 22000
       },
       "players": {
         "self": {
-          "hand": ["2萬","3萬","4萬","3筒","4筒","5筒","3索","4索","5索","6索","7索","8索","8索"]
-        }
+          "seat": "東",
+          "hand": ["2萬","3萬","4萬","3筒","4筒","5筒","3索","4索","5索","6索","7索","8索","8索"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
+        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
+        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
       }
     }
   },
@@ -335,49 +439,63 @@
     "explanation": "オーラスで3位→2位の順位点差は小さい。トップへの放銃は大きなマイナス。打点が低い手なら完全撤退が合理的です。",
     "difficulty": "hard",
     "tags": ["オーラス", "押し引き", "守備"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "南4局", "honba": 2, "kyotaku": 1 },
+      "round": { "bakaze": "南", "kyoku": 4, "honba": 2, "kyotaku": 1 },
       "dora": ["8萬"],
+      "turn": 6,
       "scores": {
         "self": 20000, "shimocha": 38000, "toimen": 22000, "kamicha": 20000
       },
       "players": {
         "self": {
+          "seat": "西",
           "hand": ["1萬","2萬","3萬","4萬","5萬","3筒","4筒","6筒","7筒","8筒","2索","4索"],
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "西", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" }
-          ]
+            { "tile": "東", "type": "tedashi", "turn": 1 },
+            { "tile": "西", "type": "tedashi", "turn": 2 },
+            { "tile": "北", "type": "tedashi", "turn": 3 },
+            { "tile": "白", "type": "tedashi", "turn": 4 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "shimocha": {
-          "riichi": true,
+          "seat": "北",
           "discards": [
-            { "tile": "中", "type": "tedashi" },
-            { "tile": "発", "type": "tedashi" },
-            { "tile": "9索", "type": "tedashi" },
-            { "tile": "1筒", "type": "tsumogiri" },
-            { "tile": "9筒", "type": "tsumogiri" }
-          ]
+            { "tile": "中", "type": "tedashi",   "turn": 1 },
+            { "tile": "発", "type": "tedashi",   "turn": 2 },
+            { "tile": "9索","type": "tedashi",   "turn": 3 },
+            { "tile": "1筒","type": "tsumogiri", "turn": 4 },
+            { "tile": "9筒","type": "tsumogiri", "turn": 5, "riichiDeclaration": true }
+          ],
+          "melds": [],
+          "riichi": true
         },
         "toimen": {
+          "seat": "東",
           "discards": [
-            { "tile": "東", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "西", "type": "tedashi" },
-            { "tile": "9萬", "type": "tsumogiri" }
-          ]
+            { "tile": "東", "type": "tedashi",   "turn": 1 },
+            { "tile": "北", "type": "tedashi",   "turn": 2 },
+            { "tile": "西", "type": "tedashi",   "turn": 3 },
+            { "tile": "9萬","type": "tsumogiri", "turn": 4 }
+          ],
+          "melds": [],
+          "riichi": false
         },
         "kamicha": {
+          "seat": "南",
           "discards": [
-            { "tile": "南", "type": "tedashi" },
-            { "tile": "北", "type": "tedashi" },
-            { "tile": "発", "type": "tedashi" }
+            { "tile": "南", "type": "tedashi", "turn": 1 },
+            { "tile": "北", "type": "tedashi", "turn": 2 },
+            { "tile": "発", "type": "tedashi", "turn": 3 }
           ],
           "melds": [
             { "type": "chi", "tiles": ["5索","6索","7索"], "called": "7索", "from": "toimen" }
-          ]
+          ],
+          "riichi": false
         }
       }
     }
@@ -396,23 +514,36 @@
     "explanation": "白は場に3枚見えで残り1枚。雀頭・刻子になりにくく最も不要。対面が3枚捨てているため白は安全牌にもなる好都合な切り出しです。",
     "difficulty": "medium",
     "tags": ["手組み", "序盤", "待ち選択"],
+    "book": "",
+    "chapter": "",
+    "sourcePage": 0,
     "situation": {
-      "round": { "kyoku": "東3局", "honba": 0, "kyotaku": 0 },
+      "round": { "bakaze": "東", "kyoku": 3, "honba": 0, "kyotaku": 0 },
       "dora": ["3萬"],
+      "turn": 3,
       "scores": {
         "self": 27000, "shimocha": 23000, "toimen": 25000, "kamicha": 25000
       },
       "players": {
         "self": {
-          "hand": ["1萬","2萬","3萬","4萬","5萬","4筒","5筒","6筒","7索","8索","8索","9索","白"]
+          "seat": "西",
+          "hand": ["1萬","2萬","3萬","4萬","5萬","4筒","5筒","6筒","7索","8索","8索","9索","白"],
+          "discards": [],
+          "melds": [],
+          "riichi": false
         },
+        "shimocha": { "seat": "北", "discards": [], "melds": [], "riichi": false },
         "toimen": {
+          "seat": "東",
           "discards": [
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" },
-            { "tile": "白", "type": "tedashi" }
-          ]
-        }
+            { "tile": "白", "type": "tedashi", "turn": 1 },
+            { "tile": "白", "type": "tedashi", "turn": 2 },
+            { "tile": "白", "type": "tedashi", "turn": 3 }
+          ],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": { "seat": "南", "discards": [], "melds": [], "riichi": false }
       }
     }
   }

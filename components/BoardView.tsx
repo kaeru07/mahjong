@@ -1,4 +1,4 @@
-import { Question, PlayerInfo, Meld, Discard } from "@/types/question";
+import { Question, PlayerInfo, Meld, DiscardItem } from "@/types/question";
 import TileDisplay, { Rotation } from "./TileDisplay";
 import HandDisplay from "./HandDisplay";
 
@@ -29,8 +29,12 @@ const ROTATION: Record<"toimen" | "kamicha" | "shimocha" | "self", Rotation> = {
 // ─────────────────────────────────────
 function riichiTileIndex(p: PlayerInfo | undefined): number | undefined {
   if (!p?.riichi || !p.discards) return undefined;
-  const idx = [...p.discards].reverse().findIndex((d) => d.type === "tedashi");
-  return idx >= 0 ? p.discards.length - 1 - idx : undefined;
+  // riichiDeclaration フィールドがあればそれを優先
+  const declared = p.discards.findIndex((d) => d.riichiDeclaration);
+  if (declared >= 0) return declared;
+  // フォールバック: 最後の手出しを宣言牌とみなす
+  const rev = [...p.discards].reverse().findIndex((d) => d.type === "tedashi");
+  return rev >= 0 ? p.discards.length - 1 - rev : undefined;
 }
 
 /** 手牌情報がないときに表示する裏牌枚数（副露分を引く） */
@@ -45,7 +49,7 @@ function backTileCount(p: PlayerInfo | undefined): number {
 // 捨て牌（inline）
 // ─────────────────────────────────────
 interface DiscardsProps {
-  discards: Discard[];
+  discards: DiscardItem[];
   tileSize: number;
   maxTiles?: number;
   riichi?: boolean;
@@ -59,7 +63,7 @@ function Discards({
   if (!discards || discards.length === 0) return null;
   const tiles = maxTiles ? discards.slice(0, maxTiles) : discards;
   const ROW = 6;
-  const rows: Discard[][] = [];
+  const rows: DiscardItem[][] = [];
   for (let i = 0; i < tiles.length; i += ROW) rows.push(tiles.slice(i, i + ROW));
 
   return (
@@ -69,14 +73,24 @@ function Discards({
           {row.map((d, ci) => {
             const idx = ri * ROW + ci;
             const isRiichi = riichi && riichiIndex !== undefined && idx === riichiIndex;
+            const isTsumogiri = d.type === "tsumogiri";
             return (
-              <span key={ci} className={isRiichi ? "ring-1 ring-red-400 rounded" : ""}>
+              <span
+                key={ci}
+                className={`relative inline-block flex-shrink-0${isRiichi ? " ring-1 ring-red-400 rounded" : ""}`}
+              >
                 <TileDisplay
                   tile={d.tile}
                   tileSize={tileSize}
-                  dimmed={d.type === "tsumogiri"}
+                  dimmed={isTsumogiri}
                   rotation={rotation}
                 />
+                {isTsumogiri && (
+                  <span
+                    className="absolute bottom-0.5 right-0.5 rounded-full bg-sky-400 pointer-events-none"
+                    style={{ width: 4, height: 4 }}
+                  />
+                )}
               </span>
             );
           })}
@@ -138,9 +152,9 @@ function CenterPanel({ q }: { q: Question }) {
 
   return (
     <div className="w-20 flex-shrink-0 flex flex-col items-center justify-center gap-1.5 bg-green-950/60 rounded-lg px-1 py-2 text-center">
-      {sit.round?.kyoku && (
+      {(sit.round?.bakaze || sit.round?.kyoku) && (
         <div className="text-xs font-bold text-yellow-300 leading-tight">
-          {sit.round.kyoku}
+          {sit.round.bakaze ?? ""}{sit.round.kyoku ?? ""}局
         </div>
       )}
       {(sit.round?.honba ?? 0) > 0 && (

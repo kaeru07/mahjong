@@ -28,8 +28,10 @@ export default function GameInfo({ q }: GameInfoProps) {
       {/* 局情報 + ドラ */}
       {(hasRound || hasDora) && (
         <div className="flex flex-wrap gap-x-3 gap-y-1 items-center mb-1.5">
-          {sit.round?.kyoku && (
-            <span className="font-bold text-indigo-700">{sit.round.kyoku}</span>
+          {(sit.round?.bakaze || sit.round?.kyoku) && (
+            <span className="font-bold text-indigo-700">
+              {sit.round.bakaze ?? ""}{sit.round.kyoku ?? ""}局
+            </span>
           )}
           {sit.round?.honba !== undefined && sit.round.honba > 0 && (
             <span className="text-gray-600">{sit.round.honba}本場</span>
