@@ -6,6 +6,7 @@ import TileDisplay from "./TileDisplay";
 interface HandDisplayProps {
   hand: string[];
   tsumo?: string | null;
+  hideLabel?: boolean;
 }
 
 // スプライト牌のアスペクト比
@@ -23,7 +24,7 @@ function calcSize(containerW: number, handLen: number, hasTsumo: boolean): numbe
   return Math.min(MAX_W, Math.max(MIN_W, Math.floor(available / slotCount)));
 }
 
-export default function HandDisplay({ hand, tsumo }: HandDisplayProps) {
+export default function HandDisplay({ hand, tsumo, hideLabel }: HandDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [tileW, setTileW]  = useState<number>(MAX_W);
 
@@ -43,8 +44,8 @@ export default function HandDisplay({ hand, tsumo }: HandDisplayProps) {
   const tileH = Math.round(tileW * TILE_ASPECT);
 
   return (
-    <div className="mb-3">
-      <div className="text-xs text-gray-500 mb-1">手牌</div>
+    <div className="mb-1">
+      {!hideLabel && <div className="text-xs text-gray-500 mb-1">手牌</div>}
       <div
         ref={containerRef}
         className="flex flex-nowrap items-end overflow-hidden"
