@@ -6,6 +6,8 @@ interface BoardViewProps {
   q: Question;
 }
 
+type Seat = "self" | "toimen" | "kamicha" | "shimocha";
+
 // ─────────────────────────────────────
 // 定数
 // ─────────────────────────────────────
@@ -16,12 +18,20 @@ const FROM_LABEL: Record<string, string> = {
   shimocha: "下", toimen: "対", kamicha: "上",
 };
 
-// 卓上の位置別回転角度
-const ROTATION: Record<"toimen" | "kamicha" | "shimocha" | "self", Rotation> = {
+// 席ごとの牌回転角度
+const SEAT_ROT: Record<Seat, Rotation> = {
+  self:     0,
   toimen:   180,
-  kamicha:   90,
+  kamicha:  90,
   shimocha: 270,
-  self:       0,
+};
+
+// 上家・下家は縦レイアウト（手牌を flex-col、捨て牌を列方向に積む）
+const SEAT_VERT: Record<Seat, boolean> = {
+  self:     false,
+  toimen:   false,
+  kamicha:  true,
+  shimocha: true,
 };
 
 // ─────────────────────────────────────
@@ -29,15 +39,12 @@ const ROTATION: Record<"toimen" | "kamicha" | "shimocha" | "self", Rotation> = {
 // ─────────────────────────────────────
 function riichiTileIndex(p: PlayerInfo | undefined): number | undefined {
   if (!p?.riichi || !p.discards) return undefined;
-  // riichiDeclaration フィールドがあればそれを優先
   const declared = p.discards.findIndex((d) => d.riichiDeclaration);
   if (declared >= 0) return declared;
-  // フォールバック: 最後の手出しを宣言牌とみなす
   const rev = [...p.discards].reverse().findIndex((d) => d.type === "tedashi");
   return rev >= 0 ? p.discards.length - 1 - rev : undefined;
 }
 
-/** 手牌情報がないときに表示する裏牌枚数（副露分を引く） */
 function backTileCount(p: PlayerInfo | undefined): number {
   const meldTiles = (p?.melds ?? []).reduce((acc, m) => {
     return acc + (m.type === "kan" || m.type === "ankan" ? 4 : 3);
@@ -46,7 +53,7 @@ function backTileCount(p: PlayerInfo | undefined): number {
 }
 
 // ─────────────────────────────────────
-// 捨て牌（inline）
+// 捨て牌
 // ─────────────────────────────────────
 interface DiscardsProps {
   discards: DiscardItem[];
@@ -55,45 +62,57 @@ interface DiscardsProps {
   riichi?: boolean;
   riichiIndex?: number;
   rotation?: Rotation;
+  /** true のとき縦配置（上家・下家）: chunk を横並び、chunk 内は縦積み */
+  vertical?: boolean;
 }
 
 function Discards({
-  discards, tileSize, maxTiles, riichi, riichiIndex, rotation = 0,
+  discards, tileSize, maxTiles, riichi, riichiIndex, rotation = 0, vertical = false,
 }: DiscardsProps) {
   if (!discards || discards.length === 0) return null;
   const tiles = maxTiles ? discards.slice(0, maxTiles) : discards;
-  const ROW = 6;
-  const rows: DiscardItem[][] = [];
-  for (let i = 0; i < tiles.length; i += ROW) rows.push(tiles.slice(i, i + ROW));
+  const CHUNK = 6;
+  const chunks: DiscardItem[][] = [];
+  for (let i = 0; i < tiles.length; i += CHUNK) chunks.push(tiles.slice(i, i + CHUNK));
 
+  function renderTile(d: DiscardItem, globalIdx: number, key: number) {
+    const isRiichi = riichi && riichiIndex !== undefined && globalIdx === riichiIndex;
+    const isTsumogiri = d.type === "tsumogiri";
+    return (
+      <span
+        key={key}
+        className={`relative inline-block flex-shrink-0${isRiichi ? " ring-1 ring-red-400 rounded" : ""}`}
+      >
+        <TileDisplay tile={d.tile} tileSize={tileSize} dimmed={isTsumogiri} rotation={rotation} />
+        {isTsumogiri && (
+          <span
+            className="absolute bottom-0.5 right-0.5 rounded-full bg-sky-400 pointer-events-none"
+            style={{ width: 4, height: 4 }}
+          />
+        )}
+      </span>
+    );
+  }
+
+  if (vertical) {
+    // 縦配置: chunk を横に並べ、各 chunk の中は縦に積む
+    return (
+      <div className="flex flex-row gap-0.5">
+        {chunks.map((chunk, ci) => (
+          <div key={ci} className="flex flex-col gap-px">
+            {chunk.map((d, ti) => renderTile(d, ci * CHUNK + ti, ti))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // 横配置: chunk を縦に積み、各 chunk の中は横に並べる
   return (
     <div className="flex flex-col gap-0.5">
-      {rows.map((row, ri) => (
-        <div key={ri} className="flex flex-nowrap gap-px items-center">
-          {row.map((d, ci) => {
-            const idx = ri * ROW + ci;
-            const isRiichi = riichi && riichiIndex !== undefined && idx === riichiIndex;
-            const isTsumogiri = d.type === "tsumogiri";
-            return (
-              <span
-                key={ci}
-                className={`relative inline-block flex-shrink-0${isRiichi ? " ring-1 ring-red-400 rounded" : ""}`}
-              >
-                <TileDisplay
-                  tile={d.tile}
-                  tileSize={tileSize}
-                  dimmed={isTsumogiri}
-                  rotation={rotation}
-                />
-                {isTsumogiri && (
-                  <span
-                    className="absolute bottom-0.5 right-0.5 rounded-full bg-sky-400 pointer-events-none"
-                    style={{ width: 4, height: 4 }}
-                  />
-                )}
-              </span>
-            );
-          })}
+      {chunks.map((chunk, ci) => (
+        <div key={ci} className="flex flex-nowrap gap-px items-center">
+          {chunk.map((d, ti) => renderTile(d, ci * CHUNK + ti, ti))}
         </div>
       ))}
     </div>
@@ -101,24 +120,26 @@ function Discards({
 }
 
 // ─────────────────────────────────────
-// 副露（inline）
+// 副露
 // ─────────────────────────────────────
 interface MeldsProps {
   melds: Meld[];
   tileSize: number;
   rotation?: Rotation;
+  /** true のとき副露ブロックを縦積み（上家・下家） */
+  vertical?: boolean;
 }
 
-function Melds({ melds, tileSize, rotation = 0 }: MeldsProps) {
+function Melds({ melds, tileSize, rotation = 0, vertical = false }: MeldsProps) {
   if (!melds || melds.length === 0) return null;
   return (
-    <div className="flex flex-wrap gap-1 mt-0.5">
+    <div className={`flex ${vertical ? "flex-col" : "flex-wrap"} gap-1 mt-0.5`}>
       {melds.map((m, i) => (
         <span
           key={i}
-          className="inline-flex items-center gap-px bg-green-900/60 border border-green-700 rounded px-1 py-0.5"
+          className="inline-flex flex-wrap items-center gap-px bg-green-900/60 border border-green-700 rounded px-1 py-0.5"
         >
-          <span className="text-[9px] text-green-300 mr-0.5 flex-shrink-0">
+          <span className="text-[9px] text-green-300 flex-shrink-0">
             {MELD_TYPE[m.type] ?? m.type}
             {m.from && (
               <span className="text-green-400 ml-0.5">
@@ -199,8 +220,8 @@ function CenterPanel({ q }: { q: Question }) {
 // ─────────────────────────────────────
 interface PlayerZoneProps {
   p: PlayerInfo | undefined;
+  seat: Seat;
   label: string;
-  rotation: Rotation;
   tileSize?: number;
   maxTiles?: number;
   maxBackTiles?: number;
@@ -208,26 +229,34 @@ interface PlayerZoneProps {
 
 function PlayerZone({
   p,
+  seat,
   label,
-  rotation,
   tileSize = 15,
   maxTiles = 18,
   maxBackTiles = 13,
 }: PlayerZoneProps) {
+  const rotation  = SEAT_ROT[seat];
+  const isVertical = SEAT_VERT[seat];
+
   const hasDis  = (p?.discards?.length ?? 0) > 0;
   const hasMeld = (p?.melds?.length    ?? 0) > 0;
   const hasHand = (p?.hand?.length     ?? 0) > 0;
   const riichi  = p?.riichi;
   const ri      = riichiTileIndex(p);
-
-  // 手牌情報なし → 裏牌を表示
   const backCount = hasHand ? 0 : Math.min(maxBackTiles, backTileCount(p));
+
+  // 手牌コンテナ:
+  //   self / toimen → flex-row（横並び）
+  //   kamicha / shimocha → flex-col（縦積み）
+  const handClass = isVertical
+    ? "flex flex-col gap-px items-center"
+    : "flex flex-row flex-wrap gap-px justify-center";
 
   return (
     <div className="flex flex-col items-center gap-0.5">
-      {/* 裏牌 or 表牌の手牌エリア */}
+      {/* 手牌 or 裏牌 */}
       {(backCount > 0 || hasHand) && (
-        <div className="flex flex-wrap gap-px justify-center">
+        <div className={handClass}>
           {hasHand
             ? p!.hand!.map((t, i) => (
                 <TileDisplay key={i} tile={t} tileSize={tileSize} rotation={rotation} />
@@ -257,11 +286,19 @@ function PlayerZone({
           riichi={riichi}
           riichiIndex={ri}
           rotation={rotation}
+          vertical={isVertical}
         />
       )}
 
       {/* 副露 */}
-      {hasMeld && <Melds melds={p!.melds!} tileSize={tileSize} rotation={rotation} />}
+      {hasMeld && (
+        <Melds
+          melds={p!.melds!}
+          tileSize={tileSize}
+          rotation={rotation}
+          vertical={isVertical}
+        />
+      )}
     </div>
   );
 }
@@ -270,7 +307,6 @@ function PlayerZone({
 // メインコンポーネント
 // ─────────────────────────────────────
 export default function BoardView({ q }: BoardViewProps) {
-  // `board` フィールドも `situation` として扱う（localStorage保存済みの旧形式互換）
   const sit = q.situation ?? (q as unknown as Record<string, unknown>).board as typeof q.situation;
   if (!sit) return null;
 
@@ -283,7 +319,6 @@ export default function BoardView({ q }: BoardViewProps) {
   const hasSelfDis  = (selfPlayer?.discards?.length ?? 0) > 0;
   const hasSelfMeld = (selfPlayer?.melds?.length ?? 0) > 0;
 
-  // situation が存在すれば卓を表示
   const hasAnyBoard =
     hasHand || hasSelfDis || hasSelfMeld ||
     !!sit.round || (sit.dora?.length ?? 0) > 0 || !!sit.scores ||
@@ -294,12 +329,12 @@ export default function BoardView({ q }: BoardViewProps) {
   return (
     <div className="bg-green-800 rounded-xl border border-green-900 shadow-lg p-2 mb-4 select-none">
 
-      {/* ── 対面（上段） ── */}
+      {/* ── 対面（上段）── 横並び・180度回転 */}
       <div className="flex justify-center mb-2 pb-1.5 border-b border-green-700/40">
         <PlayerZone
           p={toimen}
+          seat="toimen"
           label="対面"
-          rotation={ROTATION.toimen}
           tileSize={14}
           maxTiles={18}
           maxBackTiles={13}
@@ -308,12 +343,13 @@ export default function BoardView({ q }: BoardViewProps) {
 
       {/* ── 中段: 上家 ／ 中央情報 ／ 下家 ── */}
       <div className="flex items-stretch gap-1.5 mb-1.5">
-        {/* 上家（左） */}
+
+        {/* 上家（左）── 縦積み・90度回転 */}
         <div className="flex-1 flex items-center justify-end">
           <PlayerZone
             p={kamicha}
+            seat="kamicha"
             label="上家"
-            rotation={ROTATION.kamicha}
             tileSize={13}
             maxTiles={12}
             maxBackTiles={7}
@@ -323,12 +359,12 @@ export default function BoardView({ q }: BoardViewProps) {
         {/* 中央パネル */}
         <CenterPanel q={q} />
 
-        {/* 下家（右） */}
+        {/* 下家（右）── 縦積み・270度回転 */}
         <div className="flex-1 flex items-center justify-start">
           <PlayerZone
             p={shimocha}
+            seat="shimocha"
             label="下家"
-            rotation={ROTATION.shimocha}
             tileSize={13}
             maxTiles={12}
             maxBackTiles={7}
