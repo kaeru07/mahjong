@@ -143,6 +143,9 @@ export function validateQuestion(
     ? (obj.id as string).trim()
     : generateNextId(existingIds, pendingIds);
 
+  // `board` フィールドを `situation` にフォールバック（旧形式互換）
+  const situationRaw = obj.situation ?? obj.board;
+
   const normalized: Question = {
     id,
     title: (obj.title as string).trim(),
@@ -161,6 +164,12 @@ export function validateQuestion(
           .filter((t) => t.length > 0)
       : undefined,
     difficulty: obj.difficulty as Question["difficulty"],
+    ...(situationRaw !== undefined
+      ? { situation: situationRaw as Question["situation"] }
+      : {}),
+    ...(obj.book !== undefined ? { book: obj.book as string } : {}),
+    ...(obj.chapter !== undefined ? { chapter: obj.chapter as string } : {}),
+    ...(obj.sourcePage !== undefined ? { sourcePage: obj.sourcePage as number } : {}),
   };
 
   return { valid: true, errors: [], normalized };

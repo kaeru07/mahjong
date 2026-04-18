@@ -145,7 +145,7 @@ function Melds({ melds, tileSize, rotation = 0 }: MeldsProps) {
 // 中央情報パネル
 // ─────────────────────────────────────
 function CenterPanel({ q }: { q: Question }) {
-  const sit = q.situation;
+  const sit = q.situation ?? (q as unknown as Record<string, unknown>).board as typeof q.situation;
   if (!sit) return <div className="w-20 flex-shrink-0" />;
 
   const hasDora = (sit.dora?.length ?? 0) > 0;
@@ -270,7 +270,8 @@ function PlayerZone({
 // メインコンポーネント
 // ─────────────────────────────────────
 export default function BoardView({ q }: BoardViewProps) {
-  const sit = q.situation;
+  // `board` フィールドも `situation` として扱う（localStorage保存済みの旧形式互換）
+  const sit = q.situation ?? (q as unknown as Record<string, unknown>).board as typeof q.situation;
   if (!sit) return null;
 
   const selfPlayer  = sit.players?.self;

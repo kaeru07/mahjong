@@ -2,11 +2,21 @@ import { Question } from "@/types/question";
 
 const STORAGE_KEY = "importedQuestions";
 
+/** `board` フィールドを `situation` にマイグレート（旧形式互換） */
+function migrateBoardField(q: Record<string, unknown>): Question {
+  if (!q.situation && q.board) {
+    return { ...q, situation: q.board, board: undefined } as unknown as Question;
+  }
+  return q as unknown as Question;
+}
+
 export function getImportedQuestions(): Question[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Question[]) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as Record<string, unknown>[];
+    return parsed.map(migrateBoardField);
   } catch {
     return [];
   }
