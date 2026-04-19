@@ -22,8 +22,8 @@ const FROM_LABEL: Record<string, string> = {
 const SEAT_ROT: Record<Seat, Rotation> = {
   self:     0,
   toimen:   180,
-  kamicha:  90,
-  shimocha: 270,
+  kamicha:  270,
+  shimocha: 90,
 };
 
 // 上家・下家は縦レイアウト（手牌を flex-col、捨て牌を列方向に積む）
@@ -96,13 +96,18 @@ function Discards({
 
   if (vertical) {
     // 縦配置: chunk を横に並べ、各 chunk の中は縦に積む
+    // 下家(rotation=90)は最新チャンクが中央寄りになるよう逆順で表示
+    const displayChunks = rotation === 90 ? [...chunks].reverse() : chunks;
     return (
       <div className="flex flex-row gap-0.5">
-        {chunks.map((chunk, ci) => (
-          <div key={ci} className="flex flex-col gap-px">
-            {chunk.map((d, ti) => renderTile(d, ci * CHUNK + ti, ti))}
-          </div>
-        ))}
+        {displayChunks.map((chunk, ri) => {
+          const origChunkIdx = rotation === 90 ? chunks.length - 1 - ri : ri;
+          return (
+            <div key={ri} className="flex flex-col gap-px">
+              {chunk.map((d, ti) => renderTile(d, origChunkIdx * CHUNK + ti, ti))}
+            </div>
+          );
+        })}
       </div>
     );
   }
