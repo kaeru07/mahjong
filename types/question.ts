@@ -84,4 +84,9 @@ export interface Question {
   chapter?: string;    // 章
   sourcePage?: number; // ページ番号
   situation?: Situation;
+
+  // 取り込み運用（任意）
+  needsReview?: boolean; // 画像からの読み取りが不確実で要確認
+  notes?: string;        // 読み取り不確実な箇所・出典画像などのメモ
+  sourceImages?: string[]; // 出典画像（converted/ のファイル名）
 }

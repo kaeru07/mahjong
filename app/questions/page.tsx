@@ -11,6 +11,7 @@ export default function QuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [search, setSearch] = useState("");
   const [filterTag, setFilterTag] = useState<string>("");
+  const [needsReviewOnly, setNeedsReviewOnly] = useState(false);
 
   useEffect(() => {
     const base = getAllQuestions();
@@ -22,8 +23,14 @@ export default function QuestionsPage() {
 
   const allTags = useMemo(() => getAllTags(questions), [questions]);
 
+  const needsReviewCount = useMemo(
+    () => questions.filter((q) => q.needsReview).length,
+    [questions]
+  );
+
   const filtered = useMemo(() => {
     return questions.filter((q) => {
+      if (needsReviewOnly && !q.needsReview) return false;
       if (filterTag && (!q.tags || !q.tags.includes(filterTag))) return false;
       if (search.trim()) {
         const s = search.trim().toLowerCase();
@@ -35,7 +42,7 @@ export default function QuestionsPage() {
       }
       return true;
     });
-  }, [questions, search, filterTag]);
+  }, [questions, search, filterTag, needsReviewOnly]);
 
   function startSingle(q: Question) {
     sessionStorage.setItem("quizQuestions", JSON.stringify([q]));
@@ -80,6 +87,20 @@ export default function QuestionsPage() {
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:border-indigo-400"
           />
         </div>
+
+        {/* 要確認（needsReview）フィルター */}
+        {needsReviewCount > 0 && (
+          <button
+            onClick={() => setNeedsReviewOnly((v) => !v)}
+            className={`w-full mb-4 py-2.5 rounded-xl text-sm font-bold border transition-colors ${
+              needsReviewOnly
+                ? "bg-amber-500 text-white border-amber-500"
+                : "bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100"
+            }`}
+          >
+            ⚠ 要確認の問題だけ表示（{needsReviewCount} 件）{needsReviewOnly ? " ✓" : ""}
+          </button>
+        )}
 
         {/* タグフィルター */}
         {allTags.length > 0 && (
@@ -135,7 +156,7 @@ export default function QuestionsPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     {/* ID + 難易度 */}
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="text-xs text-gray-400 font-mono">{q.id}</span>
                       {q.difficulty && (
                         <span
@@ -144,6 +165,11 @@ export default function QuestionsPage() {
                           )}`}
                         >
                           {getDifficultyLabel(q.difficulty)}
+                        </span>
+                      )}
+                      {q.needsReview && (
+                        <span className="text-xs px-1.5 py-0.5 rounded-full font-medium bg-amber-100 text-amber-700">
+                          ⚠ 要確認
                         </span>
                       )}
                     </div>
@@ -167,6 +193,11 @@ export default function QuestionsPage() {
                           </span>
                         ))}
                       </div>
+                    )}
+                    {q.needsReview && q.notes && (
+                      <p className="mt-2 text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2 py-1 leading-relaxed">
+                        要確認: {q.notes}
+                      </p>
                     )}
                   </div>
                   {/* 解くボタン */}

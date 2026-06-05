@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 取り込み用の巨大画像・一時データ（コミットしない）
+converted/
+inputdata/
+screenshot/
+*.png
+*.jpg
+*.jpeg

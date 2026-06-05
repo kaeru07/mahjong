@@ -4,36 +4,91 @@
     "title": "序盤の手組み",
     "question": "配牌直後。何を切る？",
     "choices": [
-      { "key": "A", "label": "9萬" },
-      { "key": "B", "label": "1筒" },
-      { "key": "C", "label": "発" },
-      { "key": "D", "label": "中" }
+      {
+        "key": "A",
+        "label": "9萬"
+      },
+      {
+        "key": "B",
+        "label": "1筒"
+      },
+      {
+        "key": "C",
+        "label": "発"
+      },
+      {
+        "key": "D",
+        "label": "中"
+      }
     ],
     "answer": "C",
     "explanation": "字牌は孤立牌が多い序盤に処理するのが基本。発は役牌ですが手が遠く孤立しているため早めに切るのが得策。中より発を先切りして後の選択肢を広げましょう。",
     "difficulty": "easy",
-    "tags": ["序盤", "手組み", "字牌"],
+    "tags": [
+      "序盤",
+      "手組み",
+      "字牌"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
-      "dora": ["5萬"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 1,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "5萬"
+      ],
       "turn": 1,
       "scores": {
-        "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
+        "self": 25000,
+        "shimocha": 25000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "東",
-          "hand": ["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"],
+          "hand": [
+            "1萬",
+            "3萬",
+            "5萬",
+            "7萬",
+            "9萬",
+            "2筒",
+            "4筒",
+            "6筒",
+            "1索",
+            "3索",
+            "白",
+            "発",
+            "中"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
         },
-        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
-        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
-        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
+        "shimocha": {
+          "seat": "南",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "toimen": {
+          "seat": "西",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": {
+          "seat": "北",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
       }
     }
   },
@@ -42,37 +97,100 @@
     "title": "テンパイ時の押し引き",
     "question": "自分はテンパイ（タンヤオ）。下家がリーチ。何をする？",
     "choices": [
-      { "key": "A", "label": "押す（7索を切る）" },
-      { "key": "B", "label": "オリる（安全牌を切る）" },
-      { "key": "C", "label": "現物から切る" },
-      { "key": "D", "label": "追っかけリーチをかける" }
+      {
+        "key": "A",
+        "label": "押す（7索を切る）"
+      },
+      {
+        "key": "B",
+        "label": "オリる（安全牌を切る）"
+      },
+      {
+        "key": "C",
+        "label": "現物から切る"
+      },
+      {
+        "key": "D",
+        "label": "追っかけリーチをかける"
+      }
     ],
     "answer": "D",
     "explanation": "タンヤオのリャンメン待ち。相手のリーチに追っかけリーチが最も期待値が高い。ダマで抑える理由がなく、裏ドラ・ツモ加点も期待できます。",
     "difficulty": "medium",
-    "tags": ["押し引き", "リーチ判断", "テンパイ"],
+    "tags": [
+      "押し引き",
+      "リーチ判断",
+      "テンパイ"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 1 },
-      "dora": ["3索"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 2,
+        "honba": 0,
+        "kyotaku": 1
+      },
+      "dora": [
+        "3索"
+      ],
       "turn": 7,
       "scores": {
-        "self": 28000, "shimocha": 22000, "toimen": 25000, "kamicha": 25000
+        "self": 28000,
+        "shimocha": 22000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "北",
-          "hand": ["3萬","4萬","5萬","6萬","7萬","3筒","4筒","5筒","4索","5索","6索","6索"],
+          "hand": [
+            "3萬",
+            "4萬",
+            "5萬",
+            "6萬",
+            "7萬",
+            "3筒",
+            "4筒",
+            "5筒",
+            "4索",
+            "5索",
+            "6索",
+            "6索"
+          ],
           "tsumo": "1萬",
           "discards": [
-            { "tile": "東", "type": "tedashi",   "turn": 1 },
-            { "tile": "白", "type": "tedashi",   "turn": 2 },
-            { "tile": "9萬","type": "tsumogiri", "turn": 3 },
-            { "tile": "1筒","type": "tedashi",   "turn": 4 },
-            { "tile": "9筒","type": "tsumogiri", "turn": 5 },
-            { "tile": "発", "type": "tedashi",   "turn": 6 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9萬",
+              "type": "tsumogiri",
+              "turn": 3
+            },
+            {
+              "tile": "1筒",
+              "type": "tedashi",
+              "turn": 4
+            },
+            {
+              "tile": "9筒",
+              "type": "tsumogiri",
+              "turn": 5
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 6
+            }
           ],
           "melds": [],
           "riichi": false
@@ -80,10 +198,27 @@
         "shimocha": {
           "seat": "東",
           "discards": [
-            { "tile": "9索","type": "tedashi",   "turn": 1 },
-            { "tile": "1萬","type": "tedashi",   "turn": 2 },
-            { "tile": "北", "type": "tedashi",   "turn": 3 },
-            { "tile": "8萬","type": "tsumogiri", "turn": 4, "riichiDeclaration": true }
+            {
+              "tile": "9索",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "1萬",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "8萬",
+              "type": "tsumogiri",
+              "turn": 4,
+              "riichiDeclaration": true
+            }
           ],
           "melds": [],
           "riichi": true
@@ -91,9 +226,21 @@
         "toimen": {
           "seat": "南",
           "discards": [
-            { "tile": "中", "type": "tedashi", "turn": 1 },
-            { "tile": "白", "type": "tedashi", "turn": 2 },
-            { "tile": "発", "type": "tedashi", "turn": 3 }
+            {
+              "tile": "中",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 3
+            }
           ],
           "melds": [],
           "riichi": false
@@ -101,10 +248,26 @@
         "kamicha": {
           "seat": "西",
           "discards": [
-            { "tile": "北", "type": "tedashi",   "turn": 1 },
-            { "tile": "東", "type": "tedashi",   "turn": 2 },
-            { "tile": "9萬","type": "tsumogiri", "turn": 3 },
-            { "tile": "1索","type": "tedashi",   "turn": 4 }
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9萬",
+              "type": "tsumogiri",
+              "turn": 3
+            },
+            {
+              "tile": "1索",
+              "type": "tedashi",
+              "turn": 4
+            }
           ],
           "melds": [],
           "riichi": false
@@ -117,35 +280,94 @@
     "title": "鳴き判断（チー）",
     "question": "オーラスラス目。下家が4萬を切った。チーしてテンパイを取る？",
     "choices": [
-      { "key": "A", "label": "チーしてテンパイ（8萬切り）" },
-      { "key": "B", "label": "チーしない（手を進める）" },
-      { "key": "C", "label": "チーしてドラ切り" },
-      { "key": "D", "label": "様子を見てオリ気味" }
+      {
+        "key": "A",
+        "label": "チーしてテンパイ（8萬切り）"
+      },
+      {
+        "key": "B",
+        "label": "チーしない（手を進める）"
+      },
+      {
+        "key": "C",
+        "label": "チーしてドラ切り"
+      },
+      {
+        "key": "D",
+        "label": "様子を見てオリ気味"
+      }
     ],
     "answer": "A",
     "explanation": "オーラスラス目でテンパイ料だけでもラス脱出が見込める。チーしてテンパイを取り最速和了・テンパイ料を狙うのが合理的です。",
     "difficulty": "medium",
-    "tags": ["鳴き判断", "オーラス", "チー"],
+    "tags": [
+      "鳴き判断",
+      "オーラス",
+      "チー"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "南", "kyoku": 4, "honba": 1, "kyotaku": 0 },
-      "dora": ["6筒"],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4,
+        "honba": 1,
+        "kyotaku": 0
+      },
+      "dora": [
+        "6筒"
+      ],
       "turn": 7,
       "scores": {
-        "self": 18000, "shimocha": 32000, "toimen": 27000, "kamicha": 23000
+        "self": 18000,
+        "shimocha": 32000,
+        "toimen": 27000,
+        "kamicha": 23000
       },
       "players": {
         "self": {
           "seat": "西",
-          "hand": ["3萬","5萬","6萬","7萬","2筒","3筒","4筒","5筒","7筒","8筒","3索","5索"],
+          "hand": [
+            "3萬",
+            "5萬",
+            "6萬",
+            "7萬",
+            "2筒",
+            "3筒",
+            "4筒",
+            "5筒",
+            "7筒",
+            "8筒",
+            "3索",
+            "5索"
+          ],
           "discards": [
-            { "tile": "東", "type": "tedashi",   "turn": 1 },
-            { "tile": "南", "type": "tedashi",   "turn": 2 },
-            { "tile": "白", "type": "tedashi",   "turn": 3 },
-            { "tile": "9索","type": "tedashi",   "turn": 4 },
-            { "tile": "1萬","type": "tsumogiri", "turn": 5 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "南",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "9索",
+              "type": "tedashi",
+              "turn": 4
+            },
+            {
+              "tile": "1萬",
+              "type": "tsumogiri",
+              "turn": 5
+            }
           ],
           "melds": [],
           "riichi": false
@@ -153,12 +375,36 @@
         "shimocha": {
           "seat": "北",
           "discards": [
-            { "tile": "中", "type": "tedashi",   "turn": 1 },
-            { "tile": "発", "type": "tedashi",   "turn": 2 },
-            { "tile": "北", "type": "tedashi",   "turn": 3 },
-            { "tile": "9萬","type": "tsumogiri", "turn": 4 },
-            { "tile": "1筒","type": "tedashi",   "turn": 5 },
-            { "tile": "4萬","type": "tedashi",   "turn": 6 }
+            {
+              "tile": "中",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "9萬",
+              "type": "tsumogiri",
+              "turn": 4
+            },
+            {
+              "tile": "1筒",
+              "type": "tedashi",
+              "turn": 5
+            },
+            {
+              "tile": "4萬",
+              "type": "tedashi",
+              "turn": 6
+            }
           ],
           "melds": [],
           "riichi": false
@@ -166,22 +412,59 @@
         "toimen": {
           "seat": "東",
           "discards": [
-            { "tile": "西", "type": "tedashi", "turn": 1 },
-            { "tile": "北", "type": "tedashi", "turn": 2 },
-            { "tile": "発", "type": "tedashi", "turn": 3 }
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 3
+            }
           ],
           "melds": [
-            { "type": "pon", "tiles": ["中","中","中"], "called": "中", "from": "kamicha" }
+            {
+              "type": "pon",
+              "tiles": [
+                "中",
+                "中",
+                "中"
+              ],
+              "called": "中",
+              "from": "kamicha"
+            }
           ],
           "riichi": false
         },
         "kamicha": {
           "seat": "南",
           "discards": [
-            { "tile": "東", "type": "tedashi",   "turn": 1 },
-            { "tile": "白", "type": "tedashi",   "turn": 2 },
-            { "tile": "9筒","type": "tsumogiri", "turn": 3 },
-            { "tile": "1索","type": "tedashi",   "turn": 4 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9筒",
+              "type": "tsumogiri",
+              "turn": 3
+            },
+            {
+              "tile": "1索",
+              "type": "tedashi",
+              "turn": 4
+            }
           ],
           "melds": [],
           "riichi": false
@@ -194,29 +477,68 @@
     "title": "安全牌の選択",
     "question": "対面がリーチ。何を切る？",
     "choices": [
-      { "key": "A", "label": "9萬（現物）" },
-      { "key": "B", "label": "7索（筋）" },
-      { "key": "C", "label": "8筒（無筋）" },
-      { "key": "D", "label": "北（字牌）" }
+      {
+        "key": "A",
+        "label": "9萬（現物）"
+      },
+      {
+        "key": "B",
+        "label": "7索（筋）"
+      },
+      {
+        "key": "C",
+        "label": "8筒（無筋）"
+      },
+      {
+        "key": "D",
+        "label": "北（字牌）"
+      }
     ],
     "answer": "A",
     "explanation": "現物は100%安全。筋は約79%安全、字牌は場況次第。リーチに対してはまず現物から切るのが基本原則です。",
     "difficulty": "easy",
-    "tags": ["安全牌", "守備", "リーチ対策"],
+    "tags": [
+      "安全牌",
+      "守備",
+      "リーチ対策"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 3, "honba": 0, "kyotaku": 0 },
-      "dora": ["2筒"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 3,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "2筒"
+      ],
       "turn": 5,
       "scores": {
-        "self": 25000, "shimocha": 28000, "toimen": 22000, "kamicha": 25000
+        "self": 25000,
+        "shimocha": 28000,
+        "toimen": 22000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "西",
-          "hand": ["1萬","3萬","5萬","7萬","9萬","3筒","5筒","8筒","2索","4索","7索","北"],
+          "hand": [
+            "1萬",
+            "3萬",
+            "5萬",
+            "7萬",
+            "9萬",
+            "3筒",
+            "5筒",
+            "8筒",
+            "2索",
+            "4索",
+            "7索",
+            "北"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
@@ -225,17 +547,43 @@
           "seat": "北",
           "discards": [],
           "melds": [
-            { "type": "pon", "tiles": ["発","発","発"], "called": "発", "from": "toimen" }
+            {
+              "type": "pon",
+              "tiles": [
+                "発",
+                "発",
+                "発"
+              ],
+              "called": "発",
+              "from": "toimen"
+            }
           ],
           "riichi": false
         },
         "toimen": {
           "seat": "東",
           "discards": [
-            { "tile": "北", "type": "tedashi", "turn": 1 },
-            { "tile": "西", "type": "tedashi", "turn": 2 },
-            { "tile": "9萬","type": "tedashi", "turn": 3 },
-            { "tile": "1索","type": "tedashi", "turn": 4, "riichiDeclaration": true }
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9萬",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "1索",
+              "type": "tedashi",
+              "turn": 4,
+              "riichiDeclaration": true
+            }
           ],
           "melds": [],
           "riichi": true
@@ -243,9 +591,21 @@
         "kamicha": {
           "seat": "南",
           "discards": [
-            { "tile": "中", "type": "tedashi",   "turn": 1 },
-            { "tile": "白", "type": "tedashi",   "turn": 2 },
-            { "tile": "9筒","type": "tsumogiri", "turn": 3 }
+            {
+              "tile": "中",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9筒",
+              "type": "tsumogiri",
+              "turn": 3
+            }
           ],
           "melds": [],
           "riichi": false
@@ -258,36 +618,90 @@
     "title": "待ち選択",
     "question": "リャンメンかカンチャンか。どちらで待つ？",
     "choices": [
-      { "key": "A", "label": "2・5索待ち（リャンメン）" },
-      { "key": "B", "label": "3索待ち（カンチャン）" },
-      { "key": "C", "label": "どちらも同じ" },
-      { "key": "D", "label": "ダマにして両方保持" }
+      {
+        "key": "A",
+        "label": "2・5索待ち（リャンメン）"
+      },
+      {
+        "key": "B",
+        "label": "3索待ち（カンチャン）"
+      },
+      {
+        "key": "C",
+        "label": "どちらも同じ"
+      },
+      {
+        "key": "D",
+        "label": "ダマにして両方保持"
+      }
     ],
     "answer": "A",
     "explanation": "リャンメン待ちは2種8枚、カンチャン待ちは1種4枚。他条件が同じならリャンメンが倍有利。ドラ周辺でなければリャンメンを選びましょう。",
     "difficulty": "easy",
-    "tags": ["待ち選択", "多面待ち"],
+    "tags": [
+      "待ち選択",
+      "多面待ち"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
-      "dora": ["7萬"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 1,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "7萬"
+      ],
       "turn": 1,
       "scores": {
-        "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
+        "self": 25000,
+        "shimocha": 25000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "東",
-          "hand": ["2萬","3萬","4萬","5萬","6萬","2筒","3筒","4筒","1索","2索","4索","5索","6索"],
+          "hand": [
+            "2萬",
+            "3萬",
+            "4萬",
+            "5萬",
+            "6萬",
+            "2筒",
+            "3筒",
+            "4筒",
+            "1索",
+            "2索",
+            "4索",
+            "5索",
+            "6索"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
         },
-        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
-        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
-        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
+        "shimocha": {
+          "seat": "南",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "toimen": {
+          "seat": "西",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": {
+          "seat": "北",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
       }
     }
   },
@@ -296,45 +710,107 @@
     "title": "役牌の重ね方",
     "question": "中が2枚。どの牌から切り始める？",
     "choices": [
-      { "key": "A", "label": "9索（孤立牌）" },
-      { "key": "B", "label": "中（役牌を一枚切り）" },
-      { "key": "C", "label": "1萬（孤立牌）" },
-      { "key": "D", "label": "北（字牌）" }
+      {
+        "key": "A",
+        "label": "9索（孤立牌）"
+      },
+      {
+        "key": "B",
+        "label": "中（役牌を一枚切り）"
+      },
+      {
+        "key": "C",
+        "label": "1萬（孤立牌）"
+      },
+      {
+        "key": "D",
+        "label": "北（字牌）"
+      }
     ],
     "answer": "A",
     "explanation": "中の対子は役牌トイツとして非常に価値が高い。孤立した端数牌（9索・1萬）から処理するのが基本。中は重ねてポンの選択肢を残しましょう。",
     "difficulty": "easy",
-    "tags": ["役牌", "手組み", "序盤"],
+    "tags": [
+      "役牌",
+      "手組み",
+      "序盤"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 0 },
-      "dora": ["4筒"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 2,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "4筒"
+      ],
       "turn": 1,
       "scores": {
-        "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
+        "self": 25000,
+        "shimocha": 25000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "北",
-          "hand": ["1萬","2萬","4萬","5萬","6萬","3筒","4筒","5筒","7索","8索","9索","中","中"],
+          "hand": [
+            "1萬",
+            "2萬",
+            "4萬",
+            "5萬",
+            "6萬",
+            "3筒",
+            "4筒",
+            "5筒",
+            "7索",
+            "8索",
+            "9索",
+            "中",
+            "中"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
         },
-        "shimocha": { "seat": "東", "discards": [], "melds": [], "riichi": false },
+        "shimocha": {
+          "seat": "東",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
         "toimen": {
           "seat": "南",
           "discards": [
-            { "tile": "東", "type": "tedashi", "turn": 1 },
-            { "tile": "北", "type": "tedashi", "turn": 2 },
-            { "tile": "西", "type": "tedashi", "turn": 3 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 3
+            }
           ],
           "melds": [],
           "riichi": false
         },
-        "kamicha": { "seat": "西", "discards": [], "melds": [], "riichi": false }
+        "kamicha": {
+          "seat": "西",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
       }
     }
   },
@@ -343,47 +819,112 @@
     "title": "副露後の打牌",
     "question": "ポン後（ツモ6索）。何を切る？",
     "choices": [
-      { "key": "A", "label": "9萬（孤立牌）" },
-      { "key": "B", "label": "1索（孤立牌）" },
-      { "key": "C", "label": "6索（連続形崩し）" },
-      { "key": "D", "label": "東（客風）" }
+      {
+        "key": "A",
+        "label": "9萬（孤立牌）"
+      },
+      {
+        "key": "B",
+        "label": "1索（孤立牌）"
+      },
+      {
+        "key": "C",
+        "label": "6索（連続形崩し）"
+      },
+      {
+        "key": "D",
+        "label": "東（客風）"
+      }
     ],
     "answer": "D",
     "explanation": "東（客風牌）は雀頭候補にもなれず最も不要。孤立字牌は鳴いてテンパイが近い場面では最優先処理。6索の連続形は残してテンパイを目指しましょう。",
     "difficulty": "medium",
-    "tags": ["鳴き判断", "副露", "打点計算"],
+    "tags": [
+      "鳴き判断",
+      "副露",
+      "打点計算"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 1, "honba": 0, "kyotaku": 0 },
-      "dora": ["中"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 1,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "中"
+      ],
       "turn": 4,
       "scores": {
-        "self": 25000, "shimocha": 25000, "toimen": 25000, "kamicha": 25000
+        "self": 25000,
+        "shimocha": 25000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "東",
-          "hand": ["3萬","4萬","5萬","9萬","5筒","6筒","4索","5索","6索","1索","東"],
+          "hand": [
+            "3萬",
+            "4萬",
+            "5萬",
+            "9萬",
+            "5筒",
+            "6筒",
+            "4索",
+            "5索",
+            "6索",
+            "1索",
+            "東"
+          ],
           "tsumo": "6索",
           "discards": [],
           "melds": [
-            { "type": "pon", "tiles": ["中","中","中"], "called": "中", "from": "shimocha" }
+            {
+              "type": "pon",
+              "tiles": [
+                "中",
+                "中",
+                "中"
+              ],
+              "called": "中",
+              "from": "shimocha"
+            }
           ],
           "riichi": false
         },
         "shimocha": {
           "seat": "南",
           "discards": [
-            { "tile": "北", "type": "tedashi", "turn": 1 },
-            { "tile": "西", "type": "tedashi", "turn": 2 }
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 2
+            }
           ],
           "melds": [],
           "riichi": false
         },
-        "toimen":  { "seat": "西", "discards": [], "melds": [], "riichi": false },
-        "kamicha": { "seat": "北", "discards": [], "melds": [], "riichi": false }
+        "toimen": {
+          "seat": "西",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": {
+          "seat": "北",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
       }
     }
   },
@@ -392,36 +933,91 @@
     "title": "リーチ判断（打点考慮）",
     "question": "テンパイ（ピンフ）。リーチかダマか？",
     "choices": [
-      { "key": "A", "label": "即リーチ" },
-      { "key": "B", "label": "ダマで3900確保" },
-      { "key": "C", "label": "手変わりを待つ" },
-      { "key": "D", "label": "鳴かせて速攻" }
+      {
+        "key": "A",
+        "label": "即リーチ"
+      },
+      {
+        "key": "B",
+        "label": "ダマで3900確保"
+      },
+      {
+        "key": "C",
+        "label": "手変わりを待つ"
+      },
+      {
+        "key": "D",
+        "label": "鳴かせて速攻"
+      }
     ],
     "answer": "A",
     "explanation": "ピンフのリャンメン待ち。ダマでも3900あるがリーチで裏ドラ期待・相手への圧力・ツモ加点が見込める。手変わりも少なく即リーチ優位です。",
     "difficulty": "hard",
-    "tags": ["リーチ判断", "打点計算", "テンパイ"],
+    "tags": [
+      "リーチ判断",
+      "打点計算",
+      "テンパイ"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "南", "kyoku": 2, "honba": 0, "kyotaku": 0 },
-      "dora": ["5索"],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 2,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "5索"
+      ],
       "turn": 9,
       "scores": {
-        "self": 24000, "shimocha": 26000, "toimen": 28000, "kamicha": 22000
+        "self": 24000,
+        "shimocha": 26000,
+        "toimen": 28000,
+        "kamicha": 22000
       },
       "players": {
         "self": {
           "seat": "東",
-          "hand": ["2萬","3萬","4萬","3筒","4筒","5筒","3索","4索","5索","6索","7索","8索","8索"],
+          "hand": [
+            "2萬",
+            "3萬",
+            "4萬",
+            "3筒",
+            "4筒",
+            "5筒",
+            "3索",
+            "4索",
+            "5索",
+            "6索",
+            "7索",
+            "8索",
+            "8索"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
         },
-        "shimocha": { "seat": "南", "discards": [], "melds": [], "riichi": false },
-        "toimen":   { "seat": "西", "discards": [], "melds": [], "riichi": false },
-        "kamicha":  { "seat": "北", "discards": [], "melds": [], "riichi": false }
+        "shimocha": {
+          "seat": "南",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "toimen": {
+          "seat": "西",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
+        "kamicha": {
+          "seat": "北",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
       }
     }
   },
@@ -430,34 +1026,89 @@
     "title": "オーラス点差の押し引き",
     "question": "オーラス3位。下家（トップ）がリーチ。無筋を押す？",
     "choices": [
-      { "key": "A", "label": "押す（3位脱出を狙う）" },
-      { "key": "B", "label": "完全撤退（安牌のみ）" },
-      { "key": "C", "label": "現物のみ切り続ける" },
-      { "key": "D", "label": "鳴いて速攻" }
+      {
+        "key": "A",
+        "label": "押す（3位脱出を狙う）"
+      },
+      {
+        "key": "B",
+        "label": "完全撤退（安牌のみ）"
+      },
+      {
+        "key": "C",
+        "label": "現物のみ切り続ける"
+      },
+      {
+        "key": "D",
+        "label": "鳴いて速攻"
+      }
     ],
     "answer": "B",
     "explanation": "オーラスで3位→2位の順位点差は小さい。トップへの放銃は大きなマイナス。打点が低い手なら完全撤退が合理的です。",
     "difficulty": "hard",
-    "tags": ["オーラス", "押し引き", "守備"],
+    "tags": [
+      "オーラス",
+      "押し引き",
+      "守備"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "南", "kyoku": 4, "honba": 2, "kyotaku": 1 },
-      "dora": ["8萬"],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4,
+        "honba": 2,
+        "kyotaku": 1
+      },
+      "dora": [
+        "8萬"
+      ],
       "turn": 6,
       "scores": {
-        "self": 20000, "shimocha": 38000, "toimen": 22000, "kamicha": 20000
+        "self": 20000,
+        "shimocha": 38000,
+        "toimen": 22000,
+        "kamicha": 20000
       },
       "players": {
         "self": {
           "seat": "西",
-          "hand": ["1萬","2萬","3萬","4萬","5萬","3筒","4筒","6筒","7筒","8筒","2索","4索"],
+          "hand": [
+            "1萬",
+            "2萬",
+            "3萬",
+            "4萬",
+            "5萬",
+            "3筒",
+            "4筒",
+            "6筒",
+            "7筒",
+            "8筒",
+            "2索",
+            "4索"
+          ],
           "discards": [
-            { "tile": "東", "type": "tedashi", "turn": 1 },
-            { "tile": "西", "type": "tedashi", "turn": 2 },
-            { "tile": "北", "type": "tedashi", "turn": 3 },
-            { "tile": "白", "type": "tedashi", "turn": 4 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 4
+            }
           ],
           "melds": [],
           "riichi": false
@@ -465,11 +1116,32 @@
         "shimocha": {
           "seat": "北",
           "discards": [
-            { "tile": "中", "type": "tedashi",   "turn": 1 },
-            { "tile": "発", "type": "tedashi",   "turn": 2 },
-            { "tile": "9索","type": "tedashi",   "turn": 3 },
-            { "tile": "1筒","type": "tsumogiri", "turn": 4 },
-            { "tile": "9筒","type": "tsumogiri", "turn": 5, "riichiDeclaration": true }
+            {
+              "tile": "中",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "9索",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "1筒",
+              "type": "tsumogiri",
+              "turn": 4
+            },
+            {
+              "tile": "9筒",
+              "type": "tsumogiri",
+              "turn": 5,
+              "riichiDeclaration": true
+            }
           ],
           "melds": [],
           "riichi": true
@@ -477,10 +1149,26 @@
         "toimen": {
           "seat": "東",
           "discards": [
-            { "tile": "東", "type": "tedashi",   "turn": 1 },
-            { "tile": "北", "type": "tedashi",   "turn": 2 },
-            { "tile": "西", "type": "tedashi",   "turn": 3 },
-            { "tile": "9萬","type": "tsumogiri", "turn": 4 }
+            {
+              "tile": "東",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "西",
+              "type": "tedashi",
+              "turn": 3
+            },
+            {
+              "tile": "9萬",
+              "type": "tsumogiri",
+              "turn": 4
+            }
           ],
           "melds": [],
           "riichi": false
@@ -488,12 +1176,33 @@
         "kamicha": {
           "seat": "南",
           "discards": [
-            { "tile": "南", "type": "tedashi", "turn": 1 },
-            { "tile": "北", "type": "tedashi", "turn": 2 },
-            { "tile": "発", "type": "tedashi", "turn": 3 }
+            {
+              "tile": "南",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "北",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "発",
+              "type": "tedashi",
+              "turn": 3
+            }
           ],
           "melds": [
-            { "type": "chi", "tiles": ["5索","6索","7索"], "called": "7索", "from": "toimen" }
+            {
+              "type": "chi",
+              "tiles": [
+                "5索",
+                "6索",
+                "7索"
+              ],
+              "called": "7索",
+              "from": "toimen"
+            }
           ],
           "riichi": false
         }
@@ -505,45 +1214,1083 @@
     "title": "6ブロック整理",
     "question": "6ブロックある。何を切って5ブロックに絞る？",
     "choices": [
-      { "key": "A", "label": "1萬（孤立）" },
-      { "key": "B", "label": "9索（孤立）" },
-      { "key": "C", "label": "白（字牌）" },
-      { "key": "D", "label": "8索（対子崩し）" }
+      {
+        "key": "A",
+        "label": "1萬（孤立）"
+      },
+      {
+        "key": "B",
+        "label": "9索（孤立）"
+      },
+      {
+        "key": "C",
+        "label": "白（字牌）"
+      },
+      {
+        "key": "D",
+        "label": "8索（対子崩し）"
+      }
     ],
     "answer": "C",
     "explanation": "白は場に3枚見えで残り1枚。雀頭・刻子になりにくく最も不要。対面が3枚捨てているため白は安全牌にもなる好都合な切り出しです。",
     "difficulty": "medium",
-    "tags": ["手組み", "序盤", "待ち選択"],
+    "tags": [
+      "手組み",
+      "序盤",
+      "待ち選択"
+    ],
     "book": "",
     "chapter": "",
     "sourcePage": 0,
     "situation": {
-      "round": { "bakaze": "東", "kyoku": 3, "honba": 0, "kyotaku": 0 },
-      "dora": ["3萬"],
+      "round": {
+        "bakaze": "東",
+        "kyoku": 3,
+        "honba": 0,
+        "kyotaku": 0
+      },
+      "dora": [
+        "3萬"
+      ],
       "turn": 3,
       "scores": {
-        "self": 27000, "shimocha": 23000, "toimen": 25000, "kamicha": 25000
+        "self": 27000,
+        "shimocha": 23000,
+        "toimen": 25000,
+        "kamicha": 25000
       },
       "players": {
         "self": {
           "seat": "西",
-          "hand": ["1萬","2萬","3萬","4萬","5萬","4筒","5筒","6筒","7索","8索","8索","9索","白"],
+          "hand": [
+            "1萬",
+            "2萬",
+            "3萬",
+            "4萬",
+            "5萬",
+            "4筒",
+            "5筒",
+            "6筒",
+            "7索",
+            "8索",
+            "8索",
+            "9索",
+            "白"
+          ],
           "discards": [],
           "melds": [],
           "riichi": false
         },
-        "shimocha": { "seat": "北", "discards": [], "melds": [], "riichi": false },
+        "shimocha": {
+          "seat": "北",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        },
         "toimen": {
           "seat": "東",
           "discards": [
-            { "tile": "白", "type": "tedashi", "turn": 1 },
-            { "tile": "白", "type": "tedashi", "turn": 2 },
-            { "tile": "白", "type": "tedashi", "turn": 3 }
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 1
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 2
+            },
+            {
+              "tile": "白",
+              "type": "tedashi",
+              "turn": 3
+            }
           ],
           "melds": [],
           "riichi": false
         },
-        "kamicha": { "seat": "南", "discards": [], "melds": [], "riichi": false }
+        "kamicha": {
+          "seat": "南",
+          "discards": [],
+          "melds": [],
+          "riichi": false
+        }
+      }
+    }
+  },
+  {
+    "id": "q011",
+    "title": "鳴き読みドリル⑭ 3副露の対面に何を切るか",
+    "question": "対面はいま筒子をポンして筒子を切った場面です。対面の手をどのように読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "西を切る"
+      },
+      {
+        "key": "B",
+        "label": "危険なピンズ（筒子）を切る"
+      },
+      {
+        "key": "C",
+        "label": "中（役牌）を切る"
+      },
+      {
+        "key": "D",
+        "label": "七萬を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面はホンイツ模様でテンパイ濃厚。字牌やピンズは危険だが、ドラもピンズではなく、対面の3副露に役牌は含まれず、赤5筒も自分が持っているため、オタ風の西で振り込んでも高くならない。よって西を切る。ホンイツでも『この牌で振り込んでもホンイツのみになりそうだ』と読める場合は気にしすぎなくてよい。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "ホンイツ",
+      "副露読み",
+      "字牌"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第1章 読みを学ぶための基礎",
+    "sourcePage": 58,
+    "situation": {
+      "dora": [
+        "九萬"
+      ]
+    },
+    "needsReview": true,
+    "notes": "ドラ=九萬・正解=西・解説は解答ページ(p59)準拠で確実。南家(自分)の手牌の正確な構成は画像から確定しきれず未転記。本書は選択式ではないため、不正解の選択肢は解答ページが言及する牌から編集的に構成した。",
+    "sourceImages": [
+      "IMG_8832.jpg",
+      "IMG_8833.jpg"
+    ]
+  },
+  {
+    "id": "q012",
+    "title": "鳴き読みドリル㉖ 特に危険な牌はどれか",
+    "question": "対面はいま八萬をチーして三萬を切った場面です。これまでの問題のロジックから、今回特に危険な牌はどれでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "三萬"
+      },
+      {
+        "key": "B",
+        "label": "六萬"
+      },
+      {
+        "key": "C",
+        "label": "西"
+      },
+      {
+        "key": "D",
+        "label": "中"
+      }
+    ],
+    "answer": "A",
+    "explanation": "三萬→他の牌→三萬というトイツ落としになっており、これをまたぐリャンメン待ちはあまりない（相手が三四萬や二三萬で持っていると三萬がアンコになってしまうため）。近くのシャンポン待ちのケースが多く、したがって三萬がかなり危険な牌。打牌はタンヤオを諦めて筒子を切るのがよい。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "危険牌読み",
+      "トイツ落とし"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 92,
+    "situation": {
+      "dora": [
+        "七萬"
+      ]
+    },
+    "needsReview": true,
+    "notes": "ドラ=七萬・最も危険な牌=三萬・解説は解答ページ(p93)準拠で確実。切るべき筒子の正確な数牌、および南家の手牌構成は画像から確定できず未転記。不正解選択肢は編集的に構成。",
+    "sourceImages": [
+      "IMG_8834.jpg",
+      "IMG_8835.jpg"
+    ]
+  },
+  {
+    "id": "q013",
+    "title": "鳴き読みドリル㉗ テンパイへ筒子のどちらを切るか",
+    "question": "対面は萬子をチーして筒子を切った場面です。自分の手は2枚ある筒子のどちらかを切ればテンパイできますが、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "放銃率が低いと読める方の筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "もう一方の筒子を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面の捨牌から危険度の高い筒子があるが、自分の手はそれに懸けるに値するので恐れすぎない。その上で2枚のうちどちらがより危険かを読むと、捨て順から『単騎やシャンポンはよくあるがリャンメンはあまりない』と読める方があり、この手牌からは放銃率が少しだけ下がる方の筒子を切るのがよい。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "放銃率"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 94,
+    "situation": {
+      "dora": [
+        "八萬"
+      ]
+    },
+    "needsReview": true,
+    "notes": "ドラ=八萬。設問・結論（2枚の筒子のうち放銃率が低い方を切る）は読めたが、その2枚の筒子の正確な数牌が画像から確定できず、tile単位の選択肢にできなかったため行動ベースの選択肢にした。要・高解像度での牌姿確認。",
+    "sourceImages": [
+      "IMG_8836.jpg",
+      "IMG_8837.jpg"
+    ]
+  },
+  {
+    "id": "q014",
+    "title": "鳴き読みドリル㉘ 押し引き（1シャンテン）",
+    "question": "押し引きの問題です。対面は萬子をチーして筒子を切った場面。これまでの問題のロジックをふまえ、この手から何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全寄りの索子を切って回る（オリ気味）"
+      },
+      {
+        "key": "B",
+        "label": "無スジを2本押してテンパイを目指す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面の危険筒子は『リーチ相手にど真ん中の無スジを切るくらい』の危険度。自分の手はピンフ赤1の1シャンテンで、無スジ2本を押すことが確定するならオリよう…くらいの手牌。したがって今回は索子を切って回る（押し返さない）のがよい。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "オリ"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 96,
+    "situation": {
+      "dora": [
+        "八萬"
+      ]
+    },
+    "needsReview": true,
+    "notes": "ドラ=八萬。結論（索子を切って回る＝オリ気味）は解答ページ(p97)で確実。切る索子の正確な数牌・南家の手牌構成は未確定のため行動ベースの選択肢にした。",
+    "sourceImages": [
+      "IMG_8838.jpg",
+      "IMG_8839.jpg"
+    ]
+  },
+  {
+    "id": "q015",
+    "title": "鳴き読みドリル㉙ 押し引き（テンパイ・ボーダー）",
+    "question": "押し引きの問題です。捨牌と仕掛けは前回と同じですが、ドラと自分の手牌が変わっています。ここから何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "筒子を切ってリーチする（押す）"
+      },
+      {
+        "key": "B",
+        "label": "オリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "ドラが東になり打点が上がっても危険筒子の放銃率自体は大きく変わらない。自分の手はピンフ赤1のテンパイで、一般的な押し引き基準に照らせば筒子を切ってリーチしてもよい（ただしトップ目やラス回避ルールなど条件次第では切らない選択も十分あり、ボーダーラインの判断）。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "リーチ判断"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 98,
+    "situation": {
+      "dora": [
+        "東"
+      ]
+    },
+    "needsReview": true,
+    "notes": "ドラ=東。結論（ピンフ赤1テンパイで筒子を切ってリーチ＝押し、ただしボーダー）は解答ページ(p99)で確実。切る筒子の正確な数牌・手牌構成は未確定のため行動ベースの選択肢にした。",
+    "sourceImages": [
+      "IMG_8840.jpg",
+      "IMG_8841.jpg"
+    ]
+  },
+  {
+    "id": "q016",
+    "title": "鳴き読みドリル㉚ 危険な形の読みと押し引き",
+    "question": "対面はいま七萬をチーして筒子を切った場面です。この筒子はどのような形が想定でき、この手から何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全寄りの索子を切って回る（オリ気味）"
+      },
+      {
+        "key": "B",
+        "label": "危険な筒子周辺を押す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "チーして切った牌の周辺は危険で、さらに同色の牌が何枚も切られているとその周辺の危険度は上がる。今回の筒子はこれまでと同様に危険で、愚形残り・ドラなし1シャンテンの自分の手から切るのはリスキー。索子を切って回るのがおすすめ。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "危険牌",
+      "オリ"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 100,
+    "needsReview": true,
+    "notes": "ドラ=八萬・結論（回る/オリ気味）は解答ページ(p101)で確実。切る索子の正確な数牌・南家手牌の精密構成は未確定のため行動ベース選択肢。",
+    "sourceImages": [
+      "IMG_8842.jpg",
+      "IMG_8843.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "八萬"
+      ]
+    }
+  },
+  {
+    "id": "q017",
+    "title": "鳴き読みドリル㉛ 危険スジの予測",
+    "question": "対面はいま六萬をチーして打牌した場面です。特に危険なスジを予測して打牌を決めましょう。何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "九萬を切る"
+      },
+      {
+        "key": "B",
+        "label": "危険を避けて他の牌を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "チーして切られた牌はもともと伍六七萬という完成形だったことが公開されており、その周辺（九萬）の危険度は今回特別高いとは言えない。むしろブロック構成上持っていそうなソーズの真ん中などの方が危険。よって素直に九萬を切るのがよい。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "スジ読み",
+      "危険牌"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 102,
+    "needsReview": true,
+    "notes": "ドラ=伍萬・正解＝九萬切りは解答ページ(p103)で確実。南家手牌の精密構成は未確定。",
+    "sourceImages": [
+      "IMG_8844.jpg",
+      "IMG_8845.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "伍萬"
+      ]
+    }
+  },
+  {
+    "id": "q018",
+    "title": "鳴き読みドリル㉜ テンパイへどちらの筒を切るか",
+    "question": "対面はいま六萬をチーして筒子を切った場面です。自分は筒子2枚のどちらかを切ればテンパイですが、どちらを切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "危険度の低いと読める方の筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "もう一方の筒子を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "直前の手出しの周辺が特に危険。手出し牌の周辺にあたる筒子は危険だが、もう一方の筒子はそうでもない。テンパイを取る前提なら、危険度の低い方の筒子を切るのが有利。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "放銃率",
+      "手出し読み"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 104,
+    "needsReview": true,
+    "notes": "ドラ=伍萬。結論（危険度が低い方の筒を切る）は読めたが、2枚の筒の正確な数牌は未確定のため行動ベース選択肢。",
+    "sourceImages": [
+      "IMG_8846.jpg",
+      "IMG_8847.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "伍萬"
+      ]
+    }
+  },
+  {
+    "id": "q019",
+    "title": "鳴き読みドリル㉝ ピンズ1枚切りでテンパイ",
+    "question": "対面はいま萬子をチーして筒子を切ったところです。自分はピンズを1枚切ればテンパイできる手牌ですが、何を切ってテンパイをとるのが良いでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全と読める方の筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "もう一方の筒子を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "1巡前に切られた八萬に注目すると、六七八萬から八萬を先切りしており、それをまたぐリャンメン待ちはほぼあり得ない。カンチャン筒待ちの方が自然なので、スジの索子よりも安全と読める方の筒子を切るのがよい。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "テンパイ読み",
+      "スジ読み"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 106,
+    "needsReview": true,
+    "notes": "ドラ=東。結論は読めたが筒の正確な数牌は未確定のため行動ベース選択肢。sourcePageは概算。",
+    "sourceImages": [
+      "IMG_8848.jpg",
+      "IMG_8849.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "東"
+      ]
+    }
+  },
+  {
+    "id": "q020",
+    "title": "鳴き読みドリル㉞ チャンタ読みでの受け",
+    "question": "対面はいま八萬をチーして筒子を切ったところです。自分はピンズを1枚切ればテンパイできる手牌ですが、どの待ちに受けるのが良いでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "筒子を切ってリーチする"
+      },
+      {
+        "key": "B",
+        "label": "別の待ちに受ける"
+      }
+    ],
+    "answer": "A",
+    "explanation": "役牌がすべて見えており、対面のあり得る役はチャンタ系のみ。よって特定の筒待ちはあり得ず、放銃リスクを抑えつつ筒子を切ってリーチするのが良い。待ちの良さと危険度のバランスを取る。",
+    "difficulty": "medium",
+    "tags": [
+      "鳴き読み",
+      "チャンタ",
+      "テンパイ読み",
+      "リーチ判断"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第2章 応用的な読み",
+    "sourcePage": 108,
+    "needsReview": true,
+    "notes": "ドラ=七萬。結論（筒切りリーチ）は解答ページで確実。切る筒の正確な数牌は未確定。sourcePageは概算。",
+    "sourceImages": [
+      "IMG_8850.jpg",
+      "IMG_8851.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "七萬"
+      ]
+    }
+  },
+  {
+    "id": "q021",
+    "title": "鳴き読みドリル㊸ チャンタ三色の読み",
+    "question": "対面の仕掛けを読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "萬子を切る（押す）"
+      },
+      {
+        "key": "B",
+        "label": "危険を避けてオリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面の仕掛けはチャンタ系。危険に見える牌を切らない…と考えがちだが、仮に放銃してもチャンタ・三色の2000点や三色ドラ2の3900点どまり。高打点になる形を考え、それに該当する牌だけ止めればよく、ここは萬子を切るのが正解。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "チャンタ",
+      "三色読み",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 152,
+    "needsReview": true,
+    "notes": "第3章・見開き(ランドスケープ)撮影で判読困難。ドラ・牌姿・正確な打牌は未確定。結論（チャンタ系で安いので押し＝萬を切る）の要旨のみ確実。",
+    "sourceImages": [
+      "IMG_8852.jpg",
+      "IMG_8853.jpg"
+    ]
+  },
+  {
+    "id": "q022",
+    "title": "鳴き読みドリル㊹ ジュンチャン消滅後の押し",
+    "question": "対面は南をポンして北を切った場面です。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "萬子を切ってリーチする（押す）"
+      },
+      {
+        "key": "B",
+        "label": "オリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "ポンが重なってジュンチャンの可能性が消滅し、ドラも変わったため放銃しても打点は2000〜3900点程度。基本的な考え方として安い手は無視して、自分の手に忠実に萬子を切ってリーチするのが正解。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "ジュンチャン",
+      "三色読み",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 153,
+    "needsReview": true,
+    "notes": "第3章・判読困難。ドラ・牌姿・正確な打牌は未確定。結論（安手なので押し＝萬切りリーチ）の要旨のみ確実。",
+    "sourceImages": [
+      "IMG_8854.jpg",
+      "IMG_8855.jpg"
+    ]
+  },
+  {
+    "id": "q023",
+    "title": "鳴き読みドリル㊺ 打点読みからの押し",
+    "question": "対面はいま筒子をチーして打牌した場面です。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "索子を切る（押す）"
+      },
+      {
+        "key": "B",
+        "label": "オリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面はタンヤオ模様でドラも見えず打点は最大でもタンヤオドラ1の2000点程度。ソーズ（ドラ）を持っていない可能性が高いと読め、自分の手も悪くないので、恐れず索子を切って押すのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "打点読み",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 153,
+    "needsReview": true,
+    "notes": "第3章・判読困難。ドラ・牌姿・正確な打牌は未確定。結論（安手読みで押し）の要旨のみ確実。",
+    "sourceImages": [
+      "IMG_8856.jpg",
+      "IMG_8857.jpg"
+    ]
+  },
+  {
+    "id": "q024",
+    "title": "鳴き読みドリル㊻ テンパイ濃厚相手への回し",
+    "question": "対面はいま筒子をチーして打牌した場面です。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全牌を切りながら回る（オリ気味）"
+      },
+      {
+        "key": "B",
+        "label": "押す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "タンヤオにとって必要な『各色の3〜7』『中張のドラまわり』が切られておりテンパイ濃厚。一方で自分の手はバラバラなので、無理に押さず安全牌を切りながら回るのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "テンパイ読み",
+      "押し引き",
+      "オリ"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 153,
+    "needsReview": true,
+    "notes": "第3章・判読困難。ドラは伍萬と読めたが牌姿・正確な打牌は未確定。結論（テンパイ濃厚で回る）の要旨のみ確実。",
+    "sourceImages": [
+      "IMG_8858.jpg",
+      "IMG_8859.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "伍萬"
+      ]
+    }
+  },
+  {
+    "id": "q025",
+    "title": "鳴き読みドリル㊼ ブロック構成読み",
+    "question": "対面はいま副露して打牌した場面です。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "伍萬を切ってリーチする（押す）"
+      },
+      {
+        "key": "B",
+        "label": "オリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "タンヤオの速度を読む問題。ブロック構成からテンパイ濃厚と読めるが、自分の手も十分で、素直に伍萬を切ってリーチして問題ないと考えられる。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "テンパイ読み",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 153,
+    "needsReview": true,
+    "notes": "第3章・画像回転90度で判読困難。ドラ・牌姿・正確な打牌・drill周辺ページは未確定。結論（押し＝伍萬切りリーチ）の要旨のみ。",
+    "sourceImages": [
+      "IMG_8860.jpg",
+      "IMG_8861.jpg"
+    ]
+  },
+  {
+    "id": "q026",
+    "title": "鳴き読みドリル㊽ シャンポンテンパイ読み",
+    "question": "対面は副露しています。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全牌（索子・字牌）を切って回る"
+      },
+      {
+        "key": "B",
+        "label": "押す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "中張牌のドラそのものが切られており、ドラを使えないシャンポンテンパイの可能性が高い。マンズの真ん中などが危険なので、索子や字牌を切って回り、上下のリーチにも備えておくのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "シャンポン",
+      "押し引き",
+      "オリ"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 155,
+    "needsReview": true,
+    "notes": "第3章・画像回転90度で判読困難。ドラ・牌姿・正確な打牌は未確定。結論（回る）の要旨のみ確実。",
+    "sourceImages": [
+      "IMG_8862.jpg",
+      "IMG_8863.jpg"
+    ]
+  },
+  {
+    "id": "q027",
+    "title": "鳴き読みドリル㊿前後 危険ブロックの回避",
+    "question": "対面は副露しています。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "安全と読める牌を切る"
+      },
+      {
+        "key": "B",
+        "label": "危険なブロック周辺を押す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "中張牌のドラまわりが切られシャンポン気味のテンパイが想定される。ブロック構成上の本命を避け、相対的に安全と読める牌を切るのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "シャンポン",
+      "危険牌",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 155,
+    "needsReview": true,
+    "notes": "第3章・画像回転90度で判読困難。ドリル番号・ドラ・牌姿・正確な打牌すべて未確定（番号は㊾〜51前後と推定）。要・原本確認。",
+    "sourceImages": [
+      "IMG_8864.jpg",
+      "IMG_8865.jpg"
+    ]
+  },
+  {
+    "id": "q028",
+    "title": "鳴き読みドリル52 本命読みでの打牌",
+    "question": "対面は副露しています。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "別の牌を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "鳴いた牌や捨牌から本命の待ち（筒子周辺）を読み、相対的に安全度の高い筒子を切るのが良いという結論。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "本命読み",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 155,
+    "needsReview": true,
+    "notes": "第3章・画像回転90度で判読困難。ドラ・牌姿・正確な打牌は未確定。結論（筒切り）の要旨のみ。",
+    "sourceImages": [
+      "IMG_8866.jpg",
+      "IMG_8867.jpg"
+    ]
+  },
+  {
+    "id": "q029",
+    "title": "鳴き読みドリル53 シャンポン否定の読み",
+    "question": "対面は副露しています。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "別の牌を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "捨牌の並びからシャンポン待ちが否定でき、自然な形を踏まえて筒子を切るのが良いという結論。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "シャンポン",
+      "押し引き"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 157,
+    "needsReview": true,
+    "notes": "第3章・判読困難。ドラ・牌姿・正確な打牌は未確定。結論（筒切り）の要旨のみ。",
+    "sourceImages": [
+      "IMG_8868.jpg",
+      "IMG_8869.jpg"
+    ]
+  },
+  {
+    "id": "q030",
+    "title": "鳴き読みドリル54 鳴くべきか（ポン判断）",
+    "question": "対面は萬子をチーして打筒子としたところ。上家の切った筒子をポンすべきでしょうか？ 対面の手牌を読むことで答えが出る問題です。",
+    "choices": [
+      {
+        "key": "A",
+        "label": "ポンせずメンゼンで進める"
+      },
+      {
+        "key": "B",
+        "label": "ポンする"
+      }
+    ],
+    "answer": "A",
+    "explanation": "筒子をポンすると3900点のテンパイだが、対面の河を読むとその筒のスジは本命で、わざわざポンして危険牌が出ていく形にするのは悪手。『その筒が通ってラッキー』と考えてメンゼンで進め、次に上家が安全牌を切ったらチーもあり、という意識で進めるのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "ポン判断",
+      "鳴き判断"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 158,
+    "needsReview": true,
+    "notes": "IMG_8870とIMG_8871は同じドリル54問題の重複撮影。結論（ポンしない＝メンゼン継続）は解答ページ(p159)で確実。牌姿・ドラの精密転記は未確定。",
+    "sourceImages": [
+      "IMG_8870.jpg",
+      "IMG_8871.jpg",
+      "IMG_8872.jpg"
+    ]
+  },
+  {
+    "id": "q031",
+    "title": "鳴き読みドリル55 通せる根拠のある危険牌",
+    "question": "対面は萬子をチーして打筒子としたところ。対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "通せると読める筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "危険なので筒子を止める"
+      }
+    ],
+    "answer": "A",
+    "explanation": "筒筒筒から筒子を切っていく予定のところに仕掛けが入り筒子が危険牌になったが、この筒子は『またぐリャンメンが直前に切られている場合は否定される』というセオリーから高確率で通せる根拠がある。よって素直に筒子を切る。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "危険牌",
+      "セオリー"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 160,
+    "needsReview": true,
+    "notes": "第3章。結論（通せる根拠ありで筒を切る）は解答ページ(p161)で確実。筒の正確な数牌・牌姿は未確定。",
+    "sourceImages": [
+      "IMG_8873.jpg",
+      "IMG_8874.jpg"
+    ]
+  },
+  {
+    "id": "q032",
+    "title": "鳴き読みドリル56 スジで当たりの少ない打牌",
+    "question": "対面は萬子をチーして打筒子としたところ。自分は筒子2枚のどちらかを切ればテンパイですが、どちらを切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "スジになって当たりの少ない筒子を切ってリーチ"
+      },
+      {
+        "key": "B",
+        "label": "もう一方の筒子を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "下家が3巡目に切った筒子を鳴いていないことが判断材料になるかという問題だが、それを根拠に切るのはやりすぎ。素直にスジになって当たるパターンの少ない方の筒子を切ってリーチするのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "スジ読み",
+      "リーチ判断"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 162,
+    "needsReview": true,
+    "notes": "第3章。結論（スジで当たりの少ない筒切りリーチ）は解答ページ(p163)で確実。筒の正確な数牌は未確定。",
+    "sourceImages": [
+      "IMG_8875.jpg",
+      "IMG_8876.jpg"
+    ]
+  },
+  {
+    "id": "q033",
+    "title": "鳴き読みドリル57 オーラスの点数状況判断",
+    "question": "対面は副露して打牌したところ。点数状況も踏まえ、対面の手をどう読み、何を切るべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "危険な索子を止めて筒子を切って回る"
+      },
+      {
+        "key": "B",
+        "label": "押す"
+      }
+    ],
+    "answer": "A",
+    "explanation": "オーラスで対面は安い可能性が高いが、親で連荘されると上家・下家の条件を軽くしてしまう。自分も愚形残りの1シャンテンなので、危険な索子は止めて筒子を切って回るのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "押し引き",
+      "点数状況",
+      "オーラス"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 164,
+    "needsReview": true,
+    "notes": "ドラ=中・南4局・南家(自分)25000/上家(東家)17000/下家(西家)35000は読めたが対面(北家)点数は判読困難。結論（回る）は解答ページ(p165)で確実。牌姿の精密転記は未確定。",
+    "sourceImages": [
+      "IMG_8877.jpg",
+      "IMG_8878.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "中"
+      ],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4
+      },
+      "scores": {
+        "self": 25000,
+        "kamicha": 17000,
+        "shimocha": 35000
+      }
+    }
+  },
+  {
+    "id": "q034",
+    "title": "鳴き読みドリル58 点数状況からの差し込み気味の受け",
+    "question": "対面は筒子をポンして筒子を切ったところです。点数状況と対面の手牌への読みをすべて踏まえ、何を切ってどのような方針で進めるべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "浮いている中を切って目一杯受ける"
+      },
+      {
+        "key": "B",
+        "label": "オリる"
+      }
+    ],
+    "answer": "A",
+    "explanation": "点数状況を整理すると、対面の手が3翻あると放銃できずツモられてもいけない状況。対面が満貫になる形は限られ、自分の手に浮いている中は切っても問題ないどころか、振り込んでも自分のトップが確定する牌。よって中を切って目一杯受けるのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "点数状況",
+      "オーラス",
+      "差し込み"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 166,
+    "needsReview": true,
+    "notes": "ドラ=西・南4局・南家(自分)36000/東家7500/西家25000/北家31500を読み取り。結論（中を切って受ける）は解答ページ(p167)で確実。牌姿の精密転記は未確定。",
+    "sourceImages": [
+      "IMG_8879.jpg",
+      "IMG_8880.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "西"
+      ],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4
+      },
+      "scores": {
+        "self": 36000,
+        "kamicha": 7500,
+        "shimocha": 25000,
+        "toimen": 31500
+      }
+    }
+  },
+  {
+    "id": "q035",
+    "title": "鳴き読みドリル59 満貫がない牌を切る",
+    "question": "対面の切り順は一切関係ありません。点数状況から考えて、何を切ってテンパイをとるべきでしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "満貫の当たりがない方の筒子を切る"
+      },
+      {
+        "key": "B",
+        "label": "別の牌を切る"
+      }
+    ],
+    "answer": "A",
+    "explanation": "対面は2着争いで、2000点なら振り込んでも問題ないが満貫だと逆転される。つまり『満貫がない牌』を切るべき場面で、答えは筒切り。対面の役はほぼタンヤオで、満貫になるにはドラがあと2枚必要だが見えているドラから当たり形は限られる。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "点数状況",
+      "オーラス",
+      "打点読み"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 168,
+    "needsReview": true,
+    "notes": "南4局・南家(自分)38000/東家13000/西家25000/北家24000を読み取り。ドラはピンズ(数牌不明)。結論（満貫がない方の筒切り）は解答ページ(p169)で確実。牌姿の精密転記は未確定。",
+    "sourceImages": [
+      "IMG_8881.jpg",
+      "IMG_8882.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "筒子"
+      ],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4
+      },
+      "scores": {
+        "self": 38000,
+        "kamicha": 13000,
+        "shimocha": 25000,
+        "toimen": 24000
+      }
+    }
+  },
+  {
+    "id": "q036",
+    "title": "鳴き読みドリル60 トップ率最大の差し込み",
+    "question": "対面は筒子をチーして打筒子。そのあと切った赤5萬を上家がチーして打筒子。2人の仕掛けを見た上で、自分は何を切るのがトップ率最大でしょうか？",
+    "choices": [
+      {
+        "key": "A",
+        "label": "アンコ持ちの筒子で差し込む"
+      },
+      {
+        "key": "B",
+        "label": "ベタオリする"
+      }
+    ],
+    "answer": "A",
+    "explanation": "点数状況的に対面に満貫さえ放銃しなければトップ。むしろ2副露の親にアガられるのが最悪なので、満貫にならずかつ親に通る牌で積極的に差し込みたい。対面が満貫になる形は否定でき、自分がアンコ持ちの筒子で差し込むのが良い。",
+    "difficulty": "hard",
+    "tags": [
+      "鳴き読み",
+      "点数状況",
+      "オーラス",
+      "差し込み"
+    ],
+    "book": "鳴き読みドリル",
+    "chapter": "第3章 実戦的な読み",
+    "sourcePage": 170,
+    "needsReview": true,
+    "notes": "南4局・点数状況はドリル59と同じ。ドラはピンズ(数牌不明)。結論（アンコ持ちの筒で差し込み）は解答ページ(p171)で確実。牌姿の精密転記は未確定。",
+    "sourceImages": [
+      "IMG_8883.jpg",
+      "IMG_8884.jpg"
+    ],
+    "situation": {
+      "dora": [
+        "筒子"
+      ],
+      "round": {
+        "bakaze": "南",
+        "kyoku": 4
+      },
+      "scores": {
+        "self": 38000,
+        "kamicha": 13000,
+        "shimocha": 25000,
+        "toimen": 24000
       }
     }
   }
