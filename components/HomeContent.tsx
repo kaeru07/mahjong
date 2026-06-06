@@ -161,6 +161,12 @@ export default function HomeContent({
             ランダムに始める
           </button>
           <button
+            onClick={() => router.push("/yomi")}
+            className="w-full mt-3 py-4 rounded-2xl text-base font-bold bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 active:scale-95 transition-all"
+          >
+            🀄 当たり牌読み練習へ
+          </button>
+          <button
             onClick={() => router.push("/questions")}
             className="w-full mt-3 py-3 rounded-2xl text-sm font-bold bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 active:scale-95 transition-all"
           >
