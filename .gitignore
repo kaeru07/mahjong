@@ -47,3 +47,12 @@ screenshot/
 *.png
 *.jpg
 *.jpeg
+
+# 天鳳など外部牌譜の生データはコミット・再配布しない（利用規約: 牌譜の再配布禁止）
+# docs/tenhou-collection.md 参照。READMEは残し、生牌譜のみ無視する。
+data/imported/**/*.mjlog
+data/imported/**/*.xml
+data/imported/**/*.json
+data/imported/raw/
+data/imported/tenhou/
+*.mjlog
