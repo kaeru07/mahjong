@@ -55,4 +55,5 @@ data/imported/**/*.xml
 data/imported/**/*.json
 data/imported/raw/
 data/imported/tenhou/
+data/rejected/**/*.json
 *.mjlog

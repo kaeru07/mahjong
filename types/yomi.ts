@@ -64,12 +64,12 @@ export interface YomiReadingBasis {
 }
 
 // 取り込み元メタ情報（牌譜由来の問題に付与・任意）
+// 注意: 生牌譜・gameId 等「牌譜本体へのポインタ」は保持しない（再配布防止）。
+// 保持するのは出典の「種別」だけ。
 export interface YomiSource {
-  platform?: string;   // "雀魂" / "天鳳" など
-  room?: string;       // "魂天" / "王座の間" / "魂の間" / "鳳凰卓" など
-  rankTier?: "top" | "preferred" | "conditional" | "excluded"; // 取り込み優先度帯
-  gameId?: string;     // 牌譜ID
-  importedAt?: string; // 取り込み日時（ISO）
+  sourceType?: string;   // 出典プラットフォーム: "tenhou" / "majsoul" など
+  sourceRank?: string;   // 出典の卓・段位帯: "houou"(鳳凰卓) / "konten"(魂天) / "ouza"(王座の間) / "tokujou"(特上卓) など
+  importedAt?: string;   // 取り込み日時（ISO）
 }
 
 // 取り込み品質ランク（採用=S/A・保留=B・隔離=C・破棄=D）

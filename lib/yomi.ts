@@ -60,6 +60,42 @@ export function getDifficultyClass(d: string): string {
   return "bg-gray-100 text-gray-500";
 }
 
+// 出典の卓・段位帯ラベル（sourceRank → 日本語）
+export const YOMI_SOURCE_RANK_LABEL: Record<string, string> = {
+  houou: "鳳凰卓",
+  tokujou: "特上卓",
+  joukyuu: "上級卓",
+  ippan: "一般卓",
+  konten: "魂天",
+  ouza: "王座の間",
+  tama: "魂の間",
+  manual: "手作成",
+};
+
+export function getYomiSourceRankLabel(rank?: string): string {
+  if (!rank) return YOMI_SOURCE_RANK_LABEL.manual;
+  return YOMI_SOURCE_RANK_LABEL[rank] ?? rank;
+}
+
+export interface YomiSourceStats {
+  total: number;
+  byType: Record<string, number>; // sourceType ごとの問題数（"tenhou" 等。未設定は "manual"）
+  byRank: Record<string, number>; // sourceRank ごとの問題数（"houou"/"konten"/"ouza" 等。未設定は "manual"）
+}
+
+// 問題集の出典別集計（鳳凰卓問題数 / 魂天問題数 / 王座問題数 等を取得可能にする）
+export function getYomiSourceStats(all: YomiQuestion[]): YomiSourceStats {
+  const byType: Record<string, number> = {};
+  const byRank: Record<string, number> = {};
+  for (const q of all) {
+    const t = q.question.source?.sourceType ?? "manual";
+    const r = q.question.source?.sourceRank ?? "manual";
+    byType[t] = (byType[t] ?? 0) + 1;
+    byRank[r] = (byRank[r] ?? 0) + 1;
+  }
+  return { total: all.length, byType, byRank };
+}
+
 export const SEAT_LABEL: Record<SeatKey, string> = {
   self: "自分",
   shimocha: "下家",

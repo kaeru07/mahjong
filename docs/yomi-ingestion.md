@@ -7,20 +7,39 @@
 
 - 追加問題データの取り込みは**承認待ちで止めない**（危険操作を除き自走）。
 - 妥当な仮説で変換・正規化・検証まで進める。
-- 問題があるデータは**削除ではなく quarantine / rejected として隔離**する。
+- 問題があるデータは**破棄でなく quarantine / rejected として隔離**する（隔離も問題データのみ・生牌譜は持たない）。
 - **問題数より問題品質を優先**。**上級者帯牌譜（魂天・王座・鳳凰卓）由来の良問を優先的に蓄積**。
 - 最後に取り込み結果だけ報告する。
 
+## 生牌譜を保管しない運用（2026-06-07 改修）
+
+利用規約（牌譜再配布禁止）対応として、**生牌譜は保管・公開しない。問題データのみ保存し、処理後に元牌譜を削除する。**
+
+- **保持する**: 問題 / 解説 / 読み筋(readingBasis) / 危険度(dangerLevel) / カテゴリ(tags) / 出典種別(`source.sourceType` / `source.sourceRank`)
+- **保持しない**: 生牌譜 / mjlog / xml / mjai 原本 / 牌譜ID(gameId) 等の牌譜本体へのポインタ
+- `source.gameId` 等のポインタは検証で**エラー**になる（`scripts/lib/yomi-validate.mjs`）。
+- 生牌譜・中間データ・隔離データは `.gitignore` 済み。**コミットするのは `data/yomi-questions.json` のみ**。
+
+### パイプライン
+
+```
+牌譜取得 → 解析 → 問題候補生成 → 品質判定 → S/A採用 → yomi-questions.json保存 → 元牌譜削除
+```
+
+- 取得〜候補生成（mjlog→候補JSON）は外部ツール（`docs/tenhou-collection.md`）。
+- 品質判定〜採用〜**元牌譜削除**は `scripts/ingest-yomi.mjs`（`--raw <dir>` で生牌譜を処理後削除）。
+
 ## 取り込み先
 
-| パス | 役割 |
-|---|---|
-| `data/yomi-questions.json` | **採用済み正本**（S/A ランクのみ） |
-| `data/imported/` | 取り込み中間データ・バッチ（任意・元牌譜変換物） |
-| `data/rejected/` | 不正・低品質データの隔離（C=quarantine / D=破棄理由付き） |
+| パス | 役割 | git |
+|---|---|---|
+| `data/yomi-questions.json` | **採用済み正本**（S/A ランクのみ） | コミットする |
+| `data/imported/`, `data/imported/pending/` | 取り込み中間データ・B保留（問題データのみ） | gitignore（ローカルのみ） |
+| `data/rejected/` | C=隔離 / D=破棄理由付き（問題データのみ・生牌譜なし） | gitignore（ローカルのみ） |
+| 生牌譜の作業ディレクトリ（任意・`--raw`） | mjlog/xml 等の一時置き場 | gitignore＋**処理後に削除** |
 
-- **元牌譜ファイルは削除しない。** 既存の良問データを大量削除しない。
-- rejected/ は削除の代わりの隔離先。理由を必ず添える。
+- **元牌譜ファイル（生データ）は問題生成後に削除する**。ただし削除は ingest 成功後のみ。
+- 既存の良問データを大量削除しない。rejected/ は破棄の代わりの隔離先で理由を必ず添える。
 
 ## 自走してよいこと（承認不要）
 
@@ -70,22 +89,35 @@
 |---|---|---|
 | **S** | 教材価値が非常に高い・複数の読み要素・実戦頻出 | 採用（`yomi-questions.json`） |
 | **A** | 十分採用価値あり | 採用（`yomi-questions.json`） |
-| **B** | 保留 | `data/imported/` に保留 |
-| **C** | 隔離 | `data/rejected/`（quarantine） |
-| **D** | 破棄 | `data/rejected/`（破棄理由を添える。ファイルは消さない） |
+| **B** | 保留 | `data/imported/pending/`（ローカルのみ） |
+| **C** | 隔離 | `data/rejected/`（quarantine・ローカルのみ） |
+| **D** | 破棄 | `data/rejected/`（破棄理由を添える。問題データのみ・生牌譜は持たない） |
+
+## 出典タグ（sourceType / sourceRank）
+
+採用する問題には出典の「種別」を付ける（牌譜本体・gameId は持たない）。
+
+```jsonc
+"question": {
+  // ...
+  "qualityRank": "S",
+  "source": { "sourceType": "tenhou", "sourceRank": "houou", "importedAt": "2026-06-07T..." }
+}
+```
+
+- `sourceType`: `tenhou` / `majsoul` など。
+- `sourceRank`: `houou`(鳳凰卓) / `tokujou`(特上卓) / `konten`(魂天) / `ouza`(王座の間) / `tama`(魂の間) など。
+- 集計: `node scripts/yomi-stats.mjs` で鳳凰卓問題数 / 魂天問題数 / 王座問題数 等を出力。
 
 ## 標準フロー
 
-1. 牌譜JSONを読み込む（`data/imported/` 等）。
-2. `yomi-questions.json` 形式へ変換・牌表記正規化・10巡目以降のロン/ツモ局面抽出。
-3. choices 自動生成（correctTile＋現物/スジ等の妥当な distractor 4個以上）。
-4. dangerLevel・readingBasis を初期付与（問題化条件のどれが効くか）。
-5. `node scripts/validate-yomi.mjs <候補file>` で整合検証。
-6. 品質ランク判定（S/A=採用、B=保留、C/D=rejected へ理由付きで隔離）。
-7. 重複除外して `yomi-questions.json` へマージ。
-8. `node scripts/validate-yomi.mjs`（正本）→ `npx tsc --noEmit` → `npx next build`。
-9. Obsidian `20_reviews/` 記録 + `_review_queue.md` 追記 + `ob sync`。
-10. 通常 commit / push。
+1. 牌譜取得（houou-logs 等）→ 解析 → 問題候補 JSON 生成（`data/imported/` 等のローカル一時領域。`docs/tenhou-collection.md`）。候補に `qualityRank` と `source`(sourceType/sourceRank) を付与。
+2. `node scripts/ingest-yomi.mjs <候補file|dir> --raw <生牌譜dir> --raw-count <n>`
+   - 整合検証 → 品質判定（S/A採用・B保留・C/D隔離）→ 重複除外 → `yomi-questions.json` へマージ → 採用後の正本を再検証 → **元牌譜(`--raw`)を削除** → 結果集計を表示。
+   - 確認だけなら `--dry-run`（書き込み・削除なし）。
+3. `node scripts/validate-yomi.mjs`（正本）→ `node scripts/yomi-stats.mjs`（集計）→ `npx tsc --noEmit` → `npx next build`。
+4. Obsidian `20_reviews/` 記録 + `_review_queue.md` 追記 + `ob sync`。
+5. 通常 commit / push（コミットされるのは `data/yomi-questions.json` のみ＝生牌譜・中間/隔離データは gitignore）。
 
 ## 完了報告フォーマット
 
@@ -93,20 +125,22 @@
 - 採用数 / 保留数 / 隔離数 / 破棄数
 - 代表的な破棄理由
 - 品質ランク内訳（S/A/B/C/D）
+- 出典別内訳（鳳凰卓 / 魂天 / 王座 …）
 - 変更ファイル
 - tsc / build 結果
 - commit / push 結果
 - 次に改善すべき点
 
-## rejected/ ファイル形式（隔離レコード）
+## rejected/ ファイル形式（隔離レコード・ローカルのみ）
+
+`scripts/ingest-yomi.mjs` が `data/rejected/ingest-<timestamp>.json` に出力する。生牌譜は含めない（問題候補と理由のみ）。
 
 ```json
 [
   {
     "rank": "C",
-    "reason": "河がバラバラで読み筋を説明できない",
-    "source": { "platform": "雀魂", "room": "金の間", "gameId": "..." },
-    "rawCandidate": { /* 変換途中の問題オブジェクト or 元牌譜抜粋 */ }
+    "reason": "整合エラー: 河がバラバラで読み筋を説明できない",
+    "question": { /* 問題候補オブジェクト（生牌譜は含めない） */ }
   }
 ]
 ```
