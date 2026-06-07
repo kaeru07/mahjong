@@ -63,6 +63,18 @@ export interface YomiReadingBasis {
   detail: string;  // その根拠の具体的な説明
 }
 
+// 取り込み元メタ情報（牌譜由来の問題に付与・任意）
+export interface YomiSource {
+  platform?: string;   // "雀魂" / "天鳳" など
+  room?: string;       // "魂天" / "王座の間" / "魂の間" / "鳳凰卓" など
+  rankTier?: "top" | "preferred" | "conditional" | "excluded"; // 取り込み優先度帯
+  gameId?: string;     // 牌譜ID
+  importedAt?: string; // 取り込み日時（ISO）
+}
+
+// 取り込み品質ランク（採用=S/A・保留=B・隔離=C・破棄=D）
+export type YomiQualityRank = "S" | "A" | "B" | "C" | "D";
+
 // 設問
 export interface YomiQuestionBody {
   text: string;                       // 設問文
@@ -76,6 +88,8 @@ export interface YomiQuestionBody {
   dangerReason?: string;              // なぜその牌が危険だったか
   readingBasis?: YomiReadingBasis[];  // 読み根拠（スジ/現物/壁/字牌処理/対子落とし/リャンメン落とし 等）
   choiceReasons?: YomiChoiceReason[]; // 他の選択肢がなぜ違うか
+  source?: YomiSource;                // 牌譜由来の取り込み元（任意）
+  qualityRank?: YomiQualityRank;      // 取り込み品質ランク（任意）
 }
 
 // 問題1問 = ロン/ツモされた直前場面
