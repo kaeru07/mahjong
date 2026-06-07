@@ -19,6 +19,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { applyScore } from "./lib/yomi-score.mjs";
 
 const args = process.argv.slice(2);
 const opt = { out: null, sourceType: "tenhou", sourceRank: "houou", minTurn: 10, max: 5 };
@@ -178,9 +179,10 @@ for (const m of xml.matchAll(/<([^>\/\s]+)((?:\s+[^=\s]+="[^"]*")*)\s*\/?>/g)) {
         readingBasis: [{ label: "自動抽出", detail: "天鳳鳳凰卓の実戦譜から自動生成。読み筋は未検証（B保留・要レビュー）。" }],
         choiceReasons,
         source: { sourceType: opt.sourceType, sourceRank: opt.sourceRank, importedAt: new Date().toISOString() },
-        // qualityRank は付けない → ingest 側で B保留（不採用）。人手検証後に S/A 昇格する。
       },
     });
+    // 品質採点で qualityRank / dangerLevel / readingBasis / explanation を付与（B→A判定）
+    applyScore(candidates[candidates.length - 1]);
     if (candidates.length >= opt.max) break;
   }
 }
