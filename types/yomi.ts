@@ -57,6 +57,12 @@ export interface YomiChoiceReason {
   reason: string;
 }
 
+// 読み根拠（スジ / 現物 / 壁 / 字牌処理 / ワンチャンス / 対子落とし / リャンメン落とし 等）
+export interface YomiReadingBasis {
+  label: string;   // 根拠の種別（例: "無スジ" "スジ" "現物" "壁" "字牌処理" "対子落とし" "リャンメン落とし"）
+  detail: string;  // その根拠の具体的な説明
+}
+
 // 設問
 export interface YomiQuestionBody {
   text: string;                       // 設問文
@@ -65,8 +71,10 @@ export interface YomiQuestionBody {
   explanation: string;                // 総合解説
   readingPoints: string[];            // 読み筋（箇条書き）
   difficulty: "easy" | "medium" | "hard";
+  dangerLevel: number;                // 危険度（1〜5＝★の数）
   tags: string[];
   dangerReason?: string;              // なぜその牌が危険だったか
+  readingBasis?: YomiReadingBasis[];  // 読み根拠（スジ/現物/壁/字牌処理/対子落とし/リャンメン落とし 等）
   choiceReasons?: YomiChoiceReason[]; // 他の選択肢がなぜ違うか
 }
 

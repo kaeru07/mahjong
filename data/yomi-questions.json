@@ -9,7 +9,7 @@
           { "tile": "9筒", "type": "tedashi" },
           { "tile": "北", "type": "tedashi" },
           { "tile": "1萬", "type": "tedashi" },
-          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "白", "type": "tedashi" },
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "西", "type": "tedashi" },
           { "tile": "5索", "type": "tsumogiri" },
@@ -17,6 +17,7 @@
           { "tile": "8筒", "type": "tedashi" },
           { "tile": "3筒", "type": "tsumogiri" },
           { "tile": "7萬", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
           { "tile": "6索", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -32,7 +33,9 @@
           { "tile": "8萬", "type": "tsumogiri" },
           { "tile": "北", "type": "tsumogiri" },
           { "tile": "7筒", "type": "tsumogiri" },
-          { "tile": "4萬", "type": "tsumogiri" }
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "3萬", "type": "tsumogiri" }
         ]
       },
       {
@@ -40,15 +43,16 @@
         "discards": [
           { "tile": "西", "type": "tedashi" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "9索", "type": "tedashi" },
           { "tile": "中", "type": "tedashi" },
+          { "tile": "白", "type": "tedashi" },
           { "tile": "1筒", "type": "tedashi" },
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "1萬", "type": "tedashi", "isReachTile": true },
-          { "tile": "5筒", "type": "tsumogiri" },
-          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "7萬", "type": "tsumogiri" },
-          { "tile": "9筒", "type": "tsumogiri" }
+          { "tile": "2萬", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" }
         ]
       },
       {
@@ -63,7 +67,9 @@
           { "tile": "1筒", "type": "tedashi" },
           { "tile": "2萬", "type": "tsumogiri" },
           { "tile": "8索", "type": "tsumogiri" },
-          { "tile": "4筒", "type": "tsumogiri" }
+          { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "6筒", "type": "tsumogiri" }
         ]
       }
     ],
@@ -74,22 +80,28 @@
     },
     "question": {
       "text": "対面のリーチに自分が放銃した。当たり牌はどれ？",
-      "choices": ["6索", "9筒", "7萬", "3筒", "5筒"],
+      "choices": ["6索", "9筒", "7萬", "2萬", "8筒"],
       "correctTile": "6索",
-      "explanation": "対面の河は字牌→筒子の端→萬子と進み、索子の中張牌がほとんど切れていない。リーチ宣言牌（1萬）以降も筒子・萬子しか出ておらず、索子が手の中に固まっていると読める。3-6索のリャンメンが本命で、無スジの6索が危険。",
+      "explanation": "対面の河は字牌→萬子→筒子と進み、索子の中張(3〜7索)が一枚も切れていない。リーチ宣言牌(1萬)以降のツモ切りも萬子・筒子ばかりで索子が完全に止まっている＝索子を抱えていると読める。残る形は3-6索リャンメンが最有力。6索は3索も9索も対面の河に無く『両無スジ』で、最も刺さりやすい放銃牌。一方で9筒・7萬・2萬・8筒は対面が自分で切っている現物なので100%安全。困ったらまず現物から選ぶのが守りの基本。",
       "readingPoints": [
         "リーチ宣言牌までに索子の中張(3〜7索)が1枚も出ていない=索子を抱えている",
-        "リーチ後のツモ切りも筒子・萬子ばかりで索子が止まっている",
+        "リーチ後のツモ切りも萬子・筒子ばかりで索子が止まっている",
         "残る形は3-6索リャンメンが最有力。6索は完全無スジ"
       ],
       "difficulty": "easy",
-      "tags": ["リーチ", "リャンメン", "終盤"],
-      "dangerReason": "索子の中張が河に皆無=リーチ者が索子で待っている公算が高く、6索は無スジで直撃しやすい。",
+      "dangerLevel": 4,
+      "tags": ["リーチ", "リャンメン", "無スジ", "終盤"],
+      "dangerReason": "索子の中張が河に皆無=リーチ者が索子で待っている公算が高く、6索は3索・9索どちらも切れておらず両無スジで直撃しやすい。",
+      "readingBasis": [
+        { "label": "無スジ", "detail": "6索のスジ(3索・9索)が対面の河に無く両無スジ。3-6索リャンメンの絶好の放銃牌。" },
+        { "label": "色の偏り", "detail": "字牌→萬子→筒子の順で処理され索子の中張が一枚も出ていない=索子で待っているサイン。" },
+        { "label": "現物", "detail": "9筒・7萬・2萬・8筒は対面が自分で切った現物=100%安全。" }
+      ],
       "choiceReasons": [
-        { "tile": "9筒", "reason": "筒子は河に多く出ており、端牌で待つ形は考えにくい。" },
-        { "tile": "7萬", "reason": "リーチ宣言牌が1萬で、4萬も他家から出ている。萬子の薄い待ちは本命でない。" },
-        { "tile": "3筒", "reason": "自分が既に3筒を通しており現物に近い。筒子待ちの線は薄い。" },
-        { "tile": "5筒", "reason": "リーチ者が5筒をツモ切りしている=5筒は当たらない（現物）。" }
+        { "tile": "9筒", "reason": "対面が9筒を切っている=現物で当たらない。" },
+        { "tile": "7萬", "reason": "対面が7萬を切っている=現物で安全。" },
+        { "tile": "2萬", "reason": "対面が2萬を切っている=現物。" },
+        { "tile": "8筒", "reason": "対面が8筒を切っている=現物で当たらない。" }
       ]
     }
   },
@@ -111,6 +123,8 @@
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "4筒", "type": "tsumogiri" },
           { "tile": "5萬", "type": "tsumogiri" },
+          { "tile": "3索", "type": "tedashi" },
+          { "tile": "6筒", "type": "tsumogiri" },
           { "tile": "7索", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -125,7 +139,11 @@
           { "tile": "北", "type": "tedashi" },
           { "tile": "2萬", "type": "tsumogiri" },
           { "tile": "8筒", "type": "tsumogiri" },
-          { "tile": "5索", "type": "tsumogiri" }
+          { "tile": "5索", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tedashi" },
+          { "tile": "7筒", "type": "tsumogiri" },
+          { "tile": "9筒", "type": "tsumogiri" }
         ]
       },
       {
@@ -138,10 +156,12 @@
           { "tile": "西", "type": "tedashi" },
           { "tile": "1筒", "type": "tedashi" },
           { "tile": "9筒", "type": "tedashi" },
+          { "tile": "9索", "type": "tedashi" },
           { "tile": "2萬", "type": "tedashi", "isReachTile": true },
           { "tile": "発", "type": "tsumogiri" },
           { "tile": "1萬", "type": "tsumogiri" },
-          { "tile": "南", "type": "tsumogiri" }
+          { "tile": "南", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" }
         ]
       },
       {
@@ -155,7 +175,11 @@
           { "tile": "8萬", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
-          { "tile": "3萬", "type": "tsumogiri" }
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "6筒", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tsumogiri" }
         ]
       }
     ],
@@ -166,117 +190,34 @@
     },
     "question": {
       "text": "対面のリーチ。スジだから…と切った牌が当たった。当たり牌はどれ？",
-      "choices": ["7索", "4萬", "6筒", "2萬", "5索"],
+      "choices": ["7索", "4索", "3筒", "9筒", "2萬"],
       "correctTile": "7索",
-      "explanation": "対面は早い巡目で4索を手出ししている。これにより7索は『4索のスジ』で安全に見えるが、これが典型的なスジ引っ掛けリーチ。6索8索のカンチャンに7索を引かせる狙いで、序盤に4索を切ってスジを作っていた。スジ=安全ではない好例。",
+      "explanation": "対面は3巡目に4索を手出ししている。これにより7索は『4-7索のスジ』で安全に見えるが、これが典型的なスジ引っ掛けリーチ。実際の待ちは6_8索のカンチャンで、7索がドンピシャの当たり。序盤にわざと4索を切ってスジを作り、後で7索を出させる狙い。『スジ＝安全』ではない好例で、本当に安全なのは現物(4索・3筒・9筒・2萬)だけ。スジ頼みの押し引きは引っ掛けに刺さる。",
       "readingPoints": [
         "3巡目に4索を手出し=後の7索を『スジ』に見せる仕込みの可能性",
         "リーチ宣言牌が2萬(端寄り)で、索子の中張が止まっている",
         "6_8索カンチャンの引っ掛けが本命。スジ7索は安全と断定できない"
       ],
       "difficulty": "medium",
+      "dangerLevel": 5,
       "tags": ["リーチ", "スジ", "終盤"],
       "dangerReason": "4索が早く切れているため7索はスジに見えるが、カンチャン6_8索の引っ掛けで7索がドンピシャの待ちになっている。",
-      "choiceReasons": [
-        { "tile": "4萬", "reason": "リーチ宣言牌が2萬。2萬のスジである5萬側はともかく、4萬は別スジで本命の形が見えない。" },
-        { "tile": "6筒", "reason": "筒子は1筒9筒が切られ端処理が進んでおり、中張の単独待ちは考えにくい。" },
-        { "tile": "2萬", "reason": "リーチ宣言牌そのもの=現物で絶対に当たらない。" },
-        { "tile": "5索", "reason": "下家が5索をツモ切りしリーチ後に通っている可能性が高く本命でない。" }
-      ]
-    }
-  },
-  {
-    "id": "y003",
-    "roundInfo": { "bakaze": "東", "kyoku": 3, "honba": 0, "kyotaku": 0, "dora": ["6索"], "turn": 12 },
-    "players": [
-      {
-        "seat": "self", "wind": "西", "score": 26000,
-        "discards": [
-          { "tile": "1萬", "type": "tedashi" },
-          { "tile": "9筒", "type": "tedashi" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "発", "type": "tedashi" },
-          { "tile": "1索", "type": "tsumogiri" },
-          { "tile": "9萬", "type": "tedashi" },
-          { "tile": "西", "type": "tedashi" },
-          { "tile": "8筒", "type": "tsumogiri" },
-          { "tile": "2筒", "type": "tsumogiri" },
-          { "tile": "5萬", "type": "tedashi", "hiddenWinTile": true }
-        ]
-      },
-      {
-        "seat": "shimocha", "wind": "北", "score": 23000,
-        "discards": [
-          { "tile": "中", "type": "tedashi" },
-          { "tile": "東", "type": "tedashi" },
-          { "tile": "1筒", "type": "tedashi" },
-          { "tile": "9索", "type": "tedashi" },
-          { "tile": "白", "type": "tsumogiri" },
-          { "tile": "1萬", "type": "tedashi" },
-          { "tile": "9萬", "type": "tsumogiri" },
-          { "tile": "北", "type": "tsumogiri" }
-        ]
-      },
-      {
-        "seat": "toimen", "wind": "東", "score": 26000,
-        "discards": [
-          { "tile": "9萬", "type": "tedashi" },
-          { "tile": "1萬", "type": "tedashi" },
-          { "tile": "西", "type": "tedashi" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "9筒", "type": "tsumogiri" },
-          { "tile": "発", "type": "tedashi" },
-          { "tile": "1索", "type": "tedashi" },
-          { "tile": "8索", "type": "tsumogiri" },
-          { "tile": "9索", "type": "tsumogiri" },
-          { "tile": "1筒", "type": "tedashi" },
-          { "tile": "7筒", "type": "tedashi" }
-        ]
-      },
-      {
-        "seat": "kamicha", "wind": "南", "score": 25000,
-        "discards": [
-          { "tile": "白", "type": "tedashi" },
-          { "tile": "中", "type": "tedashi" },
-          { "tile": "9索", "type": "tedashi" },
-          { "tile": "北", "type": "tsumogiri" },
-          { "tile": "1筒", "type": "tedashi" },
-          { "tile": "2索", "type": "tsumogiri" },
-          { "tile": "8萬", "type": "tsumogiri" },
-          { "tile": "9萬", "type": "tsumogiri" }
-        ]
-      }
-    ],
-    "result": {
-      "type": "ron", "winner": "toimen", "loser": "self",
-      "hiddenTile": "5萬", "waits": ["2萬", "5萬"], "waitShape": "リャンメン",
-      "yaku": ["タンヤオ", "ピンフ"]
-    },
-    "question": {
-      "text": "対面はリーチしていない（ダマ）。それでも放銃した。当たり牌はどれ？",
-      "choices": ["5萬", "7筒", "1索", "8索", "6萬", "3索"],
-      "correctTile": "5萬",
-      "explanation": "対面はリーチしていないが、序盤に端牌・字牌を綺麗に処理し、終盤は中張牌を手出しで入れ替えている。ドラ6索を含むタンヤオ・ピンフのダマテンの形。河に萬子の中張が薄く、3-4萬を抱えて2-5萬リャンメン。ダマでも高打点になるため待てる。",
-      "readingPoints": [
-        "リーチなしでも、端牌・字牌の整然とした処理はテンパイ濃厚のサイン",
-        "終盤に7筒を手出し=最後の不要牌を払ってテンパイした合図",
-        "萬子の中張が河に出ておらず、2-5萬のリャンメンが本命"
+      "readingBasis": [
+        { "label": "スジ", "detail": "4索が切れているため7索は4-7のスジに見える。だが待ちは6_8索カンチャンで7索が直撃する。" },
+        { "label": "スジ引っ掛け", "detail": "序盤に4索を手出ししてスジを作り、カンチャン7索を出させる典型的な引っ掛けリーチ。" },
+        { "label": "現物", "detail": "4索・3筒・9筒・2萬は対面の河にあり現物。スジより現物を優先するのが鉄則。" }
       ],
-      "difficulty": "medium",
-      "tags": ["ダマ", "リャンメン", "手出しツモ切り", "終盤"],
-      "dangerReason": "ダマテンは警戒が薄くなりがちだが、河の中張萬子が薄く2-5萬待ち。タンヤオ・ピンフ・ドラで打点も十分あり、ダマで仕留めにきている。",
       "choiceReasons": [
-        { "tile": "7筒", "reason": "対面が直前に7筒を手出ししている=現物で当たらない。" },
-        { "tile": "1索", "reason": "端牌でタンヤオが付かず、対面の手と矛盾する。" },
-        { "tile": "8索", "reason": "ドラ6索周辺だが8索は対面が既にツモ切りで通している。" },
-        { "tile": "6萬", "reason": "6萬待ちなら4-7萬等の形。河の状況からは2-5萬の方が濃く、本命でない。" },
-        { "tile": "3索", "reason": "索子は対面の河に端しか出ておらず判断材料が弱い。最有力ではない。" }
+        { "tile": "4索", "reason": "対面が早い巡目に手出し=現物。これが7索を『スジ』に見せた引っ掛けの元。" },
+        { "tile": "3筒", "reason": "対面が3筒を切っている=現物で当たらない。" },
+        { "tile": "9筒", "reason": "対面が9筒を切っている=現物で安全。" },
+        { "tile": "2萬", "reason": "リーチ宣言牌そのもの=現物で絶対に当たらない。" }
       ]
     }
   },
   {
     "id": "y004",
-    "roundInfo": { "bakaze": "東", "kyoku": 4, "honba": 1, "kyotaku": 0, "dora": ["2萬"], "turn": 13 },
+    "roundInfo": { "bakaze": "東", "kyoku": 4, "honba": 1, "kyotaku": 0, "dora": ["2萬"], "turn": 14 },
     "players": [
       {
         "seat": "self", "wind": "北", "score": 22000,
@@ -291,6 +232,9 @@
           { "tile": "3筒", "type": "tedashi" },
           { "tile": "1萬", "type": "tsumogiri" },
           { "tile": "5筒", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tedashi" },
+          { "tile": "6筒", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" },
           { "tile": "7索", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -309,7 +253,8 @@
           { "tile": "8筒", "type": "tedashi" },
           { "tile": "9筒", "type": "tedashi" },
           { "tile": "西", "type": "tedashi" },
-          { "tile": "北", "type": "tedashi" }
+          { "tile": "北", "type": "tedashi" },
+          { "tile": "中", "type": "tedashi" }
         ]
       },
       {
@@ -322,7 +267,12 @@
           { "tile": "8萬", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
-          { "tile": "白", "type": "tsumogiri" }
+          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "5萬", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "7萬", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tsumogiri" }
         ]
       },
       {
@@ -335,7 +285,12 @@
           { "tile": "中", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "8萬", "type": "tsumogiri" },
-          { "tile": "2萬", "type": "tsumogiri" }
+          { "tile": "2萬", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tedashi" },
+          { "tile": "7筒", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "5索", "type": "tsumogiri" }
         ]
       }
     ],
@@ -346,29 +301,34 @@
     },
     "question": {
       "text": "下家は發ポン＋索子チーで仕掛けている。放銃牌はどれ？",
-      "choices": ["7索", "8萬", "5筒", "9筒", "1萬", "西"],
+      "choices": ["7索", "8萬", "9筒", "西", "1萬"],
       "correctTile": "7索",
-      "explanation": "下家の河は萬子・筒子・字牌ばかりで索子が1枚も切られていない。發をポンし索子をチーしている＝索子のホンイツ＋發が確定的。索子は全て危険牌。6_8索のカンチャンで7索が刺さった。染め手は『切れていない色』が全て危険という典型。",
+      "explanation": "下家の河は萬子・筒子・字牌ばかりで索子が1枚も切られていない。發をポンし索子をチーしている＝索子のホンイツ＋發が確定的。鳴きで役も打点も見えており、本来はベタオリすべき局面。染め手では『切られていない色』が全て危険で、6_8索のカンチャン7索が刺さった。選んだ8萬・9筒・西・1萬はいずれも下家が自分で切っている現物、または染め色(索子)と無関係の安全牌。",
       "readingPoints": [
         "下家の河に索子が皆無=索子のホンイツを警戒",
         "發ポンで役は確定。打点も高くベタオリ推奨だった局面",
         "索子はどの牌も危険。特に中張の7索はカンチャン・リャンメン両対応で本命"
       ],
       "difficulty": "medium",
+      "dangerLevel": 4,
       "tags": ["染め手", "ホンイツ", "副露読み", "終盤"],
       "dangerReason": "染め手(索子ホンイツ)では捨てられていない索子が全て危険。7索は中張で待ちの本数も多く、最も刺さりやすい。",
+      "readingBasis": [
+        { "label": "染め手(ホンイツ)", "detail": "發ポン＋索子チーで河に索子が一枚も無い=索子のホンイツ＋發が確定。切られていない索子は全て危険。" },
+        { "label": "副露読み", "detail": "鳴きで役(發・ホンイツ)が確定し打点も高い。無スジの索子を切るのは厳禁、ベタオリ推奨だった。" },
+        { "label": "現物", "detail": "8萬・9筒・西・1萬は下家の河にあり現物、かつ染め対象外の色で二重に安全。" }
+      ],
       "choiceReasons": [
-        { "tile": "8萬", "reason": "下家は萬子を多数切っており、萬子は染め手の対象外で安全寄り。" },
-        { "tile": "5筒", "reason": "筒子も河に出ており、ホンイツ索子の手では不要=当たらない。" },
+        { "tile": "8萬", "reason": "下家が8萬を切っており現物。萬子は染め手の対象外で安全。" },
         { "tile": "9筒", "reason": "下家が9筒を手出ししている=現物で安全。" },
-        { "tile": "1萬", "reason": "萬子の端牌で染め色(索子)と無関係。安全。" },
-        { "tile": "西", "reason": "下家が西を手出し済み=現物で当たらない。" }
+        { "tile": "西", "reason": "下家が西を手出し済み=現物で当たらない。" },
+        { "tile": "1萬", "reason": "下家が1萬を切っており現物。染め色(索子)と無関係で安全。" }
       ]
     }
   },
   {
     "id": "y005",
-    "roundInfo": { "bakaze": "南", "kyoku": 1, "honba": 0, "kyotaku": 0, "dora": ["7筒"], "turn": 14 },
+    "roundInfo": { "bakaze": "南", "kyoku": 1, "honba": 0, "kyotaku": 0, "dora": ["7筒"], "turn": 16 },
     "players": [
       {
         "seat": "self", "wind": "東", "score": 24000,
@@ -384,6 +344,10 @@
           { "tile": "3索", "type": "tsumogiri" },
           { "tile": "6筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tsumogiri" },
+          { "tile": "9索", "type": "tsumogiri" },
+          { "tile": "5索", "type": "tsumogiri" },
           { "tile": "7萬", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -397,21 +361,33 @@
           { "tile": "白", "type": "tsumogiri" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "8萬", "type": "tsumogiri" }
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "1筒", "type": "tedashi" },
+          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "5筒", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" }
         ]
       },
       {
-        "seat": "toimen", "wind": "西", "score": 26000, "reach": true,
+        "seat": "toimen", "wind": "西", "score": 26000,
         "discards": [
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "1筒", "type": "tedashi" },
           { "tile": "西", "type": "tedashi" },
           { "tile": "1索", "type": "tedashi" },
           { "tile": "9筒", "type": "tedashi" },
-          { "tile": "2索", "type": "tedashi", "isReachTile": true },
-          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "中", "type": "tedashi" },
+          { "tile": "発", "type": "tedashi" },
+          { "tile": "9索", "type": "tedashi" },
+          { "tile": "2索", "type": "tedashi" },
+          { "tile": "北", "type": "tedashi" },
+          { "tile": "8筒", "type": "tedashi" },
           { "tile": "白", "type": "tedashi" },
-          { "tile": "発", "type": "tsumogiri" },
+          { "tile": "白", "type": "tedashi" },
+          { "tile": "3筒", "type": "tsumogiri" },
           { "tile": "1萬", "type": "tsumogiri" }
         ]
       },
@@ -425,39 +401,52 @@
           { "tile": "北", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
-          { "tile": "8索", "type": "tsumogiri" }
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "発", "type": "tedashi" },
+          { "tile": "1筒", "type": "tsumogiri" },
+          { "tile": "7筒", "type": "tsumogiri" },
+          { "tile": "4索", "type": "tsumogiri" },
+          { "tile": "6索", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tsumogiri" }
         ]
       }
     ],
     "result": {
       "type": "ron", "winner": "toimen", "loser": "self",
       "hiddenTile": "7萬", "waits": ["4萬", "7萬"], "waitShape": "リャンメン",
-      "yaku": ["リーチ"]
+      "yaku": ["タンヤオ", "ピンフ"]
     },
     "question": {
-      "text": "対面のリーチ後、白を続けて2枚切った（対子落とし）。その後の放銃牌はどれ？",
-      "choices": ["7萬", "白", "2索", "9筒", "5索"],
+      "text": "対面はリーチしていない（ダマ）。終盤に白を続けて2枚切った（対子落とし）。その後の放銃牌はどれ？",
+      "choices": ["7萬", "白", "2索", "9筒", "9索"],
       "correctTile": "7萬",
-      "explanation": "対面はリーチ後に白を2枚続けて手出し＝対子落とし。これは白の対子をリャンメンに振り替えた（あるいは元々シャンポンを崩した）サインで、白はもう待ちではなく安全になっている。本命は別のリャンメンで、河に薄い萬子の5-6萬から4-7萬リャンメン。7萬が刺さる。",
+      "explanation": "対面はダマのまま、終盤に白を2枚続けて手出し＝対子落とし。これは白の対子をリャンメンに振り替えてテンパイした(あるいは元のシャンポンを崩した)サインで、白はもう待ちではなく安全になっている。落とした牌に釣られず本命を読むと、河に薄い萬子の5-6萬から4-7萬リャンメンが残る。4萬も切れていないので7萬は無スジで直撃。ダマでもタンヤオ・ピンフで打点があり、油断させて仕留めにきている。",
       "readingPoints": [
-        "リーチ後の対子落とし=その対子は待ちでない→白は安全",
-        "落とした牌に釣られず、本命は別の好形リャンメンと考える",
-        "萬子の中張が河に薄い→4-7萬リャンメンが残り、7萬が危険"
+        "ダマでも整然とした手出し＋終盤の対子落とし=テンパイ濃厚",
+        "対子落としした白はもう待ちでない→白は安全",
+        "本命は残った萬子の4-7萬リャンメン。4萬未切で7萬は無スジ"
       ],
       "difficulty": "hard",
-      "tags": ["対子落とし", "リーチ", "リャンメン", "終盤"],
-      "dangerReason": "対子落としで白の安全が確定する一方、捨てられていない萬子の中張が待ちとして残り、4-7萬の7萬が直撃する。",
+      "dangerLevel": 4,
+      "tags": ["対子落とし", "ダマ", "リャンメン", "終盤"],
+      "dangerReason": "対子落としで白の安全が確定する一方、捨てられていない萬子の中張が待ちとして残り、無スジの7萬が直撃する。",
+      "readingBasis": [
+        { "label": "対子落とし", "detail": "終盤に白を2枚続けて手出し＝白の対子を払ってリャンメンに振り替えたサイン。落とした白はもう待ちではなく安全。" },
+        { "label": "無スジ", "detail": "釣られず本命を読む。萬子の中張が薄く4萬も未切で、4-7萬の7萬が無スジで残る。" },
+        { "label": "現物", "detail": "2索・9筒・9索は対面の河にあり現物で安全。" },
+        { "label": "ダマ警戒", "detail": "リーチが無くても整然とした手出しはテンパイ濃厚。ダマだからと油断しない。" }
+      ],
       "choiceReasons": [
         { "tile": "白", "reason": "直前に対子落としされた牌。対子を払った=もう待ちではなく安全。" },
-        { "tile": "2索", "reason": "リーチ宣言牌そのもの=現物で当たらない。" },
-        { "tile": "9筒", "reason": "端牌で対面が9筒を切っており、待ちにならない。" },
-        { "tile": "5索", "reason": "索子は対面の河に端しか出ていないが、リーチ宣言牌が2索で索子下は通りやすい。本命でない。" }
+        { "tile": "2索", "reason": "対面が2索を切っている=現物で当たらない。" },
+        { "tile": "9筒", "reason": "対面が9筒を切っている=現物で安全。" },
+        { "tile": "9索", "reason": "対面が9索を切っている=現物。" }
       ]
     }
   },
   {
     "id": "y006",
-    "roundInfo": { "bakaze": "南", "kyoku": 2, "honba": 0, "kyotaku": 0, "dora": ["4索"], "turn": 13 },
+    "roundInfo": { "bakaze": "南", "kyoku": 2, "honba": 0, "kyotaku": 0, "dora": ["4索"], "turn": 15 },
     "players": [
       {
         "seat": "self", "wind": "北", "score": 23000,
@@ -469,9 +458,13 @@
           { "tile": "1索", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "西", "type": "tsumogiri" },
-          { "tile": "2筒", "type": "tedashi" },
-          { "tile": "8萬", "type": "tsumogiri" },
-          { "tile": "6索", "type": "tsumogiri" },
+          { "tile": "8萬", "type": "tedashi" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "5索", "type": "tsumogiri" },
+          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "7筒", "type": "tedashi" },
+          { "tile": "2筒", "type": "tsumogiri" },
           { "tile": "3筒", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -485,7 +478,13 @@
           { "tile": "東", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tsumogiri" },
           { "tile": "1萬", "type": "tedashi" },
-          { "tile": "北", "type": "tsumogiri" }
+          { "tile": "北", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "5筒", "type": "tsumogiri" },
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" },
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" }
         ]
       },
       {
@@ -494,9 +493,11 @@
           { "tile": "9萬", "type": "tedashi" },
           { "tile": "1筒", "type": "tedashi" },
           { "tile": "西", "type": "tedashi" },
+          { "tile": "9索", "type": "tedashi" },
           { "tile": "中", "type": "tedashi" },
-          { "tile": "8索", "type": "tedashi" },
-          { "tile": "5索", "type": "tedashi" },
+          { "tile": "1索", "type": "tedashi" },
+          { "tile": "7索", "type": "tedashi" },
+          { "tile": "6索", "type": "tedashi" },
           { "tile": "発", "type": "tedashi", "isReachTile": true },
           { "tile": "1萬", "type": "tsumogiri" },
           { "tile": "9筒", "type": "tsumogiri" },
@@ -511,9 +512,13 @@
           { "tile": "1萬", "type": "tedashi" },
           { "tile": "9索", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "2筒", "type": "tsumogiri" },
           { "tile": "8萬", "type": "tsumogiri" },
-          { "tile": "9筒", "type": "tsumogiri" }
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "2筒", "type": "tedashi" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "5筒", "type": "tsumogiri" }
         ]
       }
     ],
@@ -523,29 +528,35 @@
       "yaku": ["リーチ"]
     },
     "question": {
-      "text": "対面はリーチ直前に8索→5索とリャンメンを払っている。放銃牌はどれ？",
-      "choices": ["3筒", "5索", "8索", "2萬", "6索"],
+      "text": "対面はリーチ直前に7索→6索を続けて払っている（リャンメン落とし）。放銃牌はどれ？",
+      "choices": ["3筒", "5索", "8索", "6索", "2萬"],
       "correctTile": "3筒",
-      "explanation": "対面はリーチ宣言の直前に8索・5索を続けて手出し＝索子のリャンメン(6-7索周辺)を払って手を組み替えた。つまり索子の中張は通りやすくなっており、待ちは別の色。河に薄い筒子の4-5筒から3-6筒リャンメンが本命で、無スジの3筒が刺さる。",
+      "explanation": "対面はリーチ宣言の直前に7索・6索を続けて手出し＝6-7索のリャンメンを払って手を組み替えた。払ったリャンメンの筋(5索・8索)はもう待ちにならず通りやすい。釣られず残った色を読むと、河に薄い筒子の4-5筒から3-6筒リャンメンが本命。3筒は6筒も切れておらず無スジで刺さる。『落とした色は安全、残った色が危険』というリャンメン落とし読みの典型。",
       "readingPoints": [
-        "リーチ直前の8索→5索の連続手出し=索子のリャンメンを払ったサイン",
-        "払った索子の筋(5-8索)は通りやすく、待ちは別の色に移っている",
-        "筒子の中張が河に薄く、3-6筒リャンメンが残る→3筒が危険"
+        "リーチ直前の7索→6索の連続手出し=6-7索のリャンメンを払ったサイン",
+        "払った索子の筋(5索・8索)は通りやすく、待ちは別の色に移っている",
+        "筒子の中張が河に薄く、3-6筒リャンメンが残る→無スジ3筒が危険"
       ],
       "difficulty": "hard",
-      "tags": ["リャンメン落とし", "リーチ", "終盤"],
+      "dangerLevel": 4,
+      "tags": ["リャンメン落とし", "リーチ", "無スジ", "終盤"],
       "dangerReason": "リャンメン落としで索子側は安全寄りになる一方、残った筒子の3-6筒リャンメンに無スジの3筒が直撃する。",
+      "readingBasis": [
+        { "label": "リャンメン落とし", "detail": "リーチ直前に7索→6索を続けて手出し＝6-7索のリャンメンを払って手変わりした。その筋(5索・8索)は通りやすい。" },
+        { "label": "無スジ", "detail": "払った索子ではなく残った色を読む。筒子の中張が薄く3-6筒リャンメンが残り、無スジ3筒が刺さる。" },
+        { "label": "現物", "detail": "6索・2萬は対面の河にあり現物で安全。" }
+      ],
       "choiceReasons": [
-        { "tile": "5索", "reason": "対面が直前に手出しした牌=現物で安全。" },
-        { "tile": "8索", "reason": "対面が手出しした牌で現物。リャンメン落としの一部で通る。" },
-        { "tile": "2萬", "reason": "対面が2萬をツモ切りしており、萬子下は通りやすい。本命でない。" },
-        { "tile": "6索", "reason": "5-8索を払った筋に含まれ通りやすい。索子待ちは考えにくい。" }
+        { "tile": "5索", "reason": "払った6-7索リャンメンのスジ。その形では待たないので通りやすい。" },
+        { "tile": "8索", "reason": "同じく払ったリャンメンのスジで通りやすい。索子待ちは考えにくい。" },
+        { "tile": "6索", "reason": "対面が直前に手出しした牌=現物で安全。" },
+        { "tile": "2萬", "reason": "対面が2萬を切っている=現物で当たらない。" }
       ]
     }
   },
   {
     "id": "y007",
-    "roundInfo": { "bakaze": "南", "kyoku": 3, "honba": 0, "kyotaku": 0, "dora": ["1萬"], "turn": 12 },
+    "roundInfo": { "bakaze": "南", "kyoku": 3, "honba": 0, "kyotaku": 0, "dora": ["1萬"], "turn": 13 },
     "players": [
       {
         "seat": "self", "wind": "西", "score": 25000,
@@ -556,9 +567,12 @@
           { "tile": "北", "type": "tedashi" },
           { "tile": "8索", "type": "tedashi" },
           { "tile": "発", "type": "tsumogiri" },
-          { "tile": "8索", "type": "tedashi" },
-          { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2萬", "type": "tedashi" },
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tedashi" },
+          { "tile": "7索", "type": "tsumogiri" },
+          { "tile": "3索", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
           { "tile": "5筒", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -572,7 +586,11 @@
           { "tile": "白", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "1筒", "type": "tsumogiri" }
+          { "tile": "1筒", "type": "tsumogiri" },
+          { "tile": "9索", "type": "tsumogiri" },
+          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" }
         ]
       },
       {
@@ -586,7 +604,10 @@
           { "tile": "1萬", "type": "tedashi", "isReachTile": true },
           { "tile": "発", "type": "tsumogiri" },
           { "tile": "2萬", "type": "tsumogiri" },
-          { "tile": "9筒", "type": "tsumogiri" }
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "南", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "北", "type": "tsumogiri" }
         ]
       },
       {
@@ -594,11 +615,15 @@
         "discards": [
           { "tile": "白", "type": "tedashi" },
           { "tile": "発", "type": "tedashi" },
-          { "tile": "1萬", "type": "tsumogiri" },
+          { "tile": "6筒", "type": "tsumogiri" },
           { "tile": "9索", "type": "tedashi" },
           { "tile": "北", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" },
           { "tile": "8萬", "type": "tsumogiri" }
         ]
       }
@@ -610,20 +635,26 @@
     },
     "question": {
       "text": "8索は場に4枚見えている（壁）。壁を活かして安全牌を選ぶと、放銃牌はどれ？",
-      "choices": ["7索", "8索", "5筒", "9索", "6索"],
+      "choices": ["5筒", "8索", "7索", "9索", "6索"],
       "correctTile": "5筒",
-      "explanation": "8索は自分が3枚＋下家1枚で計4枚すべて見えている＝完全な壁。8索は誰も持てないので100%安全。また8索が無いので6_8索や7-8索の形も作れず、7索・9索の危険度も大きく下がる。つまり索子は壁で守れる。しかし筒子はノーケアで、4_6筒のカンチャン5筒が無スジで刺さる。",
+      "explanation": "8索は自分2枚＋下家1枚＋上家1枚で計4枚すべて見えている＝完全な壁(ノーチャンス)。8索は誰も持てず100%安全で、さらに8索を使う6_8索カンチャン・7_8索の形も作れないため7索・9索の危険度も大きく下がる。つまり索子は壁で守れる。ところが守りが索子に偏ると筒子がノーケアになり、4_6筒のカンチャン5筒(無スジ)が刺さる。安全の偏りが盲点になる典型。",
       "readingPoints": [
         "8索が4枚見え=8索は絶対に当たらない(完全安全)",
         "8索の壁で6_8索・7_8索の待ちも消え、7索・9索もかなり安全に",
         "守りは索子に偏りがち。筒子4_6のカンチャン5筒がノーマークで危険"
       ],
       "difficulty": "medium",
+      "dangerLevel": 3,
       "tags": ["壁", "リーチ", "カンチャン", "終盤"],
       "dangerReason": "壁で索子側の安全を確保しても、ケアが薄くなった筒子の4_6カンチャン5筒(無スジ)が刺さる。",
+      "readingBasis": [
+        { "label": "壁(カベ)", "detail": "8索が場に4枚すべて見えている＝完全な壁。8索は当たらず、8索絡みの6_8索・7_8索待ちも全て消える。" },
+        { "label": "ワンチャンス/ノーチャンス", "detail": "壁で索子の安全は確保できるが、守りが索子に偏ると筒子がノーケアになる。" },
+        { "label": "無スジ", "detail": "ケアが薄れた筒子に4_6カンチャン、無スジ5筒が刺さる。安全の偏りが盲点。" }
+      ],
       "choiceReasons": [
+        { "tile": "8索", "reason": "4枚すべて見えており誰も持てない=100%安全(壁そのもの)。" },
         { "tile": "7索", "reason": "8索が4枚壁なので6_8索カンチャン・7_8索は不成立。安全度が非常に高い。" },
-        { "tile": "8索", "reason": "4枚すべて見えており誰も持てない=100%安全。" },
         { "tile": "9索", "reason": "8索の壁で7_8索や8索絡みの待ちが消え、安全寄り。" },
         { "tile": "6索", "reason": "8索壁で6_8索が消え、リャンメンも索子は薄い。本命でない。" }
       ]
@@ -631,7 +662,7 @@
   },
   {
     "id": "y008",
-    "roundInfo": { "bakaze": "南", "kyoku": 4, "honba": 0, "kyotaku": 1, "dora": ["5索"], "turn": 14 },
+    "roundInfo": { "bakaze": "南", "kyoku": 4, "honba": 0, "kyotaku": 1, "dora": ["5索"], "turn": 16 },
     "players": [
       {
         "seat": "self", "wind": "南", "score": 21000,
@@ -644,8 +675,13 @@
           { "tile": "2筒", "type": "tedashi" },
           { "tile": "8萬", "type": "tedashi" },
           { "tile": "3索", "type": "tsumogiri" },
-          { "tile": "6萬", "type": "tsumogiri" },
           { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "7索", "type": "tsumogiri" },
+          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "5萬", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" },
+          { "tile": "6索", "type": "tsumogiri" },
           { "tile": "西", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -659,7 +695,13 @@
           { "tile": "1筒", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "8筒", "type": "tsumogiri" }
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tedashi" },
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "2索", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" }
         ]
       },
       {
@@ -674,7 +716,11 @@
           { "tile": "2萬", "type": "tedashi", "isReachTile": true },
           { "tile": "8索", "type": "tsumogiri" },
           { "tile": "3筒", "type": "tsumogiri" },
-          { "tile": "6萬", "type": "tsumogiri" }
+          { "tile": "6萬", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "北", "type": "tsumogiri" },
+          { "tile": "南", "type": "tsumogiri" }
         ]
       },
       {
@@ -687,7 +733,13 @@
           { "tile": "中", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2索", "type": "tedashi" },
-          { "tile": "8萬", "type": "tsumogiri" }
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "1筒", "type": "tsumogiri" },
+          { "tile": "9萬", "type": "tedashi" },
+          { "tile": "3筒", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "2筒", "type": "tsumogiri" },
+          { "tile": "7筒", "type": "tsumogiri" }
         ]
       }
     ],
@@ -698,20 +750,26 @@
     },
     "question": {
       "text": "終盤、安全そうな字牌を切ったら当たった。放銃牌はどれ？（西は場に1枚も見えていない）",
-      "choices": ["西", "白", "2索", "6萬", "3筒"],
+      "choices": ["西", "白", "1索", "6萬", "3筒"],
       "correctTile": "西",
-      "explanation": "字牌は『何枚見えているか』で危険度が決まる。白は対面・上家・下家で計3枚見えており、待ちになっても出にくく安全。一方で西は場に1枚も見えていない生牌で、単騎・シャンポンの格好の待ち場所。終盤の生牌の字牌は数牌より危険なことが多い。西の単騎に刺さった。",
+      "explanation": "字牌は『何枚見えているか』で危険度が決まる。白は下家2枚・上家1枚で計3枚見えており、待ちになっても残り1枚で和了されにくく安全。一方で西は場に1枚も見えていない生牌(ションパイ)で、単騎・シャンポンの格好の待ち場所。終盤の生牌の字牌は数牌より危険なことが多い。西の単騎に刺さった。1索・6萬・3筒はいずれも対面の現物で安全。",
       "readingPoints": [
         "字牌の危険度=見えている枚数。3枚見えの白はほぼ安全",
         "西は場に1枚も切れていない生牌=単騎・シャンポンで残りやすい",
         "リーチ宣言牌が2萬で数牌待ちが絞れない場面では、生牌の字牌単騎を強く警戒"
       ],
       "difficulty": "medium",
+      "dangerLevel": 4,
       "tags": ["字牌", "リーチ", "単騎", "終盤"],
       "dangerReason": "西は1枚も見えていない生牌で、字牌単騎の絶好の待ち場所。安全そうという思い込みで切ってしまいやすい。",
+      "readingBasis": [
+        { "label": "字牌処理", "detail": "字牌の危険度は『場に何枚見えているか』で決まる。白は3枚見えで残り1枚=ほぼ安全。" },
+        { "label": "生牌(ションパイ)", "detail": "西は場に1枚も見えていない生牌。単騎・シャンポンの絶好の待ち場所で、終盤は数牌より危険なことが多い。" },
+        { "label": "現物", "detail": "1索・6萬・3筒は対面の河にあり現物で安全。" }
+      ],
       "choiceReasons": [
         { "tile": "白", "reason": "場に3枚見えており、待ちでも残り1枚。出ても和了しづらく安全。" },
-        { "tile": "2索", "reason": "上家が2索を手出ししており、索子下は通りやすい。" },
+        { "tile": "1索", "reason": "対面が1索を切っている=現物で当たらない。" },
         { "tile": "6萬", "reason": "対面が6萬をツモ切り済み=現物で安全。" },
         { "tile": "3筒", "reason": "対面が3筒をツモ切り済み=現物で当たらない。" }
       ]
@@ -719,7 +777,7 @@
   },
   {
     "id": "y009",
-    "roundInfo": { "bakaze": "東", "kyoku": 1, "honba": 2, "kyotaku": 1, "dora": ["6筒"], "turn": 12 },
+    "roundInfo": { "bakaze": "東", "kyoku": 1, "honba": 2, "kyotaku": 1, "dora": ["6筒"], "turn": 14 },
     "players": [
       {
         "seat": "self", "wind": "南", "score": 19000,
@@ -733,6 +791,10 @@
           { "tile": "9索", "type": "tsumogiri" },
           { "tile": "2萬", "type": "tedashi" },
           { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" },
+          { "tile": "7萬", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "2筒", "type": "tsumogiri" },
           { "tile": "5索", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -746,7 +808,12 @@
           { "tile": "白", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
           { "tile": "1筒", "type": "tsumogiri" },
-          { "tile": "9萬", "type": "tsumogiri" }
+          { "tile": "9萬", "type": "tsumogiri" },
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "2筒", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" }
         ]
       },
       {
@@ -760,7 +827,11 @@
           { "tile": "8萬", "type": "tedashi", "isReachTile": true },
           { "tile": "発", "type": "tsumogiri" },
           { "tile": "9筒", "type": "tsumogiri" },
-          { "tile": "1萬", "type": "tsumogiri" }
+          { "tile": "1萬", "type": "tsumogiri" },
+          { "tile": "北", "type": "tsumogiri" },
+          { "tile": "9索", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" }
         ]
       },
       {
@@ -773,7 +844,12 @@
           { "tile": "1萬", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
-          { "tile": "8索", "type": "tsumogiri" }
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "1筒", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "7筒", "type": "tsumogiri" }
         ]
       }
     ],
@@ -784,29 +860,35 @@
     },
     "question": {
       "text": "親（対面）の2本場リーチ。打点も高い。放銃牌はどれ？",
-      "choices": ["5索", "8萬", "9筒", "1萬", "2筒", "4索"],
+      "choices": ["5索", "8萬", "9筒", "1萬", "4索"],
       "correctTile": "5索",
-      "explanation": "対面は親でリーチ宣言牌が8萬。8萬のスジである5萬は通りやすいが、索子は中張が河に出ていない。3-4索を抱えて2-5索のリャンメンが本命。5索は無スジでドラ6筒も絡む高打点。親リーチには無スジの中張を極力切らないのが鉄則。",
+      "explanation": "対面は親でリーチ宣言牌が8萬。8萬のスジ(5萬)側は読めても、索子は中張が河に全く出ていない。3-4索を抱えて2-5索のリャンメンが本命で、5索は2索も8索も切れておらず無スジ。ドラ6筒絡みで打点も高く、親＋2本場＋ドラの放銃は致命傷。こういう局面では無スジの中張は徹底回避し、現物(8萬・9筒・1萬)から切るのが鉄則。",
       "readingPoints": [
         "親リーチ＋2本場＋ドラ=放銃すると致命傷。無スジは徹底回避すべき場面",
         "リーチ宣言牌8萬で萬子上は読めるが、索子の中張が全く出ていない",
         "2-5索リャンメンが本命。5索は無スジで最も危険"
       ],
       "difficulty": "hard",
-      "tags": ["親リーチ", "リーチ", "リャンメン", "終盤"],
+      "dangerLevel": 5,
+      "tags": ["親リーチ", "リーチ", "リャンメン", "無スジ", "終盤"],
       "dangerReason": "索子の中張が場に薄く2-5索リャンメンが本命。5索は無スジで、親の高打点に直撃する最悪の放銃牌。",
+      "readingBasis": [
+        { "label": "親リーチ", "detail": "親の2本場リーチ＋ドラ。放銃の失点が大きく、無スジの中張は徹底回避すべき場面。" },
+        { "label": "無スジ", "detail": "索子の中張が出ておらず、宣言牌8萬で萬子上は読めても索子は不明。2-5索リャンメンの5索が無スジで本命。" },
+        { "label": "現物", "detail": "8萬(宣言牌)・9筒・1萬は対面の現物で安全。困ったらまず現物から。" },
+        { "label": "打点読み", "detail": "親＋ドラで高打点。リスクリターンが最悪なので5索のような無スジは絶対に切らない。" }
+      ],
       "choiceReasons": [
         { "tile": "8萬", "reason": "リーチ宣言牌そのもの=現物で当たらない。" },
         { "tile": "9筒", "reason": "対面が9筒をツモ切り済み=現物で安全。" },
         { "tile": "1萬", "reason": "対面が1萬をツモ切り済み=現物で安全。" },
-        { "tile": "2筒", "reason": "上家が2筒を手出ししており通りやすい。本命でない。" },
-        { "tile": "4索", "reason": "索子待ちの候補だが、2-5索リャンメンの本線では4索より5索が当たり。4索は外側で本命でない。" }
+        { "tile": "4索", "reason": "索子待ちの候補だが、2-5索リャンメンの本線では当たりは5索側。4索は外側で本命でない。" }
       ]
     }
   },
   {
     "id": "y010",
-    "roundInfo": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 0, "dora": ["2索"], "turn": 13 },
+    "roundInfo": { "bakaze": "東", "kyoku": 2, "honba": 0, "kyotaku": 0, "dora": ["2索"], "turn": 17 },
     "players": [
       {
         "seat": "self", "wind": "西", "score": 25000,
@@ -821,6 +903,12 @@
           { "tile": "2筒", "type": "tedashi" },
           { "tile": "8萬", "type": "tsumogiri" },
           { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "6萬", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tedashi" },
+          { "tile": "3索", "type": "tsumogiri" },
+          { "tile": "4索", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "7索", "type": "tsumogiri" },
           { "tile": "5筒", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -834,7 +922,15 @@
           { "tile": "発", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi" },
-          { "tile": "1萬", "type": "tsumogiri" }
+          { "tile": "1萬", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" },
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "3索", "type": "tsumogiri" },
+          { "tile": "6索", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" }
         ]
       },
       {
@@ -849,7 +945,12 @@
           { "tile": "1萬", "type": "tsumogiri" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "北", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" },
           { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "白", "type": "tsumogiri" },
+          { "tile": "2索", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tedashi" }
         ]
       },
@@ -863,7 +964,14 @@
           { "tile": "北", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
-          { "tile": "8萬", "type": "tsumogiri" }
+          { "tile": "8萬", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "7筒", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "6萬", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" }
         ]
       }
     ],
@@ -874,111 +982,29 @@
     },
     "question": {
       "text": "対面はリーチなし。ずっとツモ切りが続き、最後に9萬を手出しした直後の放銃牌はどれ？",
-      "choices": ["5筒", "8索", "1索", "6萬", "4萬"],
+      "choices": ["5筒", "8索", "1索", "2索", "9萬"],
       "correctTile": "5筒",
-      "explanation": "対面は中盤以降ずっとツモ切り(=既に良形テンパイで、有効牌待ち)を続け、最後に9萬を手出しした。これは安全牌として抱えていた9萬を切れた＝完全にテンパイ継続のサイン。ツモ切り連続は『好形で煮詰まっている』合図。河に薄い筒子の6-7筒から5-8筒リャンメン、無スジ5筒が刺さる。",
+      "explanation": "対面は中盤以降ずっとツモ切り＝早い段階で良形テンパイし、有効牌を待っている合図。最後に抱えていた安全牌9萬を手出しできた＝それでもテンパイ継続で、手が完全に決まっているサイン。河に薄い筒子の6-7筒から5-8筒リャンメンが本命で、無スジ5筒がドンピシャ。ダマでもタンヤオ・ピンフがあり油断できない。8索・1索・2索・9萬は対面の現物で安全。",
       "readingPoints": [
         "ツモ切り連続=早い段階で好形テンパイし有効牌を待っている合図",
         "終盤の9萬手出し=安全牌を払えるほど手が決まっている(テンパイ継続)",
         "河に筒子の中張が薄く5-8筒リャンメンが本命。無スジ5筒が危険"
       ],
       "difficulty": "hard",
+      "dangerLevel": 4,
       "tags": ["手出しツモ切り", "ダマ", "リャンメン", "終盤"],
       "dangerReason": "ツモ切り継続で好形テンパイが濃厚なうえ、筒子の5-8筒リャンメンが残り、無スジ5筒がドンピシャで刺さる。",
+      "readingBasis": [
+        { "label": "ツモ切り読み", "detail": "中盤以降ツモ切りが続く＝早い段階で好形テンパイし有効牌を待っている合図。" },
+        { "label": "手出し読み", "detail": "終盤に抱えていた安全牌9萬を手出し＝それでもテンパイ継続。手が完全に決まっている。" },
+        { "label": "無スジ/ダマ警戒", "detail": "リーチが無くても好形濃厚。筒子の中張が薄く5-8筒リャンメン、無スジ5筒が刺さる。" },
+        { "label": "現物", "detail": "8索・1索・2索・9萬は対面の河にあり現物で安全。" }
+      ],
       "choiceReasons": [
         { "tile": "8索", "reason": "対面が8索をツモ切り済み=現物で安全。" },
-        { "tile": "1索", "reason": "端牌でタンヤオが付かず、対面の手と合わない。" },
-        { "tile": "6萬", "reason": "萬子は対面の河に端が多く、9萬手出し後で萬子上は読みにくいが本命でない。" },
-        { "tile": "4萬", "reason": "対面が直前に9萬を払っており萬子の形は崩れ気味。筒子待ちが本命。" }
-      ]
-    }
-  },
-  {
-    "id": "y011",
-    "roundInfo": { "bakaze": "南", "kyoku": 1, "honba": 0, "kyotaku": 0, "dora": ["3萬"], "turn": 12 },
-    "players": [
-      {
-        "seat": "self", "wind": "東", "score": 25000,
-        "discards": [
-          { "tile": "9筒", "type": "tedashi" },
-          { "tile": "1索", "type": "tedashi" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "発", "type": "tedashi" },
-          { "tile": "9索", "type": "tsumogiri" },
-          { "tile": "西", "type": "tedashi" },
-          { "tile": "2筒", "type": "tsumogiri" },
-          { "tile": "8索", "type": "tedashi" },
-          { "tile": "1筒", "type": "tsumogiri" }
-        ]
-      },
-      {
-        "seat": "shimocha", "wind": "南", "score": 25000,
-        "melds": [
-          { "type": "pon", "tiles": ["白", "白", "白"], "called": "白", "from": "kamicha" },
-          { "type": "chi", "tiles": ["6萬", "7萬", "8萬"], "called": "8萬", "from": "self" }
-        ],
-        "discards": [
-          { "tile": "9索", "type": "tedashi" },
-          { "tile": "1索", "type": "tedashi" },
-          { "tile": "2筒", "type": "tedashi" },
-          { "tile": "9筒", "type": "tedashi" },
-          { "tile": "8索", "type": "tedashi" },
-          { "tile": "東", "type": "tedashi" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "5索", "type": "tedashi" }
-        ]
-      },
-      {
-        "seat": "toimen", "wind": "西", "score": 25000,
-        "discards": [
-          { "tile": "中", "type": "tedashi" },
-          { "tile": "東", "type": "tedashi" },
-          { "tile": "1筒", "type": "tedashi" },
-          { "tile": "9萬", "type": "tsumogiri" },
-          { "tile": "白", "type": "tedashi" },
-          { "tile": "9索", "type": "tsumogiri" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "8筒", "type": "tsumogiri" }
-        ]
-      },
-      {
-        "seat": "kamicha", "wind": "北", "score": 25000,
-        "discards": [
-          { "tile": "発", "type": "tedashi" },
-          { "tile": "中", "type": "tedashi" },
-          { "tile": "1萬", "type": "tedashi" },
-          { "tile": "9筒", "type": "tsumogiri" },
-          { "tile": "北", "type": "tedashi" },
-          { "tile": "9索", "type": "tsumogiri" },
-          { "tile": "2索", "type": "tedashi" },
-          { "tile": "8萬", "type": "tsumogiri" }
-        ]
-      }
-    ],
-    "result": {
-      "type": "tsumo", "winner": "shimocha",
-      "hiddenTile": "5萬", "waits": ["2萬", "5萬"], "waitShape": "リャンメン",
-      "yaku": ["ホンイツ", "白", "ドラ1"]
-    },
-    "question": {
-      "text": "下家が白ポン＋萬子チーでツモ和了した。ツモった当たり牌はどれ？",
-      "choices": ["5萬", "8索", "5筒", "9索", "西", "2筒"],
-      "correctTile": "5萬",
-      "explanation": "下家は白をポンし、6-7-8萬をチー。河は索子・筒子・字牌ばかりで萬子が1枚も切れていない＝萬子のホンイツ＋白＋ドラ(3萬)。萬子の3-4萬を抱えて2-5萬のリャンメンをツモ和了。染め手では切れていない色が待ちで、ドラ3萬絡みの5萬を引き当てた。",
-      "readingPoints": [
-        "白ポン＋萬子チー、河に萬子皆無=萬子ホンイツ＋白が確定",
-        "ドラが3萬。萬子の3-4萬を抱えて2-5萬リャンメンが本命",
-        "ツモ和了なので河には出ないが、待ち牌は萬子の中張。5萬がドラ絡みの本線"
-      ],
-      "difficulty": "medium",
-      "tags": ["染め手", "ホンイツ", "ツモ", "副露読み"],
-      "dangerReason": "萬子ホンイツでドラ3萬絡み。2-5萬リャンメンのうち5萬はドラに隣接し打点・受けともに本線。",
-      "choiceReasons": [
-        { "tile": "8索", "reason": "下家が8索を手出ししており、索子は染め色(萬子)の対象外。" },
-        { "tile": "5筒", "reason": "筒子も河に出ておりホンイツ萬子の手では不要。待ちでない。" },
-        { "tile": "9索", "reason": "下家が9索を切っており索子は安全。萬子待ちが本命。" },
-        { "tile": "西", "reason": "字牌だが白で既に役が確定。西の待ちは打点的にも本線でない。" },
-        { "tile": "2筒", "reason": "下家が2筒を手出し済み。筒子は染め色でなく待ちにならない。" }
+        { "tile": "1索", "reason": "対面が1索をツモ切り済み=現物。" },
+        { "tile": "2索", "reason": "対面が2索をツモ切り済み=現物で当たらない。" },
+        { "tile": "9萬", "reason": "対面が直前に手出しした牌=現物で安全。" }
       ]
     }
   },
@@ -1000,6 +1026,9 @@
           { "tile": "3索", "type": "tsumogiri" },
           { "tile": "6筒", "type": "tsumogiri" },
           { "tile": "4萬", "type": "tsumogiri" },
+          { "tile": "5筒", "type": "tsumogiri" },
+          { "tile": "7萬", "type": "tsumogiri" },
+          { "tile": "2萬", "type": "tsumogiri" },
           { "tile": "北", "type": "tedashi", "hiddenWinTile": true }
         ]
       },
@@ -1013,7 +1042,13 @@
           { "tile": "白", "type": "tsumogiri" },
           { "tile": "9萬", "type": "tsumogiri" },
           { "tile": "発", "type": "tedashi" },
-          { "tile": "8筒", "type": "tsumogiri" }
+          { "tile": "8筒", "type": "tsumogiri" },
+          { "tile": "1萬", "type": "tedashi" },
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "3萬", "type": "tsumogiri" },
+          { "tile": "5索", "type": "tsumogiri" },
+          { "tile": "1索", "type": "tsumogiri" }
         ]
       },
       {
@@ -1030,7 +1065,8 @@
           { "tile": "6索", "type": "tedashi", "isReachTile": true },
           { "tile": "発", "type": "tsumogiri" },
           { "tile": "1萬", "type": "tsumogiri" },
-          { "tile": "9筒", "type": "tsumogiri" }
+          { "tile": "9筒", "type": "tsumogiri" },
+          { "tile": "8筒", "type": "tsumogiri" }
         ]
       },
       {
@@ -1043,7 +1079,12 @@
           { "tile": "中", "type": "tedashi" },
           { "tile": "9筒", "type": "tsumogiri" },
           { "tile": "2筒", "type": "tedashi" },
-          { "tile": "8索", "type": "tsumogiri" }
+          { "tile": "8索", "type": "tsumogiri" },
+          { "tile": "東", "type": "tedashi" },
+          { "tile": "1索", "type": "tsumogiri" },
+          { "tile": "3筒", "type": "tsumogiri" },
+          { "tile": "7索", "type": "tsumogiri" },
+          { "tile": "4筒", "type": "tsumogiri" }
         ]
       }
     ],
@@ -1056,15 +1097,21 @@
       "text": "対面のリーチ。河には数牌のリャンメンが綺麗に並んでいる。放銃牌はどれ？（北は場に1枚も見えていない）",
       "choices": ["北", "2索", "7筒", "4萬", "6索"],
       "correctTile": "北",
-      "explanation": "対面の河は2索・7筒・4萬・6索(宣言牌)と、数牌のリャンメン候補を次々に手出ししている。良形の数牌待ちを払って単騎に固定したパターン。残るは字牌単騎で、場に1枚も見えていない生牌の北が本命。リャンメンを払う河＝単騎・カンチャン等の変則待ちを疑う。",
+      "explanation": "対面の河はリーチ前後に2索・7筒・4萬・6索(宣言牌)と、良形になりうる数牌の中張を次々手出ししている。これは好形を払って単騎・カンチャン等の変則待ちに固定したパターン。数牌の本命待ちは絞れて薄く、残るは字牌単騎。北は場に1枚も見えていない生牌で、字牌単騎の絶好の待ち場所。2索・7筒・4萬・6索はすべて現物で安全。",
       "readingPoints": [
         "リーチ前後に数牌の中張(2索・7筒・4萬)を次々手出し=良形を払って変則待ちに固定",
         "宣言牌6索も含め数牌の手出しが多い→数牌の本命待ちは絞れる/薄い",
         "北は場に0枚の生牌。字牌単騎の絶好の待ち場所で最も危険"
       ],
       "difficulty": "hard",
+      "dangerLevel": 5,
       "tags": ["リーチ", "単騎", "字牌", "終盤"],
       "dangerReason": "数牌のリャンメンを払う河は字牌単騎を示唆。北は1枚も見えていない生牌で、単騎待ちにドンピシャ刺さる。",
+      "readingBasis": [
+        { "label": "字牌単騎", "detail": "北は場に1枚も見えていない生牌。字牌単騎の絶好の待ち場所。" },
+        { "label": "変則待ち読み", "detail": "リーチ前後に数牌の中張(2索・7筒・4萬・6索)を次々手出し＝良形を払って単騎・カンチャンに固定したサイン。" },
+        { "label": "現物", "detail": "2索・7筒・4萬・6索(宣言牌)はすべて対面の河にあり現物。残る危険は字牌単騎の北のみ。" }
+      ],
       "choiceReasons": [
         { "tile": "2索", "reason": "対面が2索を手出し済み=現物で安全。" },
         { "tile": "7筒", "reason": "対面が7筒を手出し済み=現物で当たらない。" },

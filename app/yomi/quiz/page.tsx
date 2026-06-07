@@ -146,7 +146,31 @@ function QuizContent() {
               <Row label="和了" value={`${q.result.type === "ron" ? "ロン" : "ツモ"}　和了者: ${winnerLabel}${loserLabel ? `／放銃者: ${loserLabel}` : ""}`} />
               <Row label="待ち形" value={`${q.result.waitShape ?? "-"}（待ち: ${q.result.waits.join("・")}）`} />
               <Row label="役" value={q.result.yaku.join("・")} />
+              <div className="flex items-center gap-2">
+                <span className="text-gray-400 w-16 flex-shrink-0">危険度</span>
+                <span className="text-amber-500 tracking-wide text-base leading-none">
+                  {"★".repeat(body.dangerLevel)}<span className="text-gray-200">{"★".repeat(5 - body.dangerLevel)}</span>
+                </span>
+                <span className="text-xs text-gray-400">{body.dangerLevel} / 5</span>
+              </div>
             </div>
+
+            {/* 読み根拠 */}
+            {body.readingBasis && body.readingBasis.length > 0 && (
+              <div className="bg-sky-50 rounded-xl border border-sky-200 p-4">
+                <p className="text-sm font-bold text-sky-800 mb-2">🧭 読み根拠</p>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  {body.readingBasis.map((rb, i) => (
+                    <li key={i} className="flex flex-col gap-0.5">
+                      <span className="inline-flex w-fit items-center text-xs font-bold text-sky-700 bg-sky-100 rounded-full px-2 py-0.5">
+                        {rb.label}
+                      </span>
+                      <span className="leading-relaxed">{rb.detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* 読み筋 */}
             <div className="bg-emerald-50 rounded-xl border border-emerald-200 p-4">
