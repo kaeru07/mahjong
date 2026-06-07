@@ -109,6 +109,29 @@
 
 ---
 
+## 取得エンドポイント（2026-06-07 実証）
+
+公開URLからの取得を実地検証した結果:
+
+| 経路 | 結果 |
+|---|---|
+| `https://tenhou.net/sc/raw/list.cgi` | ✓ 公開・認証不要。直近の鳳凰卓アーカイブ一覧（`scc{YYYYMMDDHH}.html.gz`）を返す |
+| `https://tenhou.net/sc/raw/dat/scc{YYYYMMDDHH}.html.gz` | ✓ 公開。1時間分の鳳凰卓対局一覧。各行に `?log={ref}` の牌譜URL（例: `四鳳南喰赤－` の半荘）|
+| `https://tenhou.net/0/log/?{ref}` | ✓ **生mjlog XML を直接返す（認証/Cookie不要）**。これが公開取得の本命 |
+| `https://tenhou.net/0/log/find.cgi?log={ref}` | ✗ `ERROR`（非会員には閉じている。**認証突破はしない**）|
+| `https://tenhou.net/0/log/find.cgi?log={ref}&tw=0` | △ gzip 圧縮 XML を返すが find.cgi 系は会員前提のため非推奨 |
+
+→ **公開で取得するなら `tenhou.net/0/log/?{ref}`**。`ref` は scc アーカイブの一覧から取得（公開ページから見えるURLのみ）。
+
+## 取り込み試験結果（2026-06-07 / runId は本作業のレビュー参照）
+
+- scc 1ファイル（1時間分）から 4鳳半荘の `?log=` URL を 3 件確認。
+- うち 1 件を `tenhou.net/0/log/?{ref}` で**一時取得**（13KB の mjlog XML）。
+- `scripts/tenhou-to-yomi.mjs` で解析 → ロン局 5 件抽出（turn≥10・4人河）→ 候補化（整合 validate 全件 PASS）。
+- `scripts/ingest-yomi.mjs` へ投入 → **採用 0 / 保留(B) 5**（自動生成は読み筋未検証のため B、`S/A のみ採用`ルールで不採用＝想定通り）。
+- **生牌譜は処理後に削除済み**（`--raw` で mjlog 削除を確認）。正本 `yomi-questions.json` は 10 問のまま不変。
+- 結論: 取得→解析→抽出→品質ゲートのパイプラインは**実データで動作**。S/A 採用には「読み筋の検証（人手 or ヒューリスティック）」の追加が必要。
+
 ## まとめ（要点）
 
 - 公開フル牌譜は **鳳凰卓(scc)のみ**。特上卓上位は公開入手不可だが、鳳凰卓＝最上位公開帯なので品質目的は達成。
