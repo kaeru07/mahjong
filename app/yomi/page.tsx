@@ -144,6 +144,12 @@ export default function YomiHome() {
             当たり牌読み練習を始める
           </button>
           <button
+            onClick={() => router.push("/yomi/review")}
+            className="w-full mt-3 py-2.5 rounded-2xl text-sm font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 active:scale-95 transition-all"
+          >
+            🔍 AI良問判定レビュー（S/A判定の検証）
+          </button>
+          <button
             onClick={() => router.push("/")}
             className="w-full mt-3 py-2.5 rounded-2xl text-sm font-medium bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 active:scale-95 transition-all"
           >
