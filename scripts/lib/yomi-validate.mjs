@@ -4,6 +4,8 @@
 // 取り込みルール: docs/yomi-ingestion.md
 // ─────────────────────────────────────────────────────────────
 
+import { validateSourceValidationShape } from "./yomi-source-validate.mjs";
+
 export const SEATS = ["self", "shimocha", "toimen", "kamicha"];
 export const MIN_TURN = 10; // 10巡目以降を採用条件とする
 
@@ -99,6 +101,14 @@ export function validateQuestion(q, { seenIds } = {}) {
   if (b.source) {
     for (const banned of ["gameId", "mjlog", "xml", "mjai", "raw"])
       if (banned in b.source) E(`source.${banned} は保持禁止（生牌譜ポインタ・再配布防止）`);
+  }
+
+  // 原本再現性の検証（任意）: 形式が壊れていないこと
+  if (b.sourceValidation) {
+    for (const m of validateSourceValidationShape(b.sourceValidation, id)) errors.push(m);
+    // 原本差分 failed の問題は採用不可（原本との差分をレビューせずに S/A 採用しない）
+    if (b.sourceValidation.status === "failed" && (b.qualityRank === "S" || b.qualityRank === "A"))
+      E(`原本差分が failed なのに qualityRank=${b.qualityRank}（原本差分 failed は S/A 採用不可）`);
   }
 
   return { errors, warns };

@@ -56,4 +56,6 @@ data/imported/**/*.json
 data/imported/raw/
 data/imported/tenhou/
 data/rejected/**/*.json
+# 原本差分レポート（ローカルのレビュー材料・コミットしない）
+data/source-validation/
 *.mjlog

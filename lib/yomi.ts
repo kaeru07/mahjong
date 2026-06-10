@@ -1,5 +1,5 @@
 import yomiData from "@/data/yomi-questions.json";
-import { YomiQuestion, SeatKey } from "@/types/yomi";
+import { YomiQuestion, SeatKey, SourceValidation, SourceValidationStatus } from "@/types/yomi";
 
 const questions: YomiQuestion[] = yomiData as YomiQuestion[];
 
@@ -94,6 +94,57 @@ export function getYomiSourceStats(all: YomiQuestion[]): YomiSourceStats {
     byRank[r] = (byRank[r] ?? 0) + 1;
   }
   return { total: all.length, byType, byRank };
+}
+
+// ─────────────────────────────────────────────
+// 原本再現性（sourceValidation）の表示ヘルパー
+// ─────────────────────────────────────────────
+
+export const SOURCE_VALIDATION_STATUS_LABEL: Record<SourceValidationStatus, string> = {
+  exact: "原本一致",
+  partial: "一部差分",
+  failed: "原本不一致",
+};
+
+export function getSourceValidationStatusLabel(s?: SourceValidationStatus): string {
+  if (!s) return "未検証";
+  return SOURCE_VALIDATION_STATUS_LABEL[s] ?? s;
+}
+
+export function getSourceValidationStatusClass(s?: SourceValidationStatus): string {
+  if (s === "exact") return "bg-green-100 text-green-700";
+  if (s === "partial") return "bg-yellow-100 text-yellow-700";
+  if (s === "failed") return "bg-red-100 text-red-700";
+  return "bg-gray-100 text-gray-500"; // 未検証
+}
+
+// 一致率を「62%」表記にする
+export function formatMatchRate(sv?: SourceValidation): string {
+  if (!sv) return "—";
+  return `${Math.round(sv.matchRate * 100)}%`;
+}
+
+// 原本検証の集計（問題集全体）
+export interface YomiValidationStats {
+  total: number;
+  validated: number;           // sourceValidation を持つ問題数
+  exact: number;
+  partial: number;
+  failed: number;
+  unvalidated: number;         // sourceValidation を持たない（未検証）
+}
+
+export function getYomiValidationStats(all: YomiQuestion[]): YomiValidationStats {
+  const stats: YomiValidationStats = { total: all.length, validated: 0, exact: 0, partial: 0, failed: 0, unvalidated: 0 };
+  for (const q of all) {
+    const sv = q.question.sourceValidation;
+    if (!sv) { stats.unvalidated++; continue; }
+    stats.validated++;
+    if (sv.status === "exact") stats.exact++;
+    else if (sv.status === "partial") stats.partial++;
+    else stats.failed++;
+  }
+  return stats;
 }
 
 export const SEAT_LABEL: Record<SeatKey, string> = {

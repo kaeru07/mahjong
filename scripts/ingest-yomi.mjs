@@ -29,13 +29,14 @@ import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, mkdirSy
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join } from "node:path";
 import { validateQuestion, validateQuestions, boardSignature } from "./lib/yomi-validate.mjs";
+import { compareToOriginal, formatDiffReport } from "./lib/yomi-source-validate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..");
 
 // --- args ---
 const args = process.argv.slice(2);
-const opts = { out: resolve(repoRoot, "data/yomi-questions.json"), raw: null, rawCount: null, keepRaw: false, dryRun: false };
+const opts = { out: resolve(repoRoot, "data/yomi-questions.json"), raw: null, rawCount: null, keepRaw: false, dryRun: false, original: null, originalKind: "json", reviewedBy: null };
 const positional = [];
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
@@ -44,6 +45,9 @@ for (let i = 0; i < args.length; i++) {
   else if (a === "--raw-count") opts.rawCount = parseInt(args[++i], 10);
   else if (a === "--keep-raw") opts.keepRaw = true;
   else if (a === "--dry-run") opts.dryRun = true;
+  else if (a === "--original") opts.original = resolve(process.cwd(), args[++i]);
+  else if (a === "--original-kind") opts.originalKind = args[++i];
+  else if (a === "--reviewed-by") opts.reviewedBy = args[++i];
   else positional.push(a);
 }
 if (positional.length === 0) {
@@ -64,6 +68,30 @@ if (statSync(candidatesPath).isDirectory()) {
     candidates.push(...loadJsonArray(join(candidatesPath, f)));
 } else {
   candidates = loadJsonArray(candidatesPath);
+}
+
+// --- load originals (任意): 原本との差分検証 ---
+// 原本があれば各候補に sourceValidation を付与し、差分レポートを生成する。
+// 原本差分 failed の S/A は検証(validateQuestion)でエラー化 → quarantine へ回る。
+const origById = {};
+if (opts.original) {
+  if (!existsSync(opts.original)) { console.error(`❌ 原本が存在しない: ${opts.original}`); process.exit(1); }
+  const origRaw = JSON.parse(readFileSync(opts.original, "utf8"));
+  if (Array.isArray(origRaw)) for (const o of origRaw) { if (o.id) origById[o.id] = o; }
+  else for (const [k, v] of Object.entries(origRaw)) origById[k] = v;
+}
+const diffReports = [];
+const svStatusCount = { exact: 0, partial: 0, failed: 0, noOriginal: 0 };
+if (opts.original) {
+  for (const cand of candidates) {
+    const orig = origById[cand.id];
+    if (!orig) { svStatusCount.noOriginal++; continue; }
+    const sv = compareToOriginal(cand, orig, { originalKind: opts.originalKind, reviewedBy: opts.reviewedBy ?? undefined });
+    cand.question = cand.question || {};
+    cand.question.sourceValidation = sv;
+    svStatusCount[sv.status]++;
+    diffReports.push(formatDiffReport(cand.id, sv));
+  }
 }
 
 // --- load existing canonical ---
@@ -138,6 +166,13 @@ if (!opts.dryRun) {
     ensureDir(dir);
     writeJson(join(dir, `ingest-${ts}.json`), rej);
   }
+  // 原本差分レポート（ローカルのみ・gitignore）
+  if (diffReports.length) {
+    const dir = resolve(repoRoot, "data/source-validation");
+    ensureDir(dir);
+    const header = `==== /yomi 原本差分レポート ${ts} ====\nexact=${svStatusCount.exact} partial=${svStatusCount.partial} failed=${svStatusCount.failed} 原本なし=${svStatusCount.noOriginal}\n\n`;
+    writeFileSync(join(dir, `diff-${ts}.txt`), header + diffReports.join("\n\n") + "\n");
+  }
   // 元牌譜削除（生牌譜を保管しない）
   if (opts.raw && !opts.keepRaw) {
     if (existsSync(opts.raw)) { rmSync(opts.raw, { recursive: true, force: true }); }
@@ -156,6 +191,14 @@ console.log(`隔離数(C): ${quarantined.length}`);
 console.log(`破棄数(D): ${discarded.length}`);
 console.log(`品質ランク内訳: S=${rankCount.S} A=${rankCount.A} B=${rankCount.B} C=${rankCount.C} D=${rankCount.D} 未設定=${rankCount["(none)"]}`);
 if (sampleReasons.length) console.log(`代表的な破棄/隔離理由:\n  - ` + sampleReasons.join("\n  - "));
+
+// 原本差分の集計（--original 指定時）
+if (opts.original) {
+  console.log(`\n---- 原本再現性 ----`);
+  console.log(`原本照合: exact=${svStatusCount.exact} partial=${svStatusCount.partial} failed=${svStatusCount.failed} 原本なし=${svStatusCount.noOriginal}`);
+  console.log(`原本差分 failed の S/A は採用不可（隔離）。差分レポート: ${opts.dryRun ? "[DRY-RUN 省略]" : "data/source-validation/diff-" + ts + ".txt"}`);
+  if (diffReports.length) console.log(diffReports.join("\n\n"));
+}
 
 // 採用後の出典別内訳
 const byRank = {};

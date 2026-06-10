@@ -14,7 +14,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getAllYomiQuestions, getYomiSourceRankLabel } from "@/lib/yomi";
+import {
+  getAllYomiQuestions,
+  getYomiSourceRankLabel,
+  getSourceValidationStatusLabel,
+  getSourceValidationStatusClass,
+  formatMatchRate,
+} from "@/lib/yomi";
 import { scoreQuestion, RANK_NUM, RANK_ORDER, type YomiRank } from "@/lib/yomiScore";
 import { YomiQuestion } from "@/types/yomi";
 import YomiBoardView from "@/components/YomiBoardView";
@@ -143,6 +149,18 @@ export default function YomiReviewPage() {
                     <span className="text-xs text-gray-400">
                       {getYomiSourceRankLabel(q.question.source?.sourceRank)}
                     </span>
+                    {/* 原本再現性バッジ（sourceValidation がある場合） */}
+                    {q.question.sourceValidation && (
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[11px] font-medium ${getSourceValidationStatusClass(
+                          q.question.sourceValidation.status
+                        )}`}
+                        title={`原本一致率 ${formatMatchRate(q.question.sourceValidation)}（${q.question.sourceValidation.matchedCount}/${q.question.sourceValidation.checkedCount}項目一致）`}
+                      >
+                        原本 {getSourceValidationStatusLabel(q.question.sourceValidation.status)}・
+                        {formatMatchRate(q.question.sourceValidation)}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2 text-xs">
                     <span className={`px-2 py-0.5 rounded-full border font-bold ${RANK_STYLE[aiRank]}`}>
@@ -202,6 +220,28 @@ export default function YomiReviewPage() {
                       ))}
                     </ul>
                   </div>
+
+                  {/* 原本差分（sourceValidation がある場合・原本とアプリ表示のズレを確認） */}
+                  {q.question.sourceValidation && (
+                    <div className="mt-3 bg-amber-50 rounded-xl p-3 border border-amber-100">
+                      <p className="text-xs font-semibold text-amber-700 mb-1.5">
+                        原本再現性: {getSourceValidationStatusLabel(q.question.sourceValidation.status)}（一致率 {formatMatchRate(q.question.sourceValidation)} ={" "}
+                        {q.question.sourceValidation.matchedCount}/{q.question.sourceValidation.checkedCount}項目）
+                      </p>
+                      {q.question.sourceValidation.diffSummary && q.question.sourceValidation.diffSummary.length > 0 ? (
+                        <ul className="space-y-0.5">
+                          {q.question.sourceValidation.diffSummary.map((d, i) => (
+                            <li key={i} className="text-xs text-amber-800 flex gap-1.5">
+                              <span className="text-amber-400 shrink-0">×</span>
+                              <span>{d}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-xs text-amber-700">原本と差分なし（全項目一致）。</p>
+                      )}
+                    </div>
+                  )}
 
                   {/* 人間評価 */}
                   <div className="mt-4">

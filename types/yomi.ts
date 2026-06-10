@@ -75,6 +75,66 @@ export interface YomiSource {
 // 取り込み品質ランク（採用=S/A・保留=B・隔離=C・破棄=D）
 export type YomiQualityRank = "S" | "A" | "B" | "C" | "D";
 
+// ─────────────────────────────────────────────
+// 原本再現性の検証（sourceValidation）
+//
+// 目的: 「アプリが表示している問題」が「原本（牌譜JSON / 原本画像の書き起こし）」を
+// 正しく再現しているかを項目ごとに突き合わせ、再現された項目・欠落/不一致の項目を
+// 機械的に検出できるようにする。原本との差分をレビューせずに S/A 採用しないための土台。
+// ─────────────────────────────────────────────
+
+// 1項目の突き合わせ結果
+//   match    = 原本とアプリ表示が一致
+//   mismatch = 値が食い違う（例: 上家河 12枚 → 8枚 / 自風不一致）
+//   missing  = 原本に存在する情報がアプリ表示で欠落（例: 下家鳴き欠落）
+//   unknown  = 原本側に該当データが無く検証できない（一致率の分母に含めない）
+export type FieldMatch = "match" | "mismatch" | "missing" | "unknown";
+
+// 検証14項目のキー
+export type SourceValidationField =
+  | "playerSeats"   // プレイヤー位置
+  | "selfWind"      // 自風
+  | "bakaze"        // 場風
+  | "riverCounts"   // 河枚数
+  | "riverOrder"    // 河順序
+  | "handCounts"    // 手牌枚数
+  | "meldContent"   // 鳴き内容
+  | "meldPosition"  // 鳴き位置
+  | "dora"          // ドラ
+  | "turn"          // 巡目
+  | "scores"        // 点数
+  | "reach"         // リーチ有無
+  | "loser"         // 放銃者
+  | "winner";       // 和了者
+
+export interface SourceValidationCheck {
+  field: SourceValidationField; // 検証項目キー
+  label: string;                // 日本語ラベル（"プレイヤー位置" 等）
+  result: FieldMatch;           // match / mismatch / missing / unknown
+  original?: string;            // 原本側の値（要約文字列）
+  rendered?: string;            // アプリ表示側の値（要約文字列）
+  note?: string;                // 差分の説明（例: "上家河 12枚 → 8枚"）
+}
+
+// 検証ステータス
+//   exact   = 検証可能な全項目が一致（matchRate=1・mismatch/missing なし）
+//   partial = 一部のみ一致（mismatch か missing が混在）
+//   failed  = 致命的項目（和了者/放銃者/正解牌など）が不一致、または一致率が閾値未満
+export type SourceValidationStatus = "exact" | "partial" | "failed";
+
+export interface SourceValidation {
+  validatedAt: string;             // 検証日時（ISO）
+  hasOriginal: boolean;            // 原本（JSON/画像）があったか
+  originalKind?: "json" | "image" | "none"; // 原本の種別
+  status: SourceValidationStatus;  // exact / partial / failed
+  matchRate: number;               // 一致率 0..1（matchedCount / checkedCount）
+  checkedCount: number;            // 検証できた項目数（unknown を除く）
+  matchedCount: number;            // 一致した項目数
+  checks: SourceValidationCheck[]; // 14項目の内訳
+  diffSummary?: string[];          // 差分レポート（例: ["上家河 12枚 → 8枚", "下家鳴き欠落", "自風不一致"]）
+  reviewedBy?: string;             // 原本差分を確認した主体（"claude" / "human" 等）。S/A採用の前提
+}
+
 // 設問
 export interface YomiQuestionBody {
   text: string;                       // 設問文
@@ -90,6 +150,7 @@ export interface YomiQuestionBody {
   choiceReasons?: YomiChoiceReason[]; // 他の選択肢がなぜ違うか
   source?: YomiSource;                // 牌譜由来の取り込み元（任意）
   qualityRank?: YomiQualityRank;      // 取り込み品質ランク（任意）
+  sourceValidation?: SourceValidation; // 原本との再現性検証（任意・原本がある場合に付与）
 }
 
 // 問題1問 = ロン/ツモされた直前場面

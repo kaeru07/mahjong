@@ -131,6 +131,77 @@
 - `sourceRank`: `houou`(鳳凰卓) / `tokujou`(特上卓) / `konten`(魂天) / `ouza`(王座の間) / `tama`(魂の間) など。
 - 集計: `node scripts/yomi-stats.mjs` で鳳凰卓問題数 / 魂天問題数 / 王座問題数 等を出力。
 
+## 原本再現性の検証（sourceValidation）
+
+**目的**: 「アプリが表示している問題」が「原本（牌譜JSON / 原本画像の書き起こし）」を正しく再現しているかを項目ごとに突き合わせ、**再現された項目・欠落/不一致の項目を機械的に検出**する。原本との差分をレビューせずに S/A 採用しないための土台。
+
+各問題は任意フィールド `question.sourceValidation`（型: `types/yomi.ts` の `SourceValidation`）を持てる。
+
+### 検証14項目
+
+| field | ラベル | 比較対象 |
+|---|---|---|
+| `playerSeats` | プレイヤー位置 | players[].seat の集合 |
+| `selfWind` | 自風 | players[].wind（席ごと） |
+| `bakaze` | 場風 | roundInfo.bakaze |
+| `riverCounts` | 河枚数 | players[].discards.length（席ごと） |
+| `riverOrder` | 河順序 | players[].discards の牌の並び（席ごと） |
+| `handCounts` | 手牌枚数 | 原本に `hands` があれば席ごとの枚数 |
+| `meldContent` | 鳴き内容 | players[].melds の種別+牌（席ごと） |
+| `meldPosition` | 鳴き位置 | players[].melds の from（席ごと） |
+| `dora` | ドラ | roundInfo.dora |
+| `turn` | 巡目 | roundInfo.turn |
+| `scores` | 点数 | players[].score（席ごと） |
+| `reach` | リーチ有無 | players[].reach（席ごと） |
+| `loser` | 放銃者 | result.loser |
+| `winner` | 和了者 | result.winner |
+
+各項目の結果は `match`（一致）/ `mismatch`（不一致）/ `missing`（原本にあるがアプリ表示で欠落）/ `unknown`（原本に該当データが無く検証不能・一致率の分母から除外）。
+
+### ステータスと一致率
+
+- `matchRate` = `matchedCount / checkedCount`（`unknown` を除いた分母）。
+- `status`:
+  - `exact` … 検証可能な全項目が一致（matchRate=1・mismatch/missing なし）
+  - `partial` … 一部のみ一致（mismatch か missing が混在）
+  - `failed` … **致命的項目（`winner` / `loser` / `turn`）が不一致**、または一致率が `0.5` 未満、または検証可能項目が0
+- **原本差分 `failed` の問題は `qualityRank=S/A` で採用不可**（`scripts/lib/yomi-validate.mjs` がエラー化 → 隔離）。
+
+### 原本データの形式（部分指定可）
+
+```jsonc
+// id をキーに突き合わせる。配列 or { id: original } オブジェクト。
+{ "id": "...", "roundInfo": { "bakaze": "東", "dora": ["5萬"], "turn": 13 },
+  "players": [ { "seat": "kamicha", "wind": "北", "score": 25000,
+                 "melds": [ { "type": "pon", "tiles": ["發","發","發"], "from": "kamicha" } ],
+                 "discards": [ { "tile": "中" }, ... ] } ],
+  "result": { "winner": "toimen", "loser": "self" },
+  "hands": { "toimen": ["1萬", ...] } }  // 手牌枚数を検証したい場合のみ
+```
+
+- 指定の無い項目は `unknown`（検証不能）として一致率の分母から除外する。推測で原本を作らない。
+
+### 差分レポート（原本があれば必ず生成）
+
+原本（画像 or JSON）がある取り込みでは **差分レポートを必ず生成**する。差分は例えば次のように出る:
+
+```
+× 自風: 対面自風 西→東不一致
+× 河枚数: 上家河 12枚 → 8枚
+× 鳴き内容: 下家鳴き欠落
+```
+
+- 単体生成: `node scripts/yomi-source-report.mjs <candidates.json> --original <originals.json> [--kind json|image] [--write]`
+- 取り込み統合: `node scripts/ingest-yomi.mjs <候補> --original <originals.json> [--original-kind json|image] [--reviewed-by claude]`
+  - 各候補に `sourceValidation` を付与 → 差分 `failed` の S/A は隔離 → 差分レポートを `data/source-validation/diff-<ts>.txt`（gitignore）に保存し、結果に集計を表示。
+- 比較エンジンの正本: `scripts/lib/yomi-source-validate.mjs`（`compareToOriginal` / `formatDiffReport`）。
+
+### 完了条件（原本から生成した場合）
+
+- どの情報が**再現された**か、どの情報が**欠落/不一致**かが14項目で判別できる。
+- 一致率と `status`（exact/partial/failed）が付く。
+- **原本との差分をレビューせずに S/A 採用しない**（`failed` は機械的に隔離。`partial` は差分レポートを残し、人手レビューを前提に採用）。
+
 ## 標準フロー
 
 1. 牌譜取得（houou-logs 等）→ 解析 → 問題候補 JSON 生成（`data/imported/` 等のローカル一時領域。`docs/tenhou-collection.md`）。候補に `qualityRank` と `source`(sourceType/sourceRank) を付与。
