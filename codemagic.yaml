@@ -1,56 +1,71 @@
 # Codemagic CI/CD — Mahjong (Next.js + Capacitor iOS) → TestFlight
 #
-# 目的: クラウドMac(Codemagic)で iOS をビルドし、IPA を作って TestFlight へ送る準備。
-# 秘密情報(.p8 / Apple ID / パスワード / 証明書)は **このファイルに一切書かない**。
-# 署名・配信は Codemagic の「App Store Connect integration」(UIで登録)に委譲する。
+# 目的: クラウドMac(Codemagic)で iOS をビルドし IPA を作成、TestFlight へ送る準備。
+# 秘密情報(.p8 / Apple ID / パスワード / Issuer ID / Key ID / 証明書)は
+# **このファイル・リポジトリ・ログに一切書かない**。署名/配信は Codemagic の
+# 「App Store Connect integration」(UIで登録した API Key) に委譲する。
 #
-# 重要(この生成物の前提):
+# この生成物の前提(重要):
 # - Capacitor 8 は CocoaPods ではなく Swift Package Manager 構成。
-#   → Podfile / .xcworkspace は無く、ビルド対象は ios/App/App.xcodeproj の scheme "App"。
+#   → Podfile / App.xcworkspace は無く、ビルド対象は ios/App/App.xcodeproj の scheme "App"。
+#   (一般的な手順の "App.xcworkspace / --workspace" は本プロジェクトには存在しないため --project を使用)
 # - Web は Next.js の静的書き出し(out/)。`npx cap sync ios` が out/ を iOS に取り込む。
 #
 # ユーザーが Codemagic UI で事前にやること:
-#  1) このリポジトリ(GitHub: kaeru07/mahjong)を接続
-#  2) Teams/Integrations で App Store Connect API Key (.p8) を登録し、
-#     その「integration 名」を下の `integrations.app_store_connect` に合わせる
-#  3) App Store Connect 側に Bundle ID `com.kaeru07.mahjong` のアプリを用意
+#  1) GitHub: kaeru07/mahjong を接続
+#  2) Teams > Integrations で App Store Connect API Key(.p8) を登録し、
+#     その「integration 名」を下の integrations.app_store_connect に一致させる
+#  3) App Store Connect に Bundle ID com.kaeru07.mahjong のアプリを用意
 
 workflows:
-  ios-testflight:
-    name: Mahjong iOS TestFlight (build only)
-    instance_type: mac_mini_m2
+  ios-capacitor-test:
+    name: iOS Capacitor Test
     max_build_duration: 60
+    instance_type: mac_mini_m2
 
     integrations:
       # ↓ Codemagic UI で登録した App Store Connect API Key integration の「名前」に置き換える。
-      #    (例で入れている文字列。一致しないと署名/配信ができない)
+      #    (この名前が一致しないと署名取得・TestFlight配信ができない)
       app_store_connect: ASC_API_KEY
 
     environment:
-      node: 22
+      node: latest
       xcode: latest
-      # この構成は SwiftPM のため CocoaPods は実際には使わないが、要望により既定を指定。
-      # Podfile が無いため pod install は走らない(無害)。
+      # 本構成は SwiftPM のため CocoaPods は実際には使われない(Podfile無し→pod installは走らない)。
+      # 要望により既定を指定(無害)。
       cocoapods: default
-      ios_signing:
-        # App Store / TestFlight 配信用プロファイルを integration から自動取得・適用。
-        distribution_type: app_store
-        bundle_identifier: com.kaeru07.mahjong
       vars:
+        BUNDLE_ID: "com.kaeru07.mahjong"
+        # SwiftPM 構成のため workspace ではなく xcodeproj を指定。
         XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
-        BUNDLE_ID: "com.kaeru07.mahjong"
 
     scripts:
-      - name: Install npm dependencies
-        script: npm ci
-      - name: Build web (Next.js static export → out/)
-        script: npm run build
-      - name: Capacitor sync iOS (copy web + update native)
-        script: npx cap sync ios
-      - name: Set up code signing (from App Store Connect integration)
-        script: xcode-project use-profiles
-      - name: Build & archive IPA
+      - name: Install dependencies
+        script: |
+          npm ci || npm install
+
+      - name: Build Next.js static app
+        script: |
+          npm run build
+
+      - name: Sync Capacitor iOS
+        script: |
+          npx cap sync ios
+
+      - name: Set up code signing
+        # App Store Connect integration の API Key を使って署名ファイルを取得・適用する。
+        # --create で未作成の証明書/プロビジョニングプロファイルを自動作成(初回ビルド向け)。
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Build IPA
+        # SwiftPM 構成のため --project(xcodeproj) を指定。
         script: |
           xcode-project build-ipa \
             --project "$XCODE_PROJECT" \
@@ -59,7 +74,7 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app/
+      - ios/App/build/outputs/**/*.ipa
 
     publishing:
       app_store_connect:
