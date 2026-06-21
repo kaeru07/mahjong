@@ -54,19 +54,37 @@ workflows:
           npx cap sync ios
 
       - name: Set up code signing
-        # App Store Connect integration の API Key を使って署名ファイルを取得・適用する。
-        # --create で未作成の証明書/プロビジョニングプロファイルを自動作成(初回ビルド向け)。
+        # App Store Connect integration(ASC_API_KEY) の API Key を使って署名ファイルを取得・適用する。
+        # --create で未作成の Bundle ID / 配布証明書 / プロビジョニングプロファイルを自動作成(初回ビルド向け)。
+        # use-profiles が取得したプロファイルを App.xcodeproj の署名設定へ適用し、自動署名→管理署名へ変換する。
         script: |
+          set -e
           keychain initialize
+          # App Store(配布)用の署名ファイルを取得。無ければ作成する。
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
+            --platform IOS \
             --create
           keychain add-certificates
+          # 取得したプロファイルを Xcode プロジェクトへ適用(CODE_SIGN_STYLE=Manual 等を書き込む)
           xcode-project use-profiles
+          # --- 切り分け用: プロファイルが取得・適用されたかを必ずログに出す ---
+          PROFILE_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo "--- fetched provisioning profiles ---"
+          ls -1 "$PROFILE_DIR" 2>/dev/null || true
+          if [ -z "$(ls -A "$PROFILE_DIR" 2>/dev/null)" ]; then
+            echo "ERROR: App Store 用プロビジョニングプロファイルを取得できませんでした。"
+            echo "  archive が『requires a provisioning profile』で失敗する原因はこれです。"
+            echo "  確認: (1) Codemagic の App Store Connect integration 名が 'ASC_API_KEY' で、有効な API Key(.p8) が登録済みか"
+            echo "        (2) その API Key のロールが App Manager もしくは Admin か(--create に必要)"
+            echo "        (3) Apple Developer で Bundle ID com.kaeru07.mahjong が使えるか / 配布証明書の上限(2)に達していないか"
+            exit 1
+          fi
 
       - name: Build IPA
-        # SwiftPM 構成のため --project(xcodeproj) を指定。
+        # SwiftPM 構成のため --project(xcodeproj) を指定。署名は use-profiles 適用済みの管理署名を使う。
         script: |
+          set -e
           xcode-project build-ipa \
             --project "$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
