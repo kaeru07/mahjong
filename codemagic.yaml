@@ -36,6 +36,8 @@ workflows:
       cocoapods: default
       vars:
         BUNDLE_ID: "com.kaeru07.mahjong"
+        APP_VERSION: "1.0"
+        BUILD_NUMBER: "2"
         # SwiftPM 構成のため workspace ではなく xcodeproj を指定。
         XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
@@ -61,6 +63,13 @@ workflows:
       - name: Sync Capacitor iOS
         script: |
           npx cap sync ios
+
+      - name: Set iOS app version
+        script: |
+          set -e
+          cd ios/App
+          agvtool new-marketing-version "$APP_VERSION"
+          agvtool new-version -all "$BUILD_NUMBER"
 
       - name: Set up code signing
         # environment.ios_signing の Reference name(IOS_DISTRIBUTION_CERTIFICATE / IOS_APP_STORE_PROFILE)を

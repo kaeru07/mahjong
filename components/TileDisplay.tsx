@@ -8,6 +8,7 @@ interface TileDisplayProps {
   tileSize?: number;  // 表示幅(px)を直接指定。指定時は small を上書き
   rotation?: Rotation;
   faceDown?: boolean; // 裏牌表示
+  placeholder?: string; // 指定時は牌の代わりに文字（例: ？）を牌型枠で表示
 }
 
 // スプライト画像上の各牌の座標 [x_start, y_start]
@@ -46,6 +47,7 @@ export default function TileDisplay({
   tileSize,
   rotation = 0,
   faceDown = false,
+  placeholder,
 }: TileDisplayProps) {
   const displayW = tileSize ?? (small ? DEFAULT_W_SMALL : DEFAULT_W_NORMAL);
   const scale    = displayW / TILE_W;
@@ -77,6 +79,19 @@ export default function TileDisplay({
     opacity,
     borderRadius: 2,
   };
+
+  // ── プレースホルダ（？など）── 牌型の footprint を保ったまま文字を表示（回転時は枠だけ縦横入替え）
+  if (placeholder) {
+    return (
+      <span
+        className="inline-flex items-center justify-center flex-shrink-0 rounded border-2 border-amber-400 bg-amber-100 font-bold text-amber-700"
+        style={{ width: outerW, height: outerH, fontSize: Math.round(displayW * 0.72) }}
+        title="当たり牌（？）"
+      >
+        {placeholder}
+      </span>
+    );
+  }
 
   // ── 裏牌 ──
   if (faceDown) {

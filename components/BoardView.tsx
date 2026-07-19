@@ -313,23 +313,52 @@ function PlayerZone({
 // ─────────────────────────────────────
 export default function BoardView({ q }: BoardViewProps) {
   const sit = q.situation ?? (q as unknown as Record<string, unknown>).board as typeof q.situation;
-  if (!sit) return null;
 
-  const selfPlayer  = sit.players?.self;
-  const toimen      = sit.players?.toimen;
-  const kamicha     = sit.players?.kamicha;
-  const shimocha    = sit.players?.shimocha;
+  const selfPlayer  = sit?.players?.self;
+  const toimen      = sit?.players?.toimen;
+  const kamicha     = sit?.players?.kamicha;
+  const shimocha    = sit?.players?.shimocha;
 
   const hasHand     = (selfPlayer?.hand?.length ?? 0) > 0;
   const hasSelfDis  = (selfPlayer?.discards?.length ?? 0) > 0;
   const hasSelfMeld = (selfPlayer?.melds?.length ?? 0) > 0;
 
-  const hasAnyBoard =
-    hasHand || hasSelfDis || hasSelfMeld ||
-    !!sit.round || (sit.dora?.length ?? 0) > 0 || !!sit.scores ||
-    !!toimen || !!kamicha || !!shimocha;
+  const playerHasTiles = (p: PlayerInfo | undefined) =>
+    (p?.hand?.length ?? 0) > 0 || (p?.discards?.length ?? 0) > 0 || (p?.melds?.length ?? 0) > 0;
 
-  if (!hasAnyBoard) return null;
+  // 手牌・捨て牌・副露のいずれかが入っているか（= 卓に描画する牌があるか）。
+  const hasTiles =
+    playerHasTiles(selfPlayer) || playerHasTiles(toimen) ||
+    playerHasTiles(kamicha) || playerHasTiles(shimocha);
+
+  // 中央情報（局・ドラ・点数）の有無。
+  const hasCenter = !!sit?.round || (sit?.dora?.length ?? 0) > 0 || !!sit?.scores;
+
+  // 牌姿が未登録の問題は、空の卓ではなく「牌姿未登録（要確認）＋原本画像参照」を表示する。
+  // （牌姿は推測で捏造しない方針。needsReview 問題の多くがこれに該当する）
+  if (!hasTiles) {
+    return (
+      <div className="bg-green-800 rounded-xl border border-green-900 shadow-lg p-3 mb-4 select-none">
+        {hasCenter && (
+          <div className="flex justify-center mb-2">
+            <CenterPanel q={q} />
+          </div>
+        )}
+        <div className="rounded-lg border border-amber-500/50 bg-amber-950/40 px-3 py-2 text-center">
+          <p className="text-[11px] font-bold text-amber-300">⚠ 牌姿データ未登録（要確認）</p>
+          <p className="mt-1 text-[10px] leading-relaxed text-amber-200/90">
+            この問題は手牌・捨て牌・鳴き牌が未入力です。設問文・選択肢・解説
+            {hasCenter ? "と中央情報（局／ドラ／点数）" : ""}のみ表示しています。
+          </p>
+          {q.sourceImages && q.sourceImages.length > 0 && (
+            <p className="mt-1 break-all text-[10px] text-amber-200/80">
+              原本画像: {q.sourceImages.join(" / ")}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-green-800 rounded-xl border border-green-900 shadow-lg p-2 mb-4 select-none">
