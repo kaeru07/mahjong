@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types/question";
 import { getAllQuestions } from "@/lib/quiz";
@@ -19,15 +19,12 @@ type Tab = "json" | "text";
 export default function ImportPage() {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("json");
-  const [added, setAdded] = useState<Question[]>([]);
+  const [added, setAdded] = useState<Question[]>(() =>
+    typeof window === "undefined" ? [] : getImportedQuestions()
+  );
 
   const baseQuestions = getAllQuestions();
   const baseIds = new Set(baseQuestions.map((q) => q.id));
-
-  // localStorageから既存の追加済み問題を読み込む
-  useEffect(() => {
-    setAdded(getImportedQuestions());
-  }, []);
 
   const totalCount = baseQuestions.length + added.length;
   const addedIds = added.map((q) => q.id);

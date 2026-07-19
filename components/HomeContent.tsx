@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Question } from "@/types/question";
 import {
@@ -24,15 +24,14 @@ export default function HomeContent({
   const params = useSearchParams();
 
   // base（JSON）+ localStorage追加分をマージ
-  const [mergedQuestions, setMergedQuestions] = useState<Question[]>(allQuestions);
-
-  useEffect(() => {
+  const [mergedQuestions] = useState<Question[]>(() => {
+    if (typeof window === "undefined") return allQuestions;
     const imported = getImportedQuestions();
-    if (imported.length === 0) return;
+    if (imported.length === 0) return allQuestions;
     const baseIds = new Set(allQuestions.map((q) => q.id));
     const unique = imported.filter((q) => !baseIds.has(q.id));
-    setMergedQuestions([...allQuestions, ...unique]);
-  }, [allQuestions]);
+    return [...allQuestions, ...unique];
+  });
 
   // マージ後のデータからタグ・難易度を導出
   const allTags = useMemo(() => getAllTags(mergedQuestions), [mergedQuestions]);

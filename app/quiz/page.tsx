@@ -11,26 +11,56 @@ function QuizContent() {
   const params = useSearchParams();
   const index = parseInt(params.get("index") ?? "0", 10);
 
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [revealed, setRevealed] = useState(false);
-
-  useEffect(() => {
+  const [questions] = useState<Question[]>(() => {
+    if (typeof window === "undefined") return [];
     const qs = sessionStorage.getItem("quizQuestions");
+    return qs ? JSON.parse(qs) : [];
+  });
+  const [answers] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
     const ans = sessionStorage.getItem("quizAnswers");
-    if (!qs) { router.push("/"); return; }
-    setQuestions(JSON.parse(qs));
-    setAnswers(ans ? JSON.parse(ans) : []);
-  }, [router]);
+    return ans ? JSON.parse(ans) : [];
+  });
 
-  // index が変わったら選択状態をリセット
   useEffect(() => {
-    setSelected(null);
-    setRevealed(false);
-  }, [index]);
+    if (questions.length === 0) router.push("/");
+  }, [questions.length, router]);
 
   const q = questions[index];
+
+  if (!q) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-400">
+        読み込み中...
+      </div>
+    );
+  }
+
+  return (
+    <QuizQuestion
+      key={index}
+      q={q}
+      index={index}
+      questions={questions}
+      answers={answers}
+    />
+  );
+}
+
+function QuizQuestion({
+  q,
+  index,
+  questions,
+  answers,
+}: {
+  q: Question;
+  index: number;
+  questions: Question[];
+  answers: string[];
+}) {
+  const router = useRouter();
+  const [selected, setSelected] = useState<string | null>(null);
+  const [revealed, setRevealed] = useState(false);
 
   function choose(key: string) {
     if (revealed) return;
@@ -48,14 +78,6 @@ function QuizContent() {
     } else {
       router.push("/result");
     }
-  }
-
-  if (!q) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400">
-        読み込み中...
-      </div>
-    );
   }
 
   const isCorrect = selected === q.answer;

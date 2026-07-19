@@ -1,5 +1,4 @@
 import { Question } from "@/types/question";
-import { getAllQuestions } from "@/lib/quiz";
 
 /**
  * テキスト貼り付け → Question 下書き変換（ルールベース）

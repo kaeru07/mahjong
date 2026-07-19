@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/types/question";
 import { getAllQuestions, getDifficultyLabel, getDifficultyClass, getAllTags } from "@/lib/quiz";
@@ -8,17 +8,16 @@ import { getImportedQuestions } from "@/lib/questionStore";
 
 export default function QuestionsPage() {
   const router = useRouter();
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [search, setSearch] = useState("");
-  const [filterTag, setFilterTag] = useState<string>("");
-
-  useEffect(() => {
+  const [questions] = useState<Question[]>(() => {
     const base = getAllQuestions();
+    if (typeof window === "undefined") return base;
     const imported = getImportedQuestions();
     const baseIds = new Set(base.map((q) => q.id));
     const unique = imported.filter((q) => !baseIds.has(q.id));
-    setQuestions([...base, ...unique]);
-  }, []);
+    return [...base, ...unique];
+  });
+  const [search, setSearch] = useState("");
+  const [filterTag, setFilterTag] = useState<string>("");
 
   const allTags = useMemo(() => getAllTags(questions), [questions]);
 

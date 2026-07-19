@@ -7,16 +7,20 @@ import { calcScore, getChoiceLabel, getDifficultyLabel, getDifficultyClass } fro
 
 export default function ResultPage() {
   const router = useRouter();
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [questions] = useState<Question[]>(() => {
+    if (typeof window === "undefined") return [];
+    const qs = sessionStorage.getItem("quizQuestions");
+    return qs ? JSON.parse(qs) : [];
+  });
+  const [answers] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    const ans = sessionStorage.getItem("quizAnswers");
+    return ans ? JSON.parse(ans) : [];
+  });
 
   useEffect(() => {
-    const qs = sessionStorage.getItem("quizQuestions");
-    const ans = sessionStorage.getItem("quizAnswers");
-    if (!qs) { router.push("/"); return; }
-    setQuestions(JSON.parse(qs));
-    setAnswers(ans ? JSON.parse(ans) : []);
-  }, [router]);
+    if (questions.length === 0) router.push("/");
+  }, [questions.length, router]);
 
   if (questions.length === 0) return null;
 
