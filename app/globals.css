@@ -35,6 +35,9 @@ body {
  * env() は layout.tsx の viewport-fit=cover により実機で実値を返す（ブラウザ/PCでは 0）。
  */
 main {
+  /* 100vh fallback + dynamic viewport for iOS browser chrome/WebView resizing. */
+  min-height: 100vh;
+  min-height: 100dvh;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
