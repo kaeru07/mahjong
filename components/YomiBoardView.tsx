@@ -280,17 +280,12 @@ export default function YomiBoardView({ q, revealed }: YomiBoardViewProps) {
           {toimen && <PlayerZone p={toimen} q={q} revealed={revealed} />}
         </div>
 
-        {/* 中段: 上家（左） / 中央 / 下家（右） */}
-        <div className="flex items-stretch justify-between gap-1 mb-1.5">
-          <div className="flex items-center justify-start">
-            {kamicha && <PlayerZone p={kamicha} q={q} revealed={revealed} align="start" />}
-          </div>
-          <div className="flex items-center">
-            <CenterPanel q={q} />
-          </div>
-          <div className="flex items-center justify-end">
-            {shimocha && <PlayerZone p={shimocha} q={q} revealed={revealed} align="end" />}
-          </div>
+        {/* 中段: 上家（左） / 中央 / 下家（右）
+            端に広げず中央へ寄せる（自分・対面の並びを90度回しただけの見た目にする）。 */}
+        <div className="flex items-center justify-center gap-1.5 mb-1.5">
+          {kamicha && <PlayerZone p={kamicha} q={q} revealed={revealed} align="center" />}
+          <CenterPanel q={q} />
+          {shimocha && <PlayerZone p={shimocha} q={q} revealed={revealed} align="center" />}
         </div>
 
         {/* 自分（下） */}

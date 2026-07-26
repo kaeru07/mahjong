@@ -172,12 +172,20 @@ function Melds({ melds, tileSize, rotation = 0, vertical = false }: MeldsProps) 
 // ─────────────────────────────────────
 function CenterPanel({ q }: { q: Question }) {
   const sit = q.situation ?? (q as unknown as Record<string, unknown>).board as typeof q.situation;
-  if (!sit) return <div className="w-20 flex-shrink-0" />;
+  const hasDora = (sit?.dora?.length ?? 0) > 0;
+  const hasContent =
+    !!(sit?.round?.bakaze || sit?.round?.kyoku) ||
+    (sit?.round?.honba ?? 0) > 0 ||
+    (sit?.round?.kyotaku ?? 0) > 0 ||
+    hasDora ||
+    !!sit?.scores;
 
-  const hasDora = (sit.dora?.length ?? 0) > 0;
+  // 中央情報が無いときは背景付きの箱を出さない（空の緑矩形が卓中央に残るのを防ぐ）。
+  // 左右の河が中央に寄れるよう、細い区切りだけを置く。
+  if (!sit || !hasContent) return <div className="w-2 flex-shrink-0" />;
 
   return (
-    <div className="w-20 flex-shrink-0 flex flex-col items-center justify-center gap-1.5 bg-green-950/60 rounded-lg px-1 py-2 text-center">
+    <div className="w-20 flex-shrink-0 self-center flex flex-col items-center justify-center gap-1.5 bg-green-950/60 rounded-lg px-1 py-2 text-center">
       {(sit.round?.bakaze || sit.round?.kyoku) && (
         <div className="text-xs font-bold text-yellow-300 leading-tight">
           {sit.round.bakaze ?? ""}{sit.round.kyoku ?? ""}局
@@ -375,35 +383,32 @@ export default function BoardView({ q }: BoardViewProps) {
         />
       </div>
 
-      {/* ── 中段: 上家 ／ 中央情報 ／ 下家 ── */}
-      <div className="flex items-stretch gap-1.5 mb-1.5">
+      {/* ── 中段: 上家 ／ 中央情報 ／ 下家 ──
+          左右の河を中央へ寄せる。flex-1 で端に押し広げず、内容幅のまま中央寄せ。 */}
+      <div className="flex items-start justify-center gap-1 mb-1.5">
 
         {/* 上家（左）── 縦積み・90度回転 */}
-        <div className="flex-1 flex items-center justify-end">
-          <PlayerZone
-            p={kamicha}
-            seat="kamicha"
-            label="上家"
-            tileSize={13}
-            maxTiles={12}
-            maxBackTiles={7}
-          />
-        </div>
+        <PlayerZone
+          p={kamicha}
+          seat="kamicha"
+          label="上家"
+          tileSize={13}
+          maxTiles={12}
+          maxBackTiles={7}
+        />
 
-        {/* 中央パネル */}
+        {/* 中央パネル（情報が無ければ細い区切りのみ） */}
         <CenterPanel q={q} />
 
         {/* 下家（右）── 縦積み・270度回転 */}
-        <div className="flex-1 flex items-center justify-start">
-          <PlayerZone
-            p={shimocha}
-            seat="shimocha"
-            label="下家"
-            tileSize={13}
-            maxTiles={12}
-            maxBackTiles={7}
-          />
-        </div>
+        <PlayerZone
+          p={shimocha}
+          seat="shimocha"
+          label="下家"
+          tileSize={13}
+          maxTiles={12}
+          maxBackTiles={7}
+        />
       </div>
 
       {/* ── 自分の河 ── */}
