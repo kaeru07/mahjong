@@ -250,39 +250,69 @@ function PlayerZone({
   const ri      = riichiTileIndex(p);
   const backCount = hasHand ? 0 : Math.min(maxBackTiles, backTileCount(p));
 
-  // 手牌コンテナ:
-  //   self / toimen → flex-row（横並び）
-  //   kamicha / shimocha → flex-col（縦積み）
   const handClass = isVertical
     ? "flex flex-col gap-px items-center"
     : "flex flex-row flex-wrap gap-px justify-center";
 
+  const labelEl = (
+    <div className="flex items-center gap-1">
+      <span className="text-[9px] text-green-500">{label}</span>
+      {riichi && (
+        <span className="text-[8px] font-bold text-red-400 bg-red-950/60 border border-red-700 rounded px-0.5">
+          R
+        </span>
+      )}
+    </div>
+  );
+
+  const handEl = (backCount > 0 || hasHand) ? (
+    <div className={handClass}>
+      {hasHand
+        ? p!.hand!.map((t, i) => (
+            <TileDisplay key={i} tile={t} tileSize={tileSize} rotation={rotation} />
+          ))
+        : Array.from({ length: backCount }, (_, i) => (
+            <TileDisplay key={i} tile="裏" faceDown tileSize={tileSize} rotation={rotation} />
+          ))}
+    </div>
+  ) : null;
+
+  if (isVertical) {
+    // 上家: 手牌(外・左) | 捨て牌(内・右/中央寄り)
+    // 下家: 捨て牌(内・左/中央寄り) | 手牌(外・右)
+    const isKamicha = seat === "kamicha";
+    return (
+      <div className={`flex ${isKamicha ? "flex-row" : "flex-row-reverse"} items-center gap-0.5`}>
+        {/* 手牌 + ラベル（外側） */}
+        <div className="flex flex-col items-center gap-0.5">
+          {handEl}
+          {labelEl}
+        </div>
+        {/* 捨て牌 + 副露（内側・中央寄り） */}
+        <div className="flex flex-col gap-0.5">
+          {hasDis && (
+            <Discards
+              discards={p!.discards!}
+              tileSize={tileSize}
+              maxTiles={maxTiles}
+              riichi={riichi}
+              riichiIndex={ri}
+              rotation={rotation}
+              vertical={true}
+            />
+          )}
+          {hasMeld && (
+            <Melds melds={p!.melds!} tileSize={tileSize} rotation={rotation} vertical={true} />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center gap-0.5">
-      {/* 手牌 or 裏牌 */}
-      {(backCount > 0 || hasHand) && (
-        <div className={handClass}>
-          {hasHand
-            ? p!.hand!.map((t, i) => (
-                <TileDisplay key={i} tile={t} tileSize={tileSize} rotation={rotation} />
-              ))
-            : Array.from({ length: backCount }, (_, i) => (
-                <TileDisplay key={i} tile="裏" faceDown tileSize={tileSize} rotation={rotation} />
-              ))}
-        </div>
-      )}
-
-      {/* ラベル + リーチ */}
-      <div className="flex items-center gap-1">
-        <span className="text-[9px] text-green-500">{label}</span>
-        {riichi && (
-          <span className="text-[8px] font-bold text-red-400 bg-red-950/60 border border-red-700 rounded px-0.5">
-            R
-          </span>
-        )}
-      </div>
-
-      {/* 捨て牌 */}
+      {handEl}
+      {labelEl}
       {hasDis && (
         <Discards
           discards={p!.discards!}
@@ -291,18 +321,11 @@ function PlayerZone({
           riichi={riichi}
           riichiIndex={ri}
           rotation={rotation}
-          vertical={isVertical}
+          vertical={false}
         />
       )}
-
-      {/* 副露 */}
       {hasMeld && (
-        <Melds
-          melds={p!.melds!}
-          tileSize={tileSize}
-          rotation={rotation}
-          vertical={isVertical}
-        />
+        <Melds melds={p!.melds!} tileSize={tileSize} rotation={rotation} vertical={false} />
       )}
     </div>
   );
