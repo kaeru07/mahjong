@@ -44,9 +44,15 @@
     .center-info strong{display:block;font-size:13px;}
     .center-info div{color:#c7d9cd;font-size:10px;}
     .bottom-hand{position:absolute;z-index:1;bottom:16px;left:8px;right:8px;display:flex;gap:1px;justify-content:center;align-items:flex-end;}
-    .tile{--w:24px;width:var(--w);height:calc(var(--w) * 1.43);display:inline-block;flex-shrink:0;vertical-align:middle;filter:drop-shadow(0 1px 1px #0004);}
-    .tile svg{width:100%;height:100%;display:block;overflow:visible;}
+    /* TileDisplay.tsx と同じ public/tiles.jpg、座標・比率で牌面を表示 */
+    .tile{--w:24px;width:var(--w);height:calc(var(--w) * 69 / 50);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;filter:drop-shadow(0 1px 1px #0004);border-radius:2px;position:relative;background-color:#fffef4;color:#1b4637;font-size:11px;font-weight:bold;text-align:center;}
+    .tile .tile-name{line-height:1.25;word-break:break-all;padding:1px;}
+    body[data-sprite="ready"] .tile .tile-name{visibility:hidden;}
+    body[data-sprite="failed"] .tile{background-image:none!important;border:1px solid #b8c6bd;}
     .hand-count{font-size:10px;color:#fffbd0;position:absolute;z-index:1;bottom:66px;right:15px;}
+    .discrepancy{background:#fff2e9;border:1px solid #e8ae8a;border-radius:9px;padding:8px 10px;color:#87431f;font-size:12px;line-height:1.55;margin:10px 0 0;}
+    .choice.not-in-hand{border-style:dashed;border-color:#c18752;background:#fff8ed;}
+    .choice .invalid{font-size:9px;line-height:1.15;color:#995223;}
     .info{display:flex;align-items:flex-start;gap:8px;background:#fff9e9;border:1px solid #f2dfae;padding:9px 10px;border-radius:10px;color:#795923;margin-top:10px;font-size:11px;line-height:1.5;}
     .choices-title{font-weight:800;font-size:16px;margin:18px 0 10px;display:flex;justify-content:space-between;align-items:center;}
     .choices-title span{font-size:11px;font-weight:500;color:var(--muted);}
@@ -81,7 +87,7 @@
 </head>
 <body>
  <div class="app">
-  <div class="build-label">専用ブランチ実装プレビュー ｜ main・TestFlight未反映 ｜ q001</div>
+  <div class="build-label">専用ブランチ検証画面 ｜ main・TestFlight未反映 ｜ q001</div>
   <header class="head"><div><small>1問ずつ学ぶ</small><h1>麻雀 読みトレ</h1></div><button type="button" id="end" class="exit">終了</button></header>
   <main class="main" id="quiz">
    <div class="question-meta"><span class="tag">一般問題</span><span class="identifier">q001</span><span class="tag warning">内容未検証</span></div>
@@ -100,7 +106,8 @@
     <div class="seat self">あなた（東家）</div><div class="hand-count">登録13枚</div>
     <div class="bottom-hand" id="hand"></div>
    </div>
-   <div class="info"><span aria-hidden="true">⚠</span><span>原本未照合。打牌前の14枚目はデータ未登録です。正解「発」の根拠も確認中です。</span></div>
+   <div class="info"><span aria-hidden="true">⚠</span><span>原本未照合。打牌前の14枚目はデータ未登録です。正解「発」の根拠も確認中です。<br>登録データを変更していないため、ここでの正誤判定は仮判定です。</span></div>
+   <div class="discrepancy">登録選択肢B「1筒」は手牌13枚にありません。原本の牌姿と選択肢を確認するまで修正・削除しません。</div>
    <div class="choices-title">牌を1枚選ぶ <span>選ぶとすぐ判定します</span></div>
    <div class="choices" id="choices"></div>
    <div id="prompt" class="hint">回答後に正解と詳しい解説を表示</div>
@@ -108,35 +115,36 @@
    <button id="again" class="continue" type="button">同じ問題をもう一度確認</button>
   </main>
   <section id="result" class="result" aria-live="polite"><div style="font-size:36px">📊</div><h2>今回の確認を終了</h2><div id="results-count"></div><p>これはq001の独立した試作用画面です。<br>回答履歴は本番のアプリには保存していません。</p><button id="return" type="button">問題画面に戻る</button></section>
-  <footer class="footer"><span>出典：mainのq001登録データを再現｜確認専用</span><button id="reset" type="button">回答をリセット</button></footer>
+  <footer class="footer"><span>牌画像：アプリの /tiles.jpg を使用｜確認専用</span><button id="reset" type="button">回答をリセット</button></footer>
  </div>
  <script>
   "use strict";
   // Data was transcribed from the live GitHub main data/questions.json (q001).
   // This branch contains a review-only static page. Production routes and data remain unchanged.
   const q={id:"q001",question:"配牌直後。何を切る？",round:"東1局",seat:"東",turn:1,dora:"5萬",hand:["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"],choices:[{key:"A",label:"9萬"},{key:"B",label:"1筒"},{key:"C",label:"発"},{key:"D",label:"中"}],answer:"C",explanation:"字牌は孤立牌が多い序盤に処理するのが基本。発は役牌ですが手が遠く孤立しているため早めに切るのが得策。中より発を先切りして後の選択肢を広げましょう。"};
+  // components/TileDisplay.tsx の TILE_POSITIONS と同じ値。画像データは作り替えない。
+  const TILE_POSITIONS={
+    "東":[31,31],"南":[88,31],"西":[145,31],"北":[202,31],"白":[259,31],"発":[316,31],"中":[373,31],
+    "1萬":[31,108],"2萬":[88,108],"3萬":[145,108],"4萬":[202,108],"5萬":[316,108],"6萬":[373,108],"7萬":[430,108],"8萬":[486,108],"9萬":[544,108],
+    "1索":[31,185],"2索":[88,185],"3索":[145,185],"4索":[202,185],"5索":[316,185],"6索":[373,185],"7索":[430,185],"8索":[486,185],"9索":[544,185],
+    "1筒":[31,262],"2筒":[88,262],"3筒":[145,262],"4筒":[202,262],"5筒":[316,262],"6筒":[373,262],"7筒":[430,262],"8筒":[486,262],"9筒":[544,262]
+  };
   function tileMarkup(tile) {
-    const mt=tile.match(/^([1-9])([萬筒索])$/), txt=(s,attrs="")=>`<text x="23" text-anchor="middle" ${attrs}>${s}</text>`;
-    let body="";
-    if (mt && mt[2]==="萬"){
-      const nums=["一","二","三","四","五","六","七","八","九"];
-      body=txt(nums[+mt[1]-1],`y="36" font-size="26" font-weight="900" fill="#1b2730" font-family="serif"`)+txt("萬",`y="52" font-size="13" font-weight="900" fill="#b3362c" font-family="serif"`);
-    } else if(mt && mt[2]==="筒"){
-      const n=+mt[1],positions={1:[[23,28]],2:[[16,21],[30,37]],3:[[16,15],[23,29],[30,43]],4:[[15,18],[31,18],[15,41],[31,41]],5:[[15,16],[31,16],[23,29],[15,42],[31,42]],6:[[14,16],[32,16],[14,29],[32,29],[14,42],[32,42]],7:[[14,14],[32,14],[14,26],[32,26],[23,31],[14,44],[32,44]],8:[[14,14],[32,14],[14,25],[32,25],[14,36],[32,36],[14,47],[32,47]],9:[[14,14],[23,14],[32,14],[14,30],[23,30],[32,30],[14,46],[23,46],[32,46]]};
-      body=positions[n].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="5.2" fill="${i%3===1?'#b63a32':'#174f7d'}" stroke="#f7e6b7" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="2.4" fill="#fdf4df"/><circle cx="${x}" cy="${y}" r="1.1" fill="${i%3===1?'#b63a32':'#174f7d'}"/>`).join("");
-    } else if(mt&&mt[2]==="索"){
-      const n=+mt[1],count=n===1?1:n;
-      body=Array.from({length:count},(_,i)=>{const cols=n===1?1:n<4?1:3;const rows=Math.ceil(count/cols);const x=23+((i%cols)-(cols-1)/2)*13;const y=30+((Math.floor(i/cols))-(rows-1)/2)*12;return `<path d="M${x-4} ${y-7} Q${x+3} ${y-4} ${x+2} ${y+6}" stroke="#146e4c" stroke-width="3.3" stroke-linecap="round" fill="none"/><path d="M${x+2} ${y-7} Q${x-2} ${y-3} ${x-2} ${y+6}" stroke="#1c8a59" stroke-width="2" fill="none"/>`}).join("");
-    } else if(tile==="白") {body='<rect x="10" y="14" width="26" height="35" rx="2" fill="#f6fbf7" stroke="#c4d8cb" stroke-width="2"/>'}
-    else {body=txt(tile==="発"?"發":tile,`y="42" font-family="serif" font-size="35" font-weight="900" fill="${tile==='発'?'#0b7745':'#af2d2a'}"`)}
-    return `<span class="tile" role="img" aria-label="${tile}" title="${tile}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 66" aria-hidden="true"><defs><linearGradient id="face" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#f0f1e8"/></linearGradient></defs><rect x="1.5" y="2" width="43" height="61" rx="5.5" fill="#c4bcaa" stroke="#978f81" stroke-width="1.5"/><rect x="1.5" y="1" width="43" height="58" rx="5.5" fill="url(#face)" stroke="#c3c1b6"/>${body}</svg></span>`;
+    const pos=TILE_POSITIONS[tile];
+    if (!pos) return `<span class="tile" role="img" aria-label="${tile}"><span class="tile-name">${tile}</span></span>`;
+    const [sx,sy]=pos;
+    // CSS variable --w: parent(.bottom-hand/.choice) can change actual tile width responsively.
+    const bg=`background-image:url('/tiles.jpg');background-size:calc(var(--w) * 12.5) calc(var(--w) * 7.2);background-position:calc(var(--w) * ${-sx}/50) calc(var(--w) * ${-sy}/50);background-repeat:no-repeat;`;
+    return `<span class="tile" role="img" aria-label="${tile}" title="${tile}" style="${bg}"><span class="tile-name">${tile}</span></span>`;
   }
+  // 牌画像が読み込めなかった環境では、絵柄を捏造せず牌名を表示する。
+  const asset=new Image();asset.onload=()=>{document.body.dataset.sprite='ready';};asset.onerror=()=>{document.body.dataset.sprite='failed';};asset.src='/tiles.jpg';
   document.querySelector('#dora').innerHTML=tileMarkup(q.dora);
   document.querySelector('#hand').innerHTML=q.hand.map(tileMarkup).join('');
   ['top','left','right'].forEach(x=>document.querySelector('#'+x+'-backs').innerHTML=Array.from({length:x==='top'?9:4},()=>'<span class="back" aria-label="伏せ牌"></span>').join(''));
   let chosen=null;
   function renderChoices(){
-    document.querySelector('#choices').innerHTML=q.choices.map(o=>`<button type="button" class="choice" data-key="${o.key}" aria-label="${o.key} ${o.label}"><span class="letter">${o.key}</span>${tileMarkup(o.label)}<span class="caption">${o.label}</span></button>`).join('');
+    document.querySelector('#choices').innerHTML=q.choices.map(o=>`<button type="button" class="choice${q.hand.includes(o.label)?"":" not-in-hand"}" data-key="${o.key}" aria-label="${o.key} ${o.label}"><span class="letter">${o.key}</span>${tileMarkup(o.label)}<span class="caption">${o.label}</span>${q.hand.includes(o.label)?"":"<span class=\"invalid\">手牌にない／未確認</span>"}</button>`).join('');
     document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>choose(btn.dataset.key)));
   }
   function choose(key){
