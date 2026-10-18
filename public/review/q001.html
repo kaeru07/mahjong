@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="color-scheme" content="light"/>
+  <title>麻雀 読みトレ｜q001実装プレビュー</title>
+  <style>
+    :root {--pine:#07513d;--jade:#117258;--mint:#e3f4ec;--ink:#14251d;--muted:#64776d;--line:#dce7df;--cream:#fafbf9;--gold:#edbe59;}
+    * { box-sizing:border-box; }
+    body {margin:0;background:#eef1ee;color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;-webkit-font-smoothing:antialiased;}
+    button {font:inherit;cursor:pointer;-webkit-tap-highlight-color: transparent;}
+    .app {max-width:480px;min-height:100dvh;margin:auto;background:white;box-shadow:0 10px 48px #102c1b16;}
+    .build-label {font-size:10px;padding:7px 14px;letter-spacing:.035em;background:#e9f2ec;color:#426657;text-align:center;}
+    .head {height:58px;background:linear-gradient(105deg,#064b36,#0f6c50);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 15px;gap:12px;}
+    .head h1{margin:0;font-size:18px;font-weight:780;letter-spacing:.045em;}
+    .head small{font-size:11px;opacity:.83;}
+    .exit{padding:7px 12px;background:#ffffff17;color:white;border:1px solid #ffffff8c;border-radius:9px;font-size:12px;min-width:60px;}
+    .main{padding:16px 16px 22px;}
+    .question-meta{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+    .tag{display:inline-block;padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;background:#d9f0e4;color:#0b6e47;}
+    .tag.warning{background:#fff1cc;color:#895e18;}
+    .identifier{color:var(--muted);font-size:12px;font-weight:700;}
+    .question{font-weight:850;font-size:22px;line-height:1.38;letter-spacing:.015em;margin:4px 0 14px;}
+    .round-strip{background:#f0f5f1;display:flex;align-items:center;gap:9px;padding:9px 9px;border:1px solid var(--line);border-radius:10px;margin-bottom:12px;min-height:62px;}
+    .round-bold{font-weight:850;font-size:14px;white-space:nowrap;}
+    .line{width:1px;height:27px;background:#c9d6cd;}
+    .round-other{font-size:11px;color:#506858;white-space:nowrap;}
+    .round-strip .tile{--w:27px;}
+    .table{height:319px;border-radius:19px;position:relative;background:radial-gradient(ellipse at 51% 52%,#147357 3%,#07553f 77%);border:7px solid #8a5938;box-shadow:inset 0 0 0 2px #b18c5d,inset 0 0 0 8px #0b674e,0 3px 11px #153e2c22;color:#fff;overflow:hidden;}
+    .table:after{content:"";position:absolute;inset:18px;border:1px solid #ffffff25;border-radius:13px;pointer-events:none;}
+    .seat{position:absolute;z-index:1;background:#0a4a39b8;border:1px solid #ffffff28;border-radius:20px;padding:3px 8px;font-size:10px;font-weight:650;white-space:nowrap;}
+    .seat.top{top:10px;left:50%;transform:translateX(-50%)}
+    .seat.left{top:122px;left:8px}
+    .seat.right{top:122px;right:8px}
+    .seat.self{bottom:88px;left:50%;transform:translateX(-50%)}
+    .concealed{position:absolute;display:flex;gap:1px;z-index:1;align-items:center;justify-content:center;}
+    .concealed.top{top:37px;left:50%;transform:translateX(-50%);}
+    .concealed.left{top:151px;left:10px;flex-direction:column;}
+    .concealed.right{top:151px;right:10px;flex-direction:column;}
+    .back{width:12px;height:20px;border-radius:2px;border:1px solid #d2ded9;background:linear-gradient(180deg,#e8e8df,#9bb1a8);box-shadow:0 1px 3px #0003;}
+    .concealed.left .back,.concealed.right .back{height:12px;width:20px;}
+    .center-info{position:absolute;z-index:1;top:88px;left:50%;transform:translateX(-50%);background:#053e2fdb;border:1px solid #75a18b;border-radius:9px;width:132px;text-align:center;padding:10px 4px;font-size:10px;line-height:1.7;}
+    .center-info strong{display:block;font-size:13px;}
+    .center-info div{color:#c7d9cd;font-size:10px;}
+    .bottom-hand{position:absolute;z-index:1;bottom:16px;left:8px;right:8px;display:flex;gap:1px;justify-content:center;align-items:flex-end;}
+    .tile{--w:24px;width:var(--w);height:calc(var(--w) * 1.43);display:inline-block;flex-shrink:0;vertical-align:middle;filter:drop-shadow(0 1px 1px #0004);}
+    .tile svg{width:100%;height:100%;display:block;overflow:visible;}
+    .hand-count{font-size:10px;color:#fffbd0;position:absolute;z-index:1;bottom:66px;right:15px;}
+    .info{display:flex;align-items:flex-start;gap:8px;background:#fff9e9;border:1px solid #f2dfae;padding:9px 10px;border-radius:10px;color:#795923;margin-top:10px;font-size:11px;line-height:1.5;}
+    .choices-title{font-weight:800;font-size:16px;margin:18px 0 10px;display:flex;justify-content:space-between;align-items:center;}
+    .choices-title span{font-size:11px;font-weight:500;color:var(--muted);}
+    .choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+    .choice{min-width:0;display:flex;align-items:center;flex-direction:column;gap:6px;border:1.5px solid #dbe5df;background:#fff;border-radius:12px;padding:9px 4px 11px;box-shadow:0 2px 6px #12382106;transition:background .12s,border-color .12s;}
+    .choice .letter{font-size:12px;color:#647369;font-weight:800;}
+    .choice .tile{--w:46px;}
+    .choice .caption{font-size:12px;font-weight:750;white-space:nowrap;}
+    .choice:hover{border-color:#178360;background:#f6fcf8;}
+    .choice:focus-visible{outline:3px solid #ffb62a;outline-offset:2px;}
+    .choice:disabled{opacity:1;cursor:default;}
+    .choice.correct{border:2px solid #0c9560;background:#eaf9ee;box-shadow:inset 0 0 0 1px #9dd9b8;}
+    .choice.wrong{border:2px solid #c44a45;background:#fff0ef;}
+    .hint{margin:15px 0 0;background:#e7f4ef;color:#186149;text-align:center;padding:10px 8px;border-radius:9px;font-size:12px;font-weight:650;}
+    .feedback{margin-top:13px;display:none;border-radius:11px;border:1px solid #b0d7be;background:#edf9f0;padding:13px;}
+    .feedback.show{display:block;}
+    .feedback.error{background:#fff2ef;border-color:#f4c4bd;}
+    .feedback strong{font-size:15px;}
+    .feedback .detail{margin-top:9px;font-size:13px;line-height:1.65;color:#354b40;}
+    .feedback .foot{font-size:11px;color:#806232;margin:8px 0 0;}
+    .continue{display:none;width:100%;margin-top:12px;border:0;border-radius:11px;background:var(--jade);color:#fff;padding:13px;font-size:14px;font-weight:750;}
+    .continue.show{display:block;}
+    .footer{padding:12px 16px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;color:#64766d;font-size:10px;}
+    .footer button{background:transparent;border:1px solid #c7d6cb;color:var(--jade);padding:7px 10px;border-radius:8px;font-size:11px;}
+    .result{display:none;margin:50px 8px 100px;padding:30px 15px 34px;text-align:center;background:#f1f8f3;border:1px solid var(--line);border-radius:20px;}
+    .result.show{display:block;}.result h2{font-size:23px;margin:5px 0 10px}.result p{line-height:1.8;font-size:13px;color:#62766a}
+    .result button{margin:8px;border:0;background:var(--jade);color:#fff;padding:13px 16px;border-radius:11px;}
+    @media (max-width:380px){.app .main{padding:14px 10px}.bottom-hand{left:6px;right:6px;gap:0}.bottom-hand .tile{--w:21px}.choice .tile{--w:40px}.table{height:307px}}
+    @media (max-width:340px){.bottom-hand .tile{--w:18px}.bottom-hand{left:5px;right:5px}.choice .tile{--w:35px}.choice{padding:7px 1px}}
+    @media (min-width:430px){.table{height:344px}.bottom-hand .tile{--w:28px}.bottom-hand{gap:1px}}
+  </style>
+</head>
+<body>
+ <div class="app">
+  <div class="build-label">専用ブランチ実装プレビュー ｜ main・TestFlight未反映 ｜ q001</div>
+  <header class="head"><div><small>1問ずつ学ぶ</small><h1>麻雀 読みトレ</h1></div><button type="button" id="end" class="exit">終了</button></header>
+  <main class="main" id="quiz">
+   <div class="question-meta"><span class="tag">一般問題</span><span class="identifier">q001</span><span class="tag warning">内容未検証</span></div>
+   <h2 class="question">配牌直後。何を切る？</h2>
+   <div class="round-strip">
+    <strong class="round-bold">東1局</strong><span class="line"></span>
+    <span class="round-other">1巡目</span><span class="line"></span>
+    <span class="round-other">ドラ</span><span id="dora"></span>
+    <span class="tag" style="margin-left:auto;font-size:10px;padding:4px 7px">初級</span>
+   </div>
+   <div class="table" role="img" aria-label="q001: 東1局。自家は東家。相手の捨て牌はなし。自分の手牌は13枚。">
+    <div class="seat top">対面（西家）</div><div class="concealed top" id="top-backs"></div>
+    <div class="seat left">上家（北家）</div><div class="concealed left" id="left-backs"></div>
+    <div class="seat right">下家（南家）</div><div class="concealed right" id="right-backs"></div>
+    <div class="center-info"><strong>東1局</strong>場風 東・自風 東<div>全員 25,000点</div><div>河：全員0枚</div></div>
+    <div class="seat self">あなた（東家）</div><div class="hand-count">登録13枚</div>
+    <div class="bottom-hand" id="hand"></div>
+   </div>
+   <div class="info"><span aria-hidden="true">⚠</span><span>原本未照合。打牌前の14枚目はデータ未登録です。正解「発」の根拠も確認中です。</span></div>
+   <div class="choices-title">牌を1枚選ぶ <span>選ぶとすぐ判定します</span></div>
+   <div class="choices" id="choices"></div>
+   <div id="prompt" class="hint">回答後に正解と詳しい解説を表示</div>
+   <div id="feedback" class="feedback" aria-live="polite"></div>
+   <button id="again" class="continue" type="button">同じ問題をもう一度確認</button>
+  </main>
+  <section id="result" class="result" aria-live="polite"><div style="font-size:36px">📊</div><h2>今回の確認を終了</h2><div id="results-count"></div><p>これはq001の独立した試作用画面です。<br>回答履歴は本番のアプリには保存していません。</p><button id="return" type="button">問題画面に戻る</button></section>
+  <footer class="footer"><span>出典：mainのq001登録データを再現｜確認専用</span><button id="reset" type="button">回答をリセット</button></footer>
+ </div>
+ <script>
+  "use strict";
+  // Data was transcribed from the live GitHub main data/questions.json (q001).
+  // This branch contains a review-only static page. Production routes and data remain unchanged.
+  const q={id:"q001",question:"配牌直後。何を切る？",round:"東1局",seat:"東",turn:1,dora:"5萬",hand:["1萬","3萬","5萬","7萬","9萬","2筒","4筒","6筒","1索","3索","白","発","中"],choices:[{key:"A",label:"9萬"},{key:"B",label:"1筒"},{key:"C",label:"発"},{key:"D",label:"中"}],answer:"C",explanation:"字牌は孤立牌が多い序盤に処理するのが基本。発は役牌ですが手が遠く孤立しているため早めに切るのが得策。中より発を先切りして後の選択肢を広げましょう。"};
+  function tileMarkup(tile) {
+    const mt=tile.match(/^([1-9])([萬筒索])$/), txt=(s,attrs="")=>`<text x="23" text-anchor="middle" ${attrs}>${s}</text>`;
+    let body="";
+    if (mt && mt[2]==="萬"){
+      const nums=["一","二","三","四","五","六","七","八","九"];
+      body=txt(nums[+mt[1]-1],`y="36" font-size="26" font-weight="900" fill="#1b2730" font-family="serif"`)+txt("萬",`y="52" font-size="13" font-weight="900" fill="#b3362c" font-family="serif"`);
+    } else if(mt && mt[2]==="筒"){
+      const n=+mt[1],positions={1:[[23,28]],2:[[16,21],[30,37]],3:[[16,15],[23,29],[30,43]],4:[[15,18],[31,18],[15,41],[31,41]],5:[[15,16],[31,16],[23,29],[15,42],[31,42]],6:[[14,16],[32,16],[14,29],[32,29],[14,42],[32,42]],7:[[14,14],[32,14],[14,26],[32,26],[23,31],[14,44],[32,44]],8:[[14,14],[32,14],[14,25],[32,25],[14,36],[32,36],[14,47],[32,47]],9:[[14,14],[23,14],[32,14],[14,30],[23,30],[32,30],[14,46],[23,46],[32,46]]};
+      body=positions[n].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="5.2" fill="${i%3===1?'#b63a32':'#174f7d'}" stroke="#f7e6b7" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="2.4" fill="#fdf4df"/><circle cx="${x}" cy="${y}" r="1.1" fill="${i%3===1?'#b63a32':'#174f7d'}"/>`).join("");
+    } else if(mt&&mt[2]==="索"){
+      const n=+mt[1],count=n===1?1:n;
+      body=Array.from({length:count},(_,i)=>{const cols=n===1?1:n<4?1:3;const rows=Math.ceil(count/cols);const x=23+((i%cols)-(cols-1)/2)*13;const y=30+((Math.floor(i/cols))-(rows-1)/2)*12;return `<path d="M${x-4} ${y-7} Q${x+3} ${y-4} ${x+2} ${y+6}" stroke="#146e4c" stroke-width="3.3" stroke-linecap="round" fill="none"/><path d="M${x+2} ${y-7} Q${x-2} ${y-3} ${x-2} ${y+6}" stroke="#1c8a59" stroke-width="2" fill="none"/>`}).join("");
+    } else if(tile==="白") {body='<rect x="10" y="14" width="26" height="35" rx="2" fill="#f6fbf7" stroke="#c4d8cb" stroke-width="2"/>'}
+    else {body=txt(tile==="発"?"發":tile,`y="42" font-family="serif" font-size="35" font-weight="900" fill="${tile==='発'?'#0b7745':'#af2d2a'}"`)}
+    return `<span class="tile" role="img" aria-label="${tile}" title="${tile}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 66" aria-hidden="true"><defs><linearGradient id="face" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#f0f1e8"/></linearGradient></defs><rect x="1.5" y="2" width="43" height="61" rx="5.5" fill="#c4bcaa" stroke="#978f81" stroke-width="1.5"/><rect x="1.5" y="1" width="43" height="58" rx="5.5" fill="url(#face)" stroke="#c3c1b6"/>${body}</svg></span>`;
+  }
+  document.querySelector('#dora').innerHTML=tileMarkup(q.dora);
+  document.querySelector('#hand').innerHTML=q.hand.map(tileMarkup).join('');
+  ['top','left','right'].forEach(x=>document.querySelector('#'+x+'-backs').innerHTML=Array.from({length:x==='top'?9:4},()=>'<span class="back" aria-label="伏せ牌"></span>').join(''));
+  let chosen=null;
+  function renderChoices(){
+    document.querySelector('#choices').innerHTML=q.choices.map(o=>`<button type="button" class="choice" data-key="${o.key}" aria-label="${o.key} ${o.label}"><span class="letter">${o.key}</span>${tileMarkup(o.label)}<span class="caption">${o.label}</span></button>`).join('');
+    document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>choose(btn.dataset.key)));
+  }
+  function choose(key){
+    if(chosen!==null)return;
+    chosen=key;
+    const good=key===q.answer;
+    document.querySelectorAll('.choice').forEach(btn=>{btn.disabled=true;if(btn.dataset.key===q.answer)btn.classList.add('correct');else if(btn.dataset.key===key)btn.classList.add('wrong');});
+    document.querySelector('#prompt').style.display='none';
+    const f=document.querySelector('#feedback');f.className='feedback show'+(good?'':' error');
+    f.innerHTML=`<strong>${good?'✓ 登録データ上は正解':'✕ 登録データ上は不正解'}　（正解：C 発）</strong><div class="detail"><b>現在登録されている解説</b><br>${q.explanation}</div><p class="foot">⚠ この設問と登録正解の正しさは、まだ人手で検証していません。</p>`;
+    document.querySelector('#again').classList.add('show');
+  }
+  function reset(){chosen=null;renderChoices();document.querySelector('#feedback').className='feedback';document.querySelector('#feedback').innerHTML='';document.querySelector('#again').classList.remove('show');document.querySelector('#prompt').style.display='block';}
+  document.querySelector('#reset').addEventListener('click',reset);
+  document.querySelector('#again').addEventListener('click',reset);
+  document.querySelector('#end').addEventListener('click',()=>{document.querySelector('#quiz').style.display='none';document.querySelector('#result').classList.add('show');document.querySelector('#results-count').textContent=chosen?'回答1問／正解'+(chosen===q.answer?1:0)+'問':'回答0問';window.scrollTo({top:0});});
+  document.querySelector('#return').addEventListener('click',()=>{document.querySelector('#quiz').style.display='block';document.querySelector('#result').classList.remove('show');window.scrollTo({top:0});});
+  renderChoices();
+  window.__preview={questionId:q.id, hand:q.hand, answer:q.answer, getSelected:()=>chosen};
+ </script>
+</body></html>
